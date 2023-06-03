@@ -1,0 +1,8 @@
+certifi==2023.5.7
+charset-normalizer==3.1.0
+h11==0.14.0
+idna==3.4
+requests==2.31.0
+simple-websocket==0.10.0
+urllib3==2.0.2
+wsproto==1.2.0

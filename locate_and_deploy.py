@@ -1,3 +1,4 @@
+import requests
 
 def main():
     print('deployment and prossess')
@@ -7,6 +8,11 @@ def main():
     # select drone
         # sets up socket connection with drone
     # send drone
+
+    # response = requests.post(f'http://{url}/detection/getLocation', files={'file': file})
+
+
+
 
 
 
