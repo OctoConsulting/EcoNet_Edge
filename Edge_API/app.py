@@ -60,7 +60,6 @@ def detect_shot():
         return 'No selected file'
 
     # send file to shot detector
-
     # get return and return
 
     resp = {
