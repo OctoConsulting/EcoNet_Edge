@@ -8,8 +8,8 @@ Official Repo for EchoNet Edge.
 | ----------------- | ------------------------------------------------------------------ |
 | [Main Program](#Main) |  |
 | [API](#API) |  |
-| [Drone Protocal](#Drone-Protocal) |  |
-| [Drone Managment](#Drone-Managment) |  |
+| [Drone Protocal](#Drone-Protocol) |  |
+| [Drone Managment](#Drone-Management) |  |
 | [Shot Detection](#Shot-Detection) |  |
 | [Preprossessing](#Preprossessing) |  |
 
