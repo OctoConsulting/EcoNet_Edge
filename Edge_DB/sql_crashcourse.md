@@ -1,8 +1,15 @@
-# A little crashcourse on using SQL
+# a lil crashcourse on sql :)
 
 If you're like me, then you learned SQL for a class freshman year of college, then proceeded to forget everything about SQL.
 
 Let's jog our memory a bit :)
+
+Build and start the PostgreSQL container with
+
+```Powershell
+# needs Docker installed :)
+powershell.exe .\on_windows.ps1
+```
 
 Create a database
 ```SQL
@@ -11,14 +18,15 @@ Create a database
 CREATE DATABASE test_db
 ```
 
-Create a table
+Create a table: (info about [data types](https://www.postgresql.org/docs/current/datatype.html))
 ```SQL
 CREATE TABLE test_table (
-    column1 datatype,
-    column2 datatype,
-    column3 datatype,
-   .....
-    columnN datatype,
-    PRIMARY KEY (one or more columns)
+    id serial primary key,
+    cost money,
+    process_time time
 );
 ```
+
+for later...
+
+https://towardsdatascience.com/sending-data-from-a-flask-app-to-postgresql-database-889304964bf2

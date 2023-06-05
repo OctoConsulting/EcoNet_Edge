@@ -1,13 +1,29 @@
 CREATE DATABASE echonet;
 
+CREATE USER listener PASSWORD 'changemeoctobby';
+
 CREATE TABLE shots (
-    id SERIAL PRIMARY KEY,
+    id serial primary key,
     shot_time time,
     process_time time
 );
-/*
-CREATE TABLE mytable (
-  id INT NOT NULL AUTO_INCREMENT,
-  name VARCHAR(50) NOT NULL,
-  PRIMARY KEY (id)
-  ) */
+
+-- spherical coordinates from acoustic model
+CREATE TYPE spherical AS (
+    r       double precision,
+    theta   double precision,
+    phi     double precision
+);
+
+-- gps coordinates for drone manager
+CREATE TYPE gps AS (
+  latitude double precision,
+  longitude double precision
+);
+CREATE TABLE events (
+    id serial primary key,
+    start_time time,
+    end_time time,
+    num_shots int,
+    coordinates spherical
+);
