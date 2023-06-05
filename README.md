@@ -1,5 +1,5 @@
 
-# Echo Net Edge
+# EchoNet Edge
 
 Official Repo for EchoNet Edge.
 ## Contents
