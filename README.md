@@ -131,7 +131,20 @@ Start the server
   flask run
 ```
 
-## Drone Protocol 
+## Drone Protocol
+Setting up a dev environment:
+
+Prereq: Docker
+
+Navigate to Edge_Parrot/dev_env_setup
+
+run:
+```Bash
+chmod +x setup.sh
+./setup.sh
+```
+if you need Sphinx, run ./postinst.sh inside the container
+
 ## Drone Management 
 ## Shot Detection
 ## Preprossessing
