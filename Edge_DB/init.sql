@@ -1,0 +1,8 @@
+CREATE DATABASE mydatabase;
+USE mydatabase;
+
+CREATE TABLE mytable (
+  id INT NOT NULL AUTO_INCREMENT,
+  name VARCHAR(50) NOT NULL,
+  PRIMARY KEY (id)
+  )
