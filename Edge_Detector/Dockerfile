@@ -6,15 +6,13 @@ WORKDIR /app
 # Copy the requirements file to the container
 COPY requirements.txt .
 
-RUN apt-get update
-RUN apt-get install libasound-dev libportaudio2 libportaudiocpp0 portaudio19-dev -y
-RUN pip install --upgrade pip setuptools wheel
-
+COPY detector_out .
+COPY app.py .
 
 # Install the Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
 
-COPY detector_out .
+RUN pip install flask-sock
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Set the environment variable
 ENV FLASK_APP=app.py
@@ -24,4 +22,5 @@ EXPOSE 5000
 
 # Run the Flask application
 # Create the output data true(1) and false(0)
+
 CMD ["flask", "run", "--host=0.0.0.0"]

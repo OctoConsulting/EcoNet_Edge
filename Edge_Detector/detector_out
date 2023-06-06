@@ -7,19 +7,23 @@ import random
 app = Flask(__name__)
 sock = Sock(app)
 
-
-def main():
-    with open("testD.txt", "w") as f:
-        f.write('Hello docker!')
-        f.close()
-    ...
+@app.route('/api/detectShot', methods=['POST'])
+def detect_shot():
+     #with open("testD.txt", "w") as f:
+    #    f.write('Hello docker!')
+    #   f.close()
+    #...
     n = random.randint(0,1)
+    return n
+
+#def main():
+    #with open("testD.txt", "w") as f:
+    #    f.write('Hello docker!')
+    #   f.close()
+    #...
+#n = random.randint(0,1)
+    #return n
 
 if __name__ == "__main__":
-    main()
-
-
-
-
-
+    app.run()
 
