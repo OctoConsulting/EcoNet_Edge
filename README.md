@@ -8,11 +8,11 @@ Official Repo for EchoNet Edge.
 | ----------------- | ------------------------------------------------------------------ |
 | [Main Program](#Main) |  |
 | [API](#API) |  |
-| [Drone Protocal](#Drone-Protocal) |  |
-| [Drone Managment](#Drone-Managment) |  |
+| [Drone Protocal](#Drone-Protocol) |  |
+| [Drone Managment](#Drone-Management) |  |
 | [Shot Detection](#Shot-Detection) |  |
 | [Preprossessing](#Preprossessing) |  |
-
+| [Database](#Database) |  |
 
 
 ## Installation
@@ -131,7 +131,40 @@ Start the server
   flask run
 ```
 
-## Drone Protocol 
+## Drone Protocol
+Setting up a dev environment:
+
+Prereq: Docker
+
+Navigate to Edge_Parrot/dev_env_setup
+
+run:
+```Bash
+chmod +x setup.sh
+./setup.sh
+```
+if you need Sphinx, run ./postinst.sh inside the container
+
 ## Drone Management 
 ## Shot Detection
 ## Preprossessing
+## Database
+The database is setup as a PostgreSQL database, with two tables, one for shots and one for "events.
+
+The shots table has:
+* id
+* shot_time
+* process_time
+* event_id
+* preprocessed_audio_hash
+* postprocessed_audio_hash
+
+The events table has:
+* id
+* start_time
+* end_time
+* num_shots
+* gun_type
+* spherical coordinates (θ, φ, r)
+* gps coordinates (lat, long)
+* drone_video_hash
