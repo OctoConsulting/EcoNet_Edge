@@ -6,14 +6,14 @@ import requests
 app = Flask(__name__)
 sock = Sock(app)
 
+    
 
 
-
-# test websocket endpoint
-@sock.route('/api/test', methods=['GET'])
-def test(ws):
+# test websocket endpoint # @sock.route for web sockets
+@sock.route('/api/test', methods=['GET']) # route(path endpoint, {GET, POST, PUT, DELETE})
+def test(ws): # ws for websocket
     while True:
-        ws.send("hello world")
+        ws.send("hello world") # only can send text & bytearr
 
 
 ####################################################################
@@ -41,7 +41,7 @@ def preprocessing():
 
 @app.route('/api/detection', methods=['GET'])
 def detactions_options():
-    return '***'
+    return '***' # return jsonify({}) <-- give them a nice json :)
 
 @sock.route('/api/detection/audio', methods=['GET'])
 def get_audio(ws):

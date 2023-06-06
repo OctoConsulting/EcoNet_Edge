@@ -1,0 +1,5 @@
+# .gitignore
+temp.txt
+
+__pycache__/
+.venv*
