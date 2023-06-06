@@ -25,7 +25,7 @@ def test(ws):
 def preprocessing():
     import requests
 
-    url = 'http://localhost:5000/convert'
+    url = 'http://noise:5000/convert'
     files = {'bin_file': open('input.bin', 'rb')}
     response = requests.post(url, files=files)
 

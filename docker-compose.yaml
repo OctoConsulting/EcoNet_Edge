@@ -1,27 +1,61 @@
 version: '1'
 services:
-  app:
+
+
+#################################
+
+# API CONTAINER
+
+################################
+  api:
     build:
-      context: /TotoCV # this is the absolute path to the app directory
+      context: /API # this is the absolute path to the app directory
       dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
 
-    image: client # this is the name of the image that will be used by the app service
-    networks:
-      - appnet # connect to appnet network
-    container_name: toto
-    expose:
-      - "5000"
-
-  app1:
-    build:
-      context: /API # this is the absolute path to the db directory
-      dockerfile: Dockerfile # this is the name of the Dockerfile in the db directory
-    image: api # this is the name of the image that will be used by the db service
+    image: imgapi # this is the name of the image that will be used by the app service
     networks:
       - appnet # connect to appnet network
     container_name: api
     ports:
       - "8000:5000"
+    expose:
+      - "5000"
+
+#################################
+
+# TOTOCV CONTAINER
+
+################################
+  totocv:
+    build:
+      context: /TotoCV # this is the absolute path to the app directory
+      dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
+
+    image: totocv-img #the name of the image that will be used by the app service
+    networks:
+      - appnet # connect to appnet network
+    container_name: toto
+    ports:
+      - "8001:5000"
+    expose:
+      - "5000"
+
+#################################
+
+# NOISE(PREPROSS) CONTAINER
+
+################################
+  noise:
+    build:
+      context: /Edge_Noise # this is the absolute path to the app directory
+      dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
+
+    image: noise-img # this is the name of the image that will be used by the app service
+    networks:
+      - appnet # connect to appnet network
+    container_name: noise
+    ports:
+      - "8002:5000"
     expose:
       - "5000"
 
