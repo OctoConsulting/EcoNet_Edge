@@ -71,22 +71,18 @@ def get_audio(ws):
 
 @app.route('/api/detection/detectShot', methods=['POST'])
 def detect_shot():
-    if 'file' not in request.files:
-        return 'No file part in the request'
+    # if 'file' not in request.files:
+    #     return 'No file part in the request'
 
-    file = request.files['file']
+    # file = request.files['file']
 
-    if file.filename == '':
-        return 'No selected file'
+    # if file.filename == '':
+    #     return 'No selected file'
 
-    # send file to shot detector
-    # get return and return
+    url = 'http://shot_detect:5000/api/detectShot'
+    response = requests.post(url)
 
-    resp = {
-        'shot':True
-    }
-
-    return jsonify(resp)
+    return response.json()
 
 @app.route('/api/detection/getLocation', methods=['POST'])
 def get_location():

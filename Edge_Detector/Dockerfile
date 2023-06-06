@@ -6,7 +6,7 @@ WORKDIR /app
 # Copy the requirements file to the container
 COPY requirements.txt .
 
-COPY detector_out .
+COPY detector_out.py .
 COPY app.py .
 
 # Install the Python dependencies

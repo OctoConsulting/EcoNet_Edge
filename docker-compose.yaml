@@ -59,6 +59,33 @@ services:
     expose:
       - "5000"
 
+#################################
+
+# MODLE(Shot detect) CONTAINER
+
+################################
+  shot_detect:
+    build:
+      context: /Edge_Detector # this is the absolute path to the app directory
+      dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
+
+    image: shot_detect-img # this is the name of the image that will be used by the app service
+    networks:
+      - appnet # connect to appnet network
+    container_name: shot_detect
+    ports:
+      - "8003:5000"
+    expose:
+      - "5000"
+
+
+
+
+
+
+
+
+
 networks:
   appnet: # define appnet network
     driver: bridge
