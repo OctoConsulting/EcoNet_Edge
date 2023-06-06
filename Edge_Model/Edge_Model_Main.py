@@ -4,7 +4,7 @@ def main():
     theta = 45
     phi = 90
     r = 5.5
-    url = "http://127.0.0.1:5000"
+    url = "http://127.0.0.1:5000/api/detection/getLocation"
     payload = {
         "theta": theta,
         "phi": phi,
