@@ -35,8 +35,8 @@ CREATE TABLE shots (
     shot_time timestamp, -- timestamp allows day & time
     process_time timestamp,
     event_id int,
-    preprocessed_audio_hash VARCHAR(256),
-    postprocessed_audio_hash VARCHAR(256)
+    preprocessed_audio_hash VARCHAR(40), -- currently using SHA1HASH
+    postprocessed_audio_hash VARCHAR(40)
 );
 
 CREATE TABLE events (
@@ -47,5 +47,5 @@ CREATE TABLE events (
     gun_type gun,
     coordinates spherical,
     dox gps,
-    drone_video_hash VARCHAR(256)
+    drone_video_hash VARCHAR(40)
 );
