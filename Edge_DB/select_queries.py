@@ -16,8 +16,10 @@ def get_all_from(table: str):
 
     return ret
 
+# returns the entire shots table as a python array
 def get_all_shots():
     return get_all_from("shots")
 
+# returns the entire events table as a python array
 def get_all_events():
     return get_all_from("events")
