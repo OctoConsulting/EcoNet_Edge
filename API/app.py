@@ -21,23 +21,23 @@ def test(ws): # ws for websocket
 # detection endpoints
 
 
-@app.route('/api/preporessing', methods=['GET'])
+@app.route('/api/preporessing', methods=['POST'])
 def preprocessing():
-    import requests
+    if 'file' not in request.files:
+        return 'No file part in the request'
 
-    url = 'http://noise:5000/convert'
-    files = {'bin_file': open('input.bin', 'rb')}
-    response = requests.post(url, files=files)
+    file = request.files['file']
 
-    with open('output.wav', 'wb') as f:
-        f.write(response.content[0].content)
-
-    with open('reproduced.bin', 'wb') as f:
-        f.write(response.content[1].content)
-    if files.filename == '':
+    if file.filename == '':
         return 'No selected file'
 
-    return '2222'
+    
+
+
+    url = 'http://noise:5000/convert'
+    response = requests.post(url, files=file)
+    return response.json()
+
 
 @app.route('/api/detection', methods=['GET'])
 def detactions_options():

@@ -1,6 +1,6 @@
 import io
 import wave
-from flask import Flask, request
+from flask import Flask, request, send_file, make_response
 from base64 import b64encode
 
 app = Flask(__name__)
@@ -26,8 +26,14 @@ def convert():
     with open('snesw.bin', 'wb') as f:
         f.write(byte_array)
 
-    # Return the byte array as a response
-    return byte_array
+    file_path = './snesw.bin'
+    # Replace the above line with the actual path to your file
+
+    # Create a response object
+    response = make_response(send_file(file_path))
+    response.headers['Content-Disposition'] = 'attachment; filename=response_file.txt'
+    return response
+# Return the byte array as a response
 
 if __name__ == '__main__':
     app.run()
