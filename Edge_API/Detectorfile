@@ -24,4 +24,4 @@ EXPOSE 5000
 
 # Run the Flask application
 # Create the output data true(1) and false(0)
-CMD ["python", "detector_out"]
+CMD ["flask", "run", "--host=0.0.0.0"]
