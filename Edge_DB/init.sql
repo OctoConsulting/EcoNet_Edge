@@ -26,13 +26,14 @@ CREATE TYPE gps AS (
 CREATE TYPE gun AS ENUM (
     'ak47',
     'm4',
-    'glock17'
+    'glock17',
+    'awp'
 );
 
 CREATE TABLE shots (
     id serial primary key,
-    shot_time time,
-    process_time time,
+    shot_time timestamp, -- timestamp allows day & time
+    process_time timestamp,
     event_id int,
     preprocessed_audio_hash VARCHAR(256),
     postprocessed_audio_hash VARCHAR(256)
@@ -40,8 +41,8 @@ CREATE TABLE shots (
 
 CREATE TABLE events (
     id serial primary key,
-    start_time time,
-    end_time time,
+    start_time timestamp,
+    end_time timestamp,
     num_shots int,
     gun_type gun,
     coordinates spherical,
