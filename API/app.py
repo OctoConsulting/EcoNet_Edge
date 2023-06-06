@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_sock import Sock
 import pyaudio
+import requests
 
 
 app = Flask(__name__)
@@ -108,11 +109,20 @@ def toto_options(ws):
     while True:
         data = ws.receive()
         ws.send(data[::-1])
-    return 'drone_options'
 
+# this is localhost:9000
 @app.route('/api/toto/getObjects', methods=['POST'])
 def get_objects():
-    return 'get_objects'
+    
+
+    # url = 'http://172.19.0.2:5000/toto'
+    url = 'http://toto:5000/toto'
+    response = requests.post(url)
+
+    with open('output.txt', 'w') as file:
+        file.write(str(response.json()))
+
+    return response.json()
 
 
 # surge endpoints
