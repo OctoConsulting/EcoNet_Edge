@@ -2,6 +2,25 @@
 # EchoNet API
 
 This is a centralized API that manages communication with other EchoNet microservices.
+
+## API Usage
+
+Using the API is quite easy :)
+
+First, install the dependencies,
+
+then run
+
+```Shell
+python3 ./app.py
+```
+
+Call the API
+
+```Shell
+curl localhost:5000/api/test2 # or w/e the api you want to call is :)
+```
+
 ## API Reference
 
 #### Get list of detection endpoints 
