@@ -1,27 +1,47 @@
 from flask import Flask, request, jsonify
 from flask_sock import Sock
 import pyaudio
-
+import requests
 
 app = Flask(__name__)
 sock = Sock(app)
 
+    
 
 
-
-# test websocket endpoint
-@sock.route('/api/test', methods=['GET'])
-def test(ws):
+# test websocket endpoint # @sock.route for web sockets
+@sock.route('/api/test', methods=['GET']) # route(path endpoint, {GET, POST, PUT, DELETE})
+def test(ws): # ws for websocket
     while True:
-        ws.send("hello world")
+        ws.send("hello world") # only can send text & bytearr
 
 
 ####################################################################
 
 # detection endpoints
+
+
+@app.route('/api/preporessing', methods=['GET'])
+def preprocessing():
+    import requests
+
+    url = 'http://localhost:5000/convert'
+    files = {'bin_file': open('input.bin', 'rb')}
+    response = requests.post(url, files=files)
+
+    with open('output.wav', 'wb') as f:
+        f.write(response.content[0].content)
+
+    with open('reproduced.bin', 'wb') as f:
+        f.write(response.content[1].content)
+    if files.filename == '':
+        return 'No selected file'
+
+    return '2222'
+
 @app.route('/api/detection', methods=['GET'])
 def detactions_options():
-    return '***'
+    return '***' # return jsonify({}) <-- give them a nice json :)
 
 @sock.route('/api/detection/audio', methods=['GET'])
 def get_audio(ws):
@@ -107,11 +127,20 @@ def toto_options(ws):
     while True:
         data = ws.receive()
         ws.send(data[::-1])
-    return 'drone_options'
 
+# this is localhost:9000
 @app.route('/api/toto/getObjects', methods=['POST'])
 def get_objects():
-    return 'get_objects'
+    
+
+    # url = 'http://172.19.0.2:5000/toto'
+    url = 'http://toto:5000/toto'
+    response = requests.post(url)
+
+    with open('output.txt', 'w') as file:
+        file.write(str(response.json()))
+
+    return response.json()
 
 
 # surge endpoints

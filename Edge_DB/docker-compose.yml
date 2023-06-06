@@ -1,6 +1,6 @@
 version: '3'
 services:
-  web:
+  db:
     build:
       context: .
 #      dockerfile: Database
@@ -11,5 +11,10 @@ services:
       - type: volume
         source: database_storage
         target: /mnt/database_storage
+  dev:
+    build:
+      #context: dev_env_setup
+      dockerfile: ./dev_env_setup/Dockerfile
+    tty: true
 volumes:
   database_storage:
