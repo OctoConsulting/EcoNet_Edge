@@ -15,6 +15,10 @@ services:
     build:
       #context: dev_env_setup
       dockerfile: ./dev_env_setup/Dockerfile
+    volumes:
+      - type: bind
+        source: ../
+        target: /mnt/
     tty: true
 volumes:
   database_storage:
