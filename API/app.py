@@ -3,9 +3,8 @@ from flask_sock import Sock
 import pyaudio
 import requests
 
-
-app = Flask(__name__) # init flask
-sock = Sock(app)      # websocket-capable :)
+app = Flask(__name__)
+sock = Sock(app)
 
 
 
@@ -20,7 +19,27 @@ def test(ws): # ws for websocket
 ####################################################################
 
 # detection endpoints
-@app.route('/api/detection', methods=['GET']) # @app.route for http
+
+
+@app.route('/api/preporessing', methods=['GET'])
+def preprocessing():
+    import requests
+
+    url = 'http://localhost:5000/convert'
+    files = {'bin_file': open('input.bin', 'rb')}
+    response = requests.post(url, files=files)
+
+    with open('output.wav', 'wb') as f:
+        f.write(response.content[0].content)
+
+    with open('reproduced.bin', 'wb') as f:
+        f.write(response.content[1].content)
+    if files.filename == '':
+        return 'No selected file'
+
+    return '2222'
+
+@app.route('/api/detection', methods=['GET'])
 def detactions_options():
     return '***' # return jsonify({}) <-- give them a nice json :)
 
