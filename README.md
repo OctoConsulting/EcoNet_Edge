@@ -150,7 +150,7 @@ if you need Sphinx, run ./postinst.sh inside the container
 ## Shot Detection
 ## Preprossessing
 ## Model
-This is for model dummy to run locally
+This is for model dummy
 
 ```
 powershell command enviroment
