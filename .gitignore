@@ -1,5 +1,5 @@
 # .gitignore
 temp.txt
-
+.client
 __pycache__/
 .venv*

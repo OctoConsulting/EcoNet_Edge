@@ -94,6 +94,24 @@ services:
     expose:
       - "5000"
 
+#################################
+
+# Model CONTAINER
+
+################################
+  model:
+    build:
+      context: /Edge_Model # this is the absolute path to the app directory
+      dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
+
+    image: model-img # this is the name of the image that will be used by the app service
+    networks:
+      - appnet # connect to appnet network
+    container_name: model
+    ports:
+      - "8004:5000"
+    expose:
+      - "5000"
 
 
 
