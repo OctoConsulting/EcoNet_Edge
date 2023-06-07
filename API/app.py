@@ -84,7 +84,7 @@ def detect_shot():
 
     return response.json()
 
-@app.route('/api/detection/getLocation', methods=['POST'])
+@app.route('/', methods=['POST'])
 def get_location():
     # if 'file' not in request.files:
     #     return 'No file part in the request'
@@ -94,22 +94,20 @@ def get_location():
     # if file.filename == '':
     #     return 'No selected file'
 
-    # noice redection
+    # # noice redection
     
-    # send file to audio madel
+    # # send file to audio madel
 
-    # return value
-    theta = request.json.get('theta')
-    phi = request.json.get('phi')
-    r = request.json.get('r')
+    # return "file upload success"
+    
+    # url = 'http://127.0.0.1:5000/model'
+    url = 'http://model:5000/model'
+    response = requests.post(url)
 
-    data = {
-        'theta': theta,
-        'phi': phi,
-        'r': r,
-    }
+    with open('output.txt', 'w') as file:
+        file.write(str(response.json()))
 
-    return jsonify(data)
+    return response.json()
 
 
 # drone endpoints
@@ -137,7 +135,6 @@ def toto_options(ws):
 @app.route('/api/toto/getObjects', methods=['POST'])
 def get_objects():
     
-
     # url = 'http://172.19.0.2:5000/toto'
     url = 'http://toto:5000/toto'
     response = requests.post(url)
