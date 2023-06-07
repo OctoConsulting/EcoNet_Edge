@@ -2,7 +2,7 @@ import psycopg
 
 # helper function to make querying a whole table easier
 def get_all_from(table: str):
-    connection= psycopg.connect("host= 172.18.0.3 \
+    connection= psycopg.connect("host= 172.18.0.2 \
                                 dbname= echonet \
                                 user= postgres \
                                 password= changemeoctobby") # TODO: make not hardcoded
@@ -43,3 +43,6 @@ def get_row(table: str, id: int):
 # returns the row of a shot given the id
 def get_shot(id: int):
     get_row("shots", 1)
+
+def put_shot(shot_time: str, audio_file):
+    print("UNIMPLEMENTED")

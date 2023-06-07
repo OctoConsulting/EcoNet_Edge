@@ -20,9 +20,9 @@ def get_all_shots():
 def get_all_events():
     return jsonify(select_queries.get_all_events())
 
-@app.route('/api/write_to', methods=['POST'])
+@app.route('/api/put_shot', methods=['POST'])
 def put_shot():
-    return jsonify("heyy")
+    return jsonify(select_queries.put_shot("0", "hash.wav"))
 
 ##DOES NOT CURRENTLY WORK
 @app.route('/api/get_shot', methods=['GET'])
