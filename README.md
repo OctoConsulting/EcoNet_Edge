@@ -153,32 +153,32 @@ if you need Sphinx, run ./postinst.sh inside the container
 This is for model dummy
 
 step to set up server locally
-  python -m venv .venv
-  .venv/bin/activate
-  cd API
-  pip install -r requirements.txt
-  flask run
+*python -m venv .venv
+*.venv/bin/activate
+*cd API
+*pip install -r requirements.txt
+*flask run
 
 
 steps for setting up git bash
-  git bash enviroment
-  python -m pip install virtualenv
-  python -m virtualenv venv
-  .venv/bin/activate
-  . venv/scripts/activate
-  cd API
-  pip install -r requirements.txt
-  cd ..
-  cd Edge_Model
-  python app.py
-  curl -X POST http://127.0.0.1:5000/model when running local system
-  curl -X POST localhost:9000/model when running in docker
+*git bash enviroment
+*python -m pip install virtualenv
+*python -m virtualenv venv
+*.venv/bin/activate
+*.venv/scripts/activate
+*cd API
+*pip install -r requirements.txt
+*cd ..
+*cd Edge_Model
+*python app.py
+*curl -X POST http://127.0.0.1:5000/model when running local system
+*curl -X POST localhost:9000/model when running in docker
 
 
 
 step to set up docker in powershell
-  docker build -t model .
-  docker run -p 9000:5000 model
+*docker build -t model .
+*docker run -p 9000:5000 model
 
 ## Database
 The database is setup as a PostgreSQL database, with two tables, one for shots and one for "events.
