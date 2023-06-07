@@ -86,21 +86,30 @@ def detect_shot():
 
 @app.route('/api/detection/getLocation', methods=['POST'])
 def get_location():
-    if 'file' not in request.files:
-        return 'No file part in the request'
+    # if 'file' not in request.files:
+    #     return 'No file part in the request'
 
-    file = request.files['file']
+    # file = request.files['file']
 
-    if file.filename == '':
-        return 'No selected file'
+    # if file.filename == '':
+    #     return 'No selected file'
 
     # noice redection
     
     # send file to audio madel
 
     # return value
+    theta = request.json.get('theta')
+    phi = request.json.get('phi')
+    r = request.json.get('r')
 
-    return 'File uploaded successfully'
+    data = {
+        'theta': theta,
+        'phi': phi,
+        'r': r,
+    }
+
+    return jsonify(data)
 
 
 # drone endpoints
