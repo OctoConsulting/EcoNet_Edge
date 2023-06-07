@@ -1,7 +1,7 @@
 import sys
 
 def main():
-    return sys.stdin[::-1]
+    return 'hiiiiii'
 
 if __name__ == '__main__':
     main()

@@ -130,11 +130,11 @@ def get_objects():
     
 
     # url = 'http://172.19.0.2:5000/toto'
-    url = 'http://toto:5000/toto'
+    url = 'http://totocv:5000/toto'
     response = requests.post(url)
 
-    with open('output.txt', 'w') as file:
-        file.write(str(response.json()))
+    # with open('output.txt', 'w') as file:
+    #     file.write(str(response.json()))
 
     return response.json()
 

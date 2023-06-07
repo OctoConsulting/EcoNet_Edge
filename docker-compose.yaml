@@ -1,6 +1,22 @@
-version: '1'
+version: '3.3'
 services:
 
+#################################
+
+# MAIN CONTAINER
+
+################################
+  api:
+    build:
+      context: ./Main # this is the absolute path to the app directory
+      dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
+
+    image: mainimg # this is the name of the image that will be used by the app service
+    networks:
+      - appnet # connect to appnet network
+    container_name: main
+
+#################################
 
 #################################
 
@@ -9,7 +25,7 @@ services:
 ################################
   api:
     build:
-      context: /API # this is the absolute path to the app directory
+      context: ./API # this is the absolute path to the app directory
       dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
 
     image: imgapi # this is the name of the image that will be used by the app service
@@ -28,7 +44,7 @@ services:
 ################################
   totocv:
     build:
-      context: /TotoCV # this is the absolute path to the app directory
+      context: ./TotoCV # this is the absolute path to the app directory
       dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
 
     image: totocv-img #the name of the image that will be used by the app service
@@ -47,7 +63,7 @@ services:
 ################################
   noise:
     build:
-      context: /Edge_Noise # this is the absolute path to the app directory
+      context: ./Edge_Noise # this is the absolute path to the app directory
       dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
 
     image: noise-img # this is the name of the image that will be used by the app service
@@ -66,7 +82,7 @@ services:
 ################################
   shot_detect:
     build:
-      context: /Edge_Detector # this is the absolute path to the app directory
+      context: ./Edge_Detector # this is the absolute path to the app directory
       dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
 
     image: shot_detect-img # this is the name of the image that will be used by the app service
