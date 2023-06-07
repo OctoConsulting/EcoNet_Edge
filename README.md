@@ -12,6 +12,7 @@ Official Repo for EchoNet Edge.
 | [Drone Managment](#Drone-Management) |  |
 | [Shot Detection](#Shot-Detection) |  |
 | [Preprossessing](#Preprossessing) |  |
+| [Model](#Model) |  |
 | [Database](#Database) |  |
 
 
