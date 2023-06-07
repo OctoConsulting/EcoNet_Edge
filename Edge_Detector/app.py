@@ -15,21 +15,24 @@ def detect_shot():
 
     #if file.filename == '':
    #     return 'No selected file'
-
     # send file to shot detector
-    result = subprocess.Popen(['python', 'detector_out.py'], stdout=subprocess.PIPE)
-    result.wait()
-    stdout = result.stdout
+
+    result = subprocess.run(['python', '-c', 'import random; print(random.randint(0, 1))'], stdout=subprocess.PIPE)
+    output = result.stdout.decode('utf-8').strip()
+    random_number = int(output)
+
+    # result = subprocess.run(['python', 'detector_out.py'], stdout=subprocess.PIPE)
+    # temp = result.stdout.decode('utf-8').strip()
+    # print(temp)
 
     # get return and return
     shot = False
-    if stdout == 1:
+    if random_number == 1:
         shot = True
 
     resp = {
         'shot':shot
     }
-
 
     return jsonify(resp)
         

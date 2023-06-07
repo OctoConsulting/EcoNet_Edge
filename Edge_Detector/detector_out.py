@@ -12,7 +12,7 @@ def main():
     #    f.write('Hello docker!')
      #  f.close()
     #...
-    return random.random()
+    print(random.randint(0, 1))
 
 
 if __name__ == "__main__":
