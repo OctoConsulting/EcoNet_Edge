@@ -80,7 +80,7 @@ services:
 
 #################################
 
-# API CONTAINER
+# Model CONTAINER
 
 ################################
   model:

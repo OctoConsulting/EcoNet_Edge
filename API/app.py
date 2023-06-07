@@ -84,7 +84,7 @@ def detect_shot():
 
     return response.json()
 
-@app.route('/', methods=['POST'])
+@app.route('/api/getLocation', methods=['POST'])
 def get_location():
     # if 'file' not in request.files:
     #     return 'No file part in the request'
@@ -93,12 +93,6 @@ def get_location():
 
     # if file.filename == '':
     #     return 'No selected file'
-
-    # # noice redection
-    
-    # # send file to audio madel
-
-    # return "file upload success"
     
     # url = 'http://127.0.0.1:5000/model'
     url = 'http://model:5000/model'

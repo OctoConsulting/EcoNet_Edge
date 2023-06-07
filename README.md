@@ -163,7 +163,7 @@ step to set up server locally:
 steps for setting up git bash:
 * git bash enviroment
 * python -m pip install virtualenv
-* python -m virtualenv venv
+* python -m virtualenv .client
 * .venv/bin/activate
 * .venv/scripts/activate
 * cd API
@@ -179,6 +179,13 @@ steps for setting up git bash:
 step to set up docker in powershell:
 * docker build -t model .
 * docker run -p 9000:5000 model
+
+step to setup docker compose:
+* docker-compose build
+* docker compose up
+
+step to test docker compose:
+* curl -X POST localhost:8004/model
 
 ## Database
 The database is setup as a PostgreSQL database, with two tables, one for shots and one for "events.
