@@ -20,5 +20,14 @@ def get_all_shots():
 def get_all_events():
     return jsonify(select_queries.get_all_events())
 
+@app.route('/api/write_to', methods=['POST'])
+def put_shot():
+    return jsonify("heyy")
+
+##DOES NOT CURRENTLY WORK
+@app.route('/api/get_shot', methods=['GET'])
+def get_shot():
+    return jsonify(select_queries.get_shot(1))
+
 if __name__ == '__main__':
     app.run()
