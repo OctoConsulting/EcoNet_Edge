@@ -23,20 +23,33 @@ def test(ws): # ws for websocket
 
 @app.route('/api/preporessing', methods=['POST'])
 def preprocessing():
+# Check if the request contains a file
     if 'file' not in request.files:
-        return 'No file part in the request'
-
+        return 'No file uploaded', 400
+    
     file = request.files['file']
 
-    if file.filename == '':
-        return 'No selected file'
+    # Get the specified parameter from the request
+    param_value = request.form.get('param')
 
-    
+    # Save the WAV file to a temporary location
+    file.save('input.wav')
 
+    # Send a request to B.py with the WAV file
+    response = requests.post('http://noise:5000/process_wav', files={'file': open('input.wav', 'rb')}, data={'param': param_value})
 
-    url = 'http://noise:5000/convert'
-    response = requests.post(url, files=file)
-    return response.json()
+    if response.status_code == 200:
+        # Retrieve the processed WAV file from B.py
+        processed_file = response.content
+
+        # Save the processed WAV file
+        with open('processed.wav', 'wb') as f:
+            f.write(processed_file)
+
+        return 'WAV file processed successfully'
+    else:
+        return 'Failed to process WAV file'
+
 
 
 @app.route('/api/detection', methods=['GET'])

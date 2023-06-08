@@ -28,14 +28,18 @@ def process_wav():
     if subprocess_output.returncode != 0:
         return jsonify({'error': 'Subprocess failed'}), 500
     
-    # Extract the processed WAV filename from the stdout of the subprocess
+    # Extract the processed WAV filename  and directory from the stdout of the subprocess
     output_filename = subprocess_output.stdout.strip()
     
-    # Check if the processed WAV file exists
-    processed_wav_path = output_filename + '.wav'
+    # Splitting the direcorty and filename into two seperate variables
+    directory_path, filename = os.path.split(output_filename)
+
+    # Validating the full path to the processed file
+    processed_wav_path = os.path.join(directory_path, filename)
+
+# Check if the processed file exists
     if not os.path.exists(processed_wav_path):
         return jsonify({'error': 'Processed file not found'}), 500
-    
     # Return the processed WAV file to the client
     return send_file(processed_wav_path, as_attachment=True)
 

@@ -4,7 +4,7 @@ ADD client.py .
 
 WORKDIR /app
 
-COPY . . 
+COPY . /app/
 COPY audioPlayer.py /app
 
 RUN pip install scikit-learn
