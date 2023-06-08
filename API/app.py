@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_sock import Sock
 import pyaudio
-import requests
+import requests, json
 
 app = Flask(__name__)
 sock = Sock(app)
@@ -86,23 +86,23 @@ def detect_shot():
 
 @app.route('/api/getLocation', methods=['POST'])
 def get_location():
-    # if 'file' not in request.files:
-    #     return 'No file part in the request'
-
-    # file = request.files['file']
-
-    # if file.filename == '':
-    #     return 'No selected file'
-    
-    # url = 'http://127.0.0.1:5000/model'
     url = 'http://model:5000/model'
     response = requests.post(url)
 
-    with open('output.txt', 'w') as file:
-        file.write(str(response.json()))
+    # Extract the response data as JSON
+    response_data = response.json()
 
-    return response.json()
+    # Extract the 'data' dictionary from the response data
+    data = response_data.get('data')
 
+    # Write the JSON data to a file
+    try:
+        with open('output.json', 'w') as file:
+            json.dump(data, file)
+    except Exception as e:
+            print(f"Error writing to file: {str(e)}")
+
+    return jsonify(response_data)
 
 # drone endpoints
 @app.route('/api/drone', methods=['GET'])
