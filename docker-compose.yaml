@@ -107,7 +107,7 @@ services:
 ################################
   model:
     build:
-      context: /Edge_Model # this is the absolute path to the app directory
+      context: ./Edge_Model # this is the absolute path to the app directory
       dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
 
     image: model-img # this is the name of the image that will be used by the app service
