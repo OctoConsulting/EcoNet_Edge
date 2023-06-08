@@ -2,11 +2,12 @@ FROM python:3.9
 
 ADD client.py .
 
+WORKDIR /app
 
 COPY . . 
+COPY audioPlayer.py /app
 
 RUN pip install scikit-learn
-RUN pip install docker
 RUN pip install -U Flask
 RUN pip install flask-socketio
 
