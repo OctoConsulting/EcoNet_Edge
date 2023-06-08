@@ -6,7 +6,7 @@ services:
 # MAIN CONTAINER
 
 ################################
-  api:
+  main:
     build:
       context: ./Main # this is the absolute path to the app directory
       dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
@@ -14,9 +14,13 @@ services:
     image: mainimg # this is the name of the image that will be used by the app service
     networks:
       - appnet # connect to appnet network
+    depends_on:
+      - api
+      - totocv
+      - noise
+      - shot_detect
+      - model
     container_name: main
-
-#################################
 
 #################################
 
@@ -96,11 +100,7 @@ services:
 
 #################################
 
-<<<<<<< Updated upstream
 # Model CONTAINER
-=======
-# Model(accoustic container) CONTAINER
->>>>>>> Stashed changes
 
 ################################
   model:
