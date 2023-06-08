@@ -44,6 +44,7 @@ services:
       - "5000"
     devices:
       - /dev/bus/usb:/dev/bus/usb
+    privileged: true
 
 #################################
 
