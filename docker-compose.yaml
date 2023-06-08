@@ -96,7 +96,11 @@ services:
 
 #################################
 
+<<<<<<< Updated upstream
 # Model CONTAINER
+=======
+# Model(accoustic container) CONTAINER
+>>>>>>> Stashed changes
 
 ################################
   model:

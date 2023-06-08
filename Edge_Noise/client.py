@@ -1,39 +1,43 @@
-import io
-import wave
-from flask import Flask, request, send_file, make_response
-from base64 import b64encode
+import os
+import subprocess
+from flask import Flask, request, jsonify, send_file
 
 app = Flask(__name__)
 
-@app.route('/convert', methods=['POST'])
-def convert():
-    # Get the byte array from the request body
-    byte_array = request.data
-
-    # Create a file-like object in memory
-    file = io.BytesIO(byte_array)
-
-    # Open the file-like object as a wave file
-    with wave.open('snesw.wav', 'wb') as wave_file:
-        wave_file.setnchannels(1)
-        wave_file.setsampwidth(2)
-        wave_file.setframerate(44100)
-
-        # Write the byte array to the wave file
-        wave_file.writeframes(byte_array)
-
-    # Write the byte array to a binary file
-    with open('snesw.bin', 'wb') as f:
-        f.write(byte_array)
-
-    file_path = './snesw.bin'
-    # Replace the above line with the actual path to your file
-
-    # Create a response object
-    response = make_response(send_file(file_path))
-    response.headers['Content-Disposition'] = 'attachment; filename=response_file.txt'
-    return response
-# Return the byte array as a response
+@app.route('/process_wav', methods=['POST'])
+def process_wav():
+    # Check if the request contains a file
+    if 'file' not in request.files:
+        return jsonify({'error': 'No file uploaded'}), 400
+    
+    file = request.files['file']
+    
+    # Check if the file has a valid extension
+    if file.filename == '' or not file.filename.endswith('.wav'):
+        return jsonify({'error': 'Invalid file type'}), 400
+    
+    # Save the WAV file
+    wav_path = 'input.wav'
+    file.save(wav_path)
+    
+    # Process the .wav file using audioPlayer.py as a subprocess
+    subprocess_cmd = ['python', 'audioPlayer.py', wav_path]
+    subprocess_output = subprocess.run(subprocess_cmd, capture_output=True, text=True)
+    
+    # Check if the subprocess succeeded
+    if subprocess_output.returncode != 0:
+        return jsonify({'error': 'Subprocess failed'}), 500
+    
+    # Extract the processed WAV filename from the stdout of the subprocess
+    output_filename = subprocess_output.stdout.strip()
+    
+    # Check if the processed WAV file exists
+    processed_wav_path = output_filename + '.wav'
+    if not os.path.exists(processed_wav_path):
+        return jsonify({'error': 'Processed file not found'}), 500
+    
+    # Return the processed WAV file to the client
+    return send_file(processed_wav_path, as_attachment=True)
 
 if __name__ == '__main__':
     app.run()

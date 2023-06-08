@@ -16,7 +16,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Set the environment variable
-ENV FLASK_APP=app.py
+ENV FLASK_APP=Edge_Model_Main.py
 
 # Expose the port that Flask will run on
 EXPOSE 5000
