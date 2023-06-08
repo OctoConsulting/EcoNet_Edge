@@ -36,7 +36,11 @@ CREATE TABLE shots (
     process_time timestamp,
     event_id int,
     preprocessed_audio_hash VARCHAR(40), -- currently using SHA1HASH
-    postprocessed_audio_hash VARCHAR(40)
+    postprocessed_audio_hash VARCHAR(40),
+    relative_coords spherical, -- theta, phi, r
+    absolute_coords gps, -- lat, long
+    gun_type gun, -- gun most likely
+    gun_data jsonb -- json of gun data w/ confidence
 );
 
 CREATE TABLE events (
@@ -44,8 +48,7 @@ CREATE TABLE events (
     start_time timestamp,
     end_time timestamp,
     num_shots int,
-    gun_type gun,
-    coordinates spherical,
-    dox gps,
+    drone_sent boolean,
+    drone_id int,
     drone_video_hash VARCHAR(40)
 );
