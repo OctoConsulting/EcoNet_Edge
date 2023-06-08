@@ -1,6 +1,7 @@
 version: '3'
 services:
   db:
+    hostname: db
     build:
       context: .
 #      dockerfile: Database
@@ -12,6 +13,7 @@ services:
         source: database_storage
         target: /mnt/database_storage
   dev:
+    hostname: db_dev
     build:
       #context: dev_env_setup
       dockerfile: ./dev_env_setup/Dockerfile
