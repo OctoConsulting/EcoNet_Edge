@@ -20,6 +20,8 @@ services:
       - noise
       - shot_detect
       - model
+    devices:
+      - /dev/bus/usb:/dev/bus/usb
     container_name: main
 
 #################################
