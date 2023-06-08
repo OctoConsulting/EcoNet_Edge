@@ -42,6 +42,8 @@ services:
       - "8000:5000"
     expose:
       - "5000"
+    devices:
+      - /dev/bus/usb:/dev/bus/usb
 
 #################################
 
