@@ -7,7 +7,7 @@ import requests
 def main():
     PARENT_PID = os.getpid()
     # url = '172.18.0.2:5000/api'
-    url = '172.18.0.2:5000/api'
+    url = 'api/api'
 
     ws = simple_websocket.Client(f'ws://{url}/detection/audio')
     # ws = simple_websocket.Client(f'ws://{url}/detection/audio')
