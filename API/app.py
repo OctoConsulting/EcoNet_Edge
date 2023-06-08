@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_sock import Sock
 import pyaudio
-import requests
+import requests, json
 
 app = Flask(__name__)
 sock = Sock(app)
@@ -23,20 +23,33 @@ def test(ws): # ws for websocket
 
 @app.route('/api/preporessing', methods=['POST'])
 def preprocessing():
+# Check if the request contains a file
     if 'file' not in request.files:
-        return 'No file part in the request'
-
+        return 'No file uploaded', 400
+    
     file = request.files['file']
 
-    if file.filename == '':
-        return 'No selected file'
+    # Get the specified parameter from the request
+    param_value = request.form.get('param')
 
-    
+    # Save the WAV file to a temporary location
+    file.save('input.wav')
 
+    # Send a request to B.py with the WAV file
+    response = requests.post('http://noise:5000/process_wav', files={'file': open('input.wav', 'rb')}, data={'param': param_value})
 
-    url = 'http://noise:5000/convert'
-    response = requests.post(url, files=file)
-    return response.json()
+    if response.status_code == 200:
+        # Retrieve the processed WAV file from B.py
+        processed_file = response.content
+
+        # Save the processed WAV file
+        with open('processed.wav', 'wb') as f:
+            f.write(processed_file)
+
+        return 'WAV file processed successfully'
+    else:
+        return 'Failed to process WAV file'
+
 
 
 @app.route('/api/detection', methods=['GET'])
@@ -86,23 +99,23 @@ def detect_shot():
 
 @app.route('/api/getLocation', methods=['POST'])
 def get_location():
-    # if 'file' not in request.files:
-    #     return 'No file part in the request'
-
-    # file = request.files['file']
-
-    # if file.filename == '':
-    #     return 'No selected file'
-    
-    # url = 'http://127.0.0.1:5000/model'
     url = 'http://model:5000/model'
     response = requests.post(url)
 
-    with open('output.txt', 'w') as file:
-        file.write(str(response.json()))
+    # Extract the response data as JSON
+    response_data = response.json()
 
-    return response.json()
+    # Extract the 'data' dictionary from the response data
+    data = response_data.get('data')
 
+    # Write the JSON data to a file
+    try:
+        with open('output.json', 'w') as file:
+            json.dump(data, file)
+    except Exception as e:
+            print(f"Error writing to file: {str(e)}")
+
+    return jsonify(response_data)
 
 # drone endpoints
 @app.route('/api/drone', methods=['GET'])

@@ -1,18 +1,13 @@
-# import json 
+import json
+import sys
 
-# def main():
-#     theta = 45
-#     phi = 90
-#     r = 5.5
-    
-#     payload = {
-#     "theta": theta,
-#     "phi": phi,
-#     "r": r
-#     }
+def main():
+    data = {
+        "theta": 90,
+        "phi": 45,
+        "r": 5.5
+    }
+    return json.dumps(data)
 
-# print(json.dumps(payload))
-
-
-# if __name__ == '__main__':
-#     main()
+if __name__ == '__main__':
+    print(main())
