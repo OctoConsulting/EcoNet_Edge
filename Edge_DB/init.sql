@@ -28,7 +28,7 @@ CREATE TYPE gps AS (
   longitude_err double precision
 );
 
-CREATE TYPE gun_inference AS ENUM (
+CREATE TYPE gun AS ENUM (
     'ak47',
     'm4',
     'glock17',
@@ -45,8 +45,12 @@ CREATE TABLE shots (
     relative_coords spherical, -- theta, phi, r
     absolute_coords gps, -- lat, long
     gun_type gun, -- gun most likely
-    gun_data jsonb -- json of gun data w/ confidence
 );
+
+CREATE TABLE shot_stats (
+    id serial primary key,
+    gun_data
+)
 
 CREATE TABLE events (
     id serial primary key,

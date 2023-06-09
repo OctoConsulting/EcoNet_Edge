@@ -56,7 +56,5 @@ def put_shot_acoustic_model():
 def put_shot_drone_mission():
     print("UNIMPLEMENTED")
 
-@app.route()
-
 if __name__ == '__main__':
     app.run()

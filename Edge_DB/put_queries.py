@@ -25,9 +25,9 @@ def put_shot_raw(shot_time: str, preprocessed_audio_hash: str):
     connection.close()
     current.close()
 
-# function to add processing data to a shot row
-# def put_shot_processed
-def put_shot_processed(jason):
+# function to add detector model processed data into the relevant row.
+# The primary key here is the hash of the preprocessed audio
+def put_shot_detector_model(jason):
     connection= psycopg.connect(db_info)
     current= connection.cursor()
 
@@ -43,16 +43,10 @@ def put_shot_processed(jason):
     connection.close()
     current.close()
 
+    print("UNIMPLEMENTED")
 
-'''
-    shot_time timestamp
-    process_time timestamp,
-    event_id int,
-    preprocessed_audio_hash VARCHAR(40), -- currently using SHA1HASH
-    postprocessed_audio_hash VARCHAR(40),
-    relative_coords spherical, -- theta, phi, r
-    absolute_coords gps, -- lat, long
-    gun_type gun, -- gun most likely
-    gun_data jsonb -- json of gun data w/ confidence
-);
-'''
+def put_shot_acoustic_model():
+    print("UNIMPLEMENTED")
+
+def put_shot_drone_mission():
+    print("UNIMPLEMENTED")
