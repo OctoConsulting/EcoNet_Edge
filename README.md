@@ -134,9 +134,7 @@ Go to the project directory
 ```
 
 ```making a vitual enviroment
-
   python -m venv .venv
-
   .venv/bin/activate
 ```
 
@@ -170,42 +168,38 @@ if you need Sphinx, run ./postinst.sh inside the container
 ## Shot Detection
 ## Preprossessing
 ## Model
+
 This is for model dummy
 
-step to set up server locally:
-* python -m venv .venv
-* .venv/bin/activate
-* cd API
-* pip install -r requirements.txt
-* flask run
+```http
+  GET /api/getLocation 
+```
+| Parameter           | Type          | Description                                       |
+| :------------------ | :------------ | :-----------------------------------------------  |
+| `ProccessedData`    | `byte array ` | **Required**. return an spherical coordinates     |
 
+Return format
+body {
+  "theta": theta,
+  "phi": phi,
+  "r": r
+}
 
-steps for setting up git bash:
-* git bash enviroment
-* python -m pip install virtualenv
-* python -m virtualenv .client
-* .venv/bin/activate
-* .venv/scripts/activate
-* cd API
-* pip install -r requirements.txt
-* cd ..
+step to set up single docker container and test in git bash:
+```bash
 * cd Edge_Model
-* python app.py
-* curl -X POST http://127.0.0.1:5000/model when running local system
-* curl -X POST localhost:9000/model when running in docker
-
-
-
-step to set up docker in powershell:
 * docker build -t model .
 * docker run -p 9000:5000 model
+* curl -X POST localhost:9000/model
 
-step to setup docker compose:
+```
+
+step to setup all docker compose and test in git bash:
+```bash
 * docker-compose build
 * docker compose up
-
-step to test docker compose:
 * curl -X POST localhost:8004/model
+```
 
 ## Database
 The database is setup as a PostgreSQL database, with two tables, one for shots and one for "events.
