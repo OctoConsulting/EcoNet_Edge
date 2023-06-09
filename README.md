@@ -2,6 +2,26 @@
 # EchoNet Edge
 
 Official Repo for EchoNet Edge.
+
+## Model for microserivce 
+
+#### { 5 word max description }
+
+```http
+  GET /api/items 
+```
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `api_key` | `string` | **Required**. {description here} |
+
+Return format
+file {
+    hello
+},
+body {
+    thing:
+}
+
 ## Contents
 
 | Functionality |     Desciption                                                      |
