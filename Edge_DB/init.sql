@@ -7,25 +7,25 @@ CREATE DATABASE echonet;
 -- then, delete the default database
 DROP DATABASE postgres;
 
+CREATE TYPE err_range AS (
+    lower_bound double precision,
+    upper_bound double precision
+);
+
 -- spherical coordinates from acoustic model
 -- azimuth is theta
 -- angle is phi
 -- measured in degrees
 CREATE TYPE spherical AS (
     r       double precision,
-    r_err   double precision,
     theta   double precision,
-    theta_err double precision,
-    phi     double precision,
-    phi_err double precision
+    phi     double precision
 );
 
 -- gps coordinates for drone manager
 CREATE TYPE gps AS (
   latitude double precision,
-  latitude_err double precision,
-  longitude double precision,
-  longitude_err double precision
+  longitude double precision
 );
 
 CREATE TYPE gun AS ENUM (
@@ -49,7 +49,17 @@ CREATE TABLE shots (
 
 CREATE TABLE shot_stats (
     id serial primary key,
-    gun_data
+    r_err err_range,
+    theta_err err_range,
+    phi_err err_range
+    latitude_err err_range,
+    longitude_err err_range,
+    ak74_confidence double precision,
+    glock17_confidence double precision,
+    awp_confidence double precision,
+    ak74_err err_range,
+    glock17_err err_range,
+    awp_err err_range
 )
 
 CREATE TABLE events (
