@@ -3,10 +3,10 @@
 
 import psycopg
 
-db_info= "host= 172.18.0.3 \
+db_info= "host= db \
     dbname=echonet \
     user= postgres \
-    password= changemeoctobby" # TODO: make not hardcoded, pw security
+    password= changemeoctobby"
 
 # function to add a new shot
 def put_shot_raw(shot_time: str, preprocessed_audio_hash: str):
@@ -28,7 +28,7 @@ def put_shot_raw(shot_time: str, preprocessed_audio_hash: str):
 # function to add processing data to a shot row
 # def put_shot_processed
 def put_shot_processed(jason):
-        connection= psycopg.connect(db_info)
+    connection= psycopg.connect(db_info)
     current= connection.cursor()
 
     sql_code= f'''

@@ -1,1 +1,0 @@
-COPY shots TO STDOUT (DELIMITER ',');

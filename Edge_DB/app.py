@@ -1,9 +1,12 @@
 from flask import Flask, request, jsonify
 from flask_sock import Sock
 import requests
-import select_queries
+import get_queries
+import put_queries
 
 app = Flask(__name__)
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
+
 sock = Sock(app)
 
 # test websocket endpoint # @sock.route for web sockets
@@ -12,22 +15,48 @@ sock = Sock(app)
 #    while True:
 #        ws.send("hello world") # only can send text & bytearr
 
-@app.route('/api/get_all_shots', methods=['GET'])
+# gets all shots
+@app.route('/db/get_all_shots', methods=['GET'])
 def get_all_shots():
-    return jsonify(select_queries.get_all_shots())
+    return jsonify(get_queries.get_all_from("shots"))
 
-@app.route('/api/get_all_events', methods=['GET'])
+# gets all events
+@app.route('/db/get_all_events', methods=['GET'])
 def get_all_events():
-    return jsonify(select_queries.get_all_events())
+    return jsonify(get_queries.get_all_from("events"), compact= False)
 
-@app.route('/api/put_shot', methods=['POST'])
-def put_shot():
-    return jsonify(select_queries.put_shot("0", "hash.wav"))
+# gets a shot by the preprocessed hash
+@app.route('/db/get_shot_by_pre', methods=['GET'])
+def get_shot_by_pre():
+    hash= request.args.get('hash')
+    hash= "\'" + hash + "\'"
+    return jsonify(get_queries.get_all_where("shots", "preprocessed_audio_hash", "ILIKE", hash)[0])
 
-##DOES NOT CURRENTLY WORK
-@app.route('/api/get_shot', methods=['GET'])
-def get_shot():
-    return jsonify(select_queries.get_shot(1))
+# gets a shot by the id
+@app.route('/db/get_shot_by_id', methods=['GET'])
+def get_shot_by_id():
+    id= request.args.get('id')
+    return jsonify(get_queries.get_all_where("shots", "id", "=", id)[0])
+
+@app.route('/db/put_shot_raw', methods=['POST'])
+def put_shot_raw():
+    shot_time= request.args.get('shot_time')
+    preprocessed_audio_hash= request.args.get('preprocessed_audio_hash')
+    return jsonify(put_queries.put_shot_raw(shot_time, preprocessed_audio_hash))
+
+@app.route('/db/put_shot_detector_model', methods=['PUT'])
+def put_shot_detector_model():
+    print("UNIMPLEMENTED")
+
+@app.route('/db/put_shot_acoustic_model', methods=['PUT'])
+def put_shot_acoustic_model():
+    print("UNIMPLEMENTED")
+
+@app.route('/db/put_shot_drone_mission', methods=['PUT'])
+def put_shot_drone_mission():
+    print("UNIMPLEMENTED")
+
+@app.route()
 
 if __name__ == '__main__':
     app.run()

@@ -13,17 +13,22 @@ DROP DATABASE postgres;
 -- measured in degrees
 CREATE TYPE spherical AS (
     r       double precision,
+    r_err   double precision,
     theta   double precision,
-    phi     double precision
+    theta_err double precision,
+    phi     double precision,
+    phi_err double precision
 );
 
 -- gps coordinates for drone manager
 CREATE TYPE gps AS (
   latitude double precision,
-  longitude double precision
+  latitude_err double precision,
+  longitude double precision,
+  longitude_err double precision
 );
 
-CREATE TYPE gun AS ENUM (
+CREATE TYPE gun_inference AS ENUM (
     'ak47',
     'm4',
     'glock17',
