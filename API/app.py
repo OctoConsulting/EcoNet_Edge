@@ -62,7 +62,7 @@ def get_audio(ws):
 
     channels = 1 
     sample_rate = 44100
-    chunk_size = 512
+    chunk_size = 1000000
 
     audio = pyaudio.PyAudio()
 
@@ -71,7 +71,7 @@ def get_audio(ws):
     try:
         while True:
             data = stream.read(1024)
-            print(data)
+            print('data')
             print('_________________________________________')
             ws.send(data)
 

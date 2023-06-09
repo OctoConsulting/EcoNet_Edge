@@ -39,7 +39,7 @@ def main():
                 PID_AFTER_FORK = os.getpid()
                 if PID_AFTER_FORK != PARENT_PID:
                     # might need pipe to send data from current to model and deployment code
-                    program_path = './locate_and_deploy'
+                    program_path = 'locate_and_deploy'
                     os.execlp('python3', 'python3', program_path)
             
             file.close()
