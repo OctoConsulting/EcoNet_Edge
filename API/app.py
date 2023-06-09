@@ -95,7 +95,16 @@ def detect_shot():
     url = 'http://shot_detect:5000/api/detectShot'
     response = requests.post(url)
 
-    return response.json()
+    c = response.content
+    filePath = "thisistheone.txt"
+
+    with open(filePath, "wb") as file:
+        file.write(c)
+
+    # print(response)
+    # return "hiiiii"
+    return send_file(filePath, as_attachment=True)
+
 
 @app.route('/api/getLocation', methods=['POST'])
 def get_location():
