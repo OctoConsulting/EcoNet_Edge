@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 from flask_sock import Sock
 import pyaudio
 import requests, json
@@ -46,7 +46,7 @@ def preprocessing():
         with open('processed.wav', 'wb') as f:
             f.write(processed_file)
 
-        return 'WAV file processed successfully'
+        return send_file('processed.wav', as_attachment=True)
     else:
         return 'Failed to process WAV file'
 
