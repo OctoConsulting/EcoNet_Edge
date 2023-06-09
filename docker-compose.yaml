@@ -6,17 +6,10 @@ services:
 # MAIN CONTAINER
 
 ################################
-<<<<<<< Updated upstream
-  # main:
-  #   build:
-  #     context: ./Main # this is the absolute path to the app directory
-  #     dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
-=======
   main:
     build:
       context: ./Main # this is the absolute path to the app directory
       dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
->>>>>>> Stashed changes
 
   #   image: mainimg # this is the name of the image that will be used by the app service
   #   networks:
@@ -49,14 +42,6 @@ services:
       - "8000:5000"
     expose:
       - "5000"
-<<<<<<< Updated upstream
-    devices:
-      - /dev/bus/usb:/dev/bus/usb
-    privileged: true
-=======
-    volumes:
-      - shared_volume:/app/cache
->>>>>>> Stashed changes
 
 #################################
 
@@ -95,8 +80,6 @@ services:
       - "8002:5000"
     expose:
       - "5000"
-    volumes:
-      - shared_volume:/app/cache
 
 #################################
 

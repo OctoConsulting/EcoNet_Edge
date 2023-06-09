@@ -105,16 +105,12 @@ def get_location():
     # Extract the response data as JSON
     response_data = response.json()
 
-    # Extract the 'data' dictionary from the response data
-    data = response_data.get('data')
-
     # Write the JSON data to a file
     try:
         with open('output.json', 'w') as file:
-            json.dump(data, file)
+            json.dump(response_data, file)
     except Exception as e:
-            print(f"Error writing to file: {str(e)}")
-
+        print(f"Error writing to file: {str(e)}")
     return jsonify(response_data)
 
 # drone endpoints
