@@ -1,13 +1,12 @@
 from flask import Flask, request, jsonify
-from flask_sock import Sock
 from flask import Flask, send_file
 import subprocess
 import os
+import json
 
 app = Flask(__name__)
-sock = Sock(app)
 
-@app.route('/api/detectShot', methods=['POST'])
+@app.route('/api/detectShot', methods=['GET'])
 def detect_shot():
     #file = request.files['file']
 
@@ -16,34 +15,33 @@ def detect_shot():
 
     #if file.filename == '':
    #     return 'No selected file'
-    # send file to shot detector
 
-    # result = subprocess.run(['python', '-c', 'import random; print(random.randint(0, 1))'], stdout=subprocess.PIPE)
-    # output = result.stdout.decode('utf-8').strip()
-    # random_number = int(output)
-    subprocess_cmd = ['python', 'detector_out.py']
-    subprocess_output = subprocess.run(subprocess_cmd, capture_output=True, text=True)
-    if subprocess_output.returncode != 0:
-            return jsonify({'error': 'Subprocess failed'}), 500
-   
-    
-    output_filename = subprocess_output.stdout.strip()
-    directory_path , filename = os.path.split(output_filename)
-    process_detect_path = os.path.join(directory_path, filename)
+        subprocess_cmd = ['python', 'detector_out.py']
+        subprocess_output = subprocess.run(subprocess_cmd, capture_output=True, text=True)
+        if subprocess_output.returncode != 0:
+                return jsonify({'error': 'Subprocess failed'}), 501
 
-    if not os.path.exists(process_detect_path):
-         return jsonify({'error': 'Processed file not found'}), 500
-    
-    
-    # get return and return
-    # shot = False
-    # if random_number == 1:
-    #     shot = True
 
-    # resp = {S
-    #     'shot':shot
-    # }
+        output = subprocess_output.stdout.strip()
+                
+        json_output = json.loads(output)
+        print(json_output)
 
-    # return jsonify(resp)
-    return send_file(process_detect_path, as_attachment=True)
+        resp = {}
+        resp['shot'] = json_output['shot']
+        filePath = json_output['filePath']
+
+                # send resp as in the body
+                # send filePath seperatly
+
+        if not os.path.exists(filePath):
+                return jsonify({'error': 'Processed file not found'}), 502
+
+
+        # get return and return
+        # return jsonify(resp)
+
+        return send_file(filePath, as_attachment=True, download_name='downloaded.txt')
         
+#         #Protocols: dict file ftp ftps http https imap imaps pop3 pop3s smtp smtps telnet tftp
+# Features: AsynchDNS HSTS HTTPS-proxy IDN IPv6 Kerberos Largefile NTLM SPNEGO SSL SSPI threadsafe Unicode UnixSockets

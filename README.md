@@ -191,14 +191,22 @@ step to set up single docker container and test in git bash:
 * docker build -t model .
 * docker run -p 9000:5000 model
 * curl -X POST localhost:9000/model
-
 ```
 
 step to setup all docker compose and test in git bash:
 ```bash
 * docker-compose build
 * docker compose up
-* curl -X POST localhost:8004/model
+* cd Edge_Model
+* python curl.py or 
+* curl -X POST localhost:8004/model or 
+* curl -X POST -F "file=@Testing.wav"  localhost:8000/api/getLocation
+```
+
+command line to remove all container and all unused image
+```bash
+* docker container prune
+* docker image prune -a
 ```
 
 ## Database

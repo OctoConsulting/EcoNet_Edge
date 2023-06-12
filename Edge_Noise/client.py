@@ -37,6 +37,8 @@ def process_wav():
     # Validating the full path to the processed file
     processed_wav_path = os.path.join(directory_path, filename)
 
+    wav_path = "DUDE"
+
 # Check if the processed file exists
     if not os.path.exists(processed_wav_path):
         return jsonify({'error': 'Processed file not found'}), 500
