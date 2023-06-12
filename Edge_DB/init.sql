@@ -8,6 +8,7 @@ CREATE DATABASE echonet;
 DROP DATABASE postgres;
 
 CREATE TYPE err_range AS (
+    prediction double precision,
     lower_bound double precision,
     upper_bound double precision
 );
@@ -71,3 +72,10 @@ CREATE TABLE events (
     drone_id int,
     drone_video_hash VARCHAR(40)
 );
+
+CREATE TABLE drone_1_status (
+    drone_loc gps,
+    drone_status int,
+    video_status int,
+    assigned_event int
+)

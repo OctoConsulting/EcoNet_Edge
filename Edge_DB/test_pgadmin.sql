@@ -21,3 +21,21 @@ VALUES (2023-08-20 10:12:32 +05:00,
         (45, 45),
         'ak47'
         );
+
+INSERT INTO shots (id,
+                   r_err,
+                   theta_err,
+                   phi_err,
+                   latitude_err,
+                   ak74_err,
+                   glock17_err,
+                   awp_err)
+VALUES (1,
+        (5, 2, 2),
+        (80, 10, 10),
+        (70, 10, 10),
+        (68.88, 5, 5),
+        (89.12, 5, 5),
+        (0.93, 0.2, 0,2),
+        (0.22, 0.1, 0.1)
+        );
