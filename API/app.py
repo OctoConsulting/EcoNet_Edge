@@ -23,7 +23,7 @@ def test(ws): # ws for websocket
 
 @app.route('/api/preporessing', methods=['POST'])
 def preprocessing():
-# Check if the request contains a file
+    # Check if the request contains a file
     if 'file' not in request.files:
         return 'No file uploaded', 400
     
@@ -108,8 +108,17 @@ def detect_shot():
 
 @app.route('/api/getLocation', methods=['POST'])
 def get_location():
+    # Check if the request contains a file
+    if 'file' not in request.files:
+        return 'No file uploaded', 400
+    
+    file = request.files['file']
+    
+    # Save the WAV file to a temporary location
+    file.save('input.wav')
+    
     url = 'http://model:5000/model'
-    response = requests.post(url)
+    response = requests.post(url, files={'file': open('input.wav', 'rb')})
 
     # Extract the response data as JSON
     response_data = response.json()
