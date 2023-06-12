@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, send_file
 from flask_sock import Sock
 import pyaudio
 import requests, json
+import simple_websocket
 
 app = Flask(__name__)
 sock = Sock(app)
@@ -82,7 +83,7 @@ def get_audio(ws):
     stream.close()
     audio.terminate()
 
-@app.route('/api/detection/detectShot', methods=['POST'])
+@sock.route('/api/detection/detectShot', methods=['POST'])
 def detect_shot():
     # if 'file' not in request.files:
     #     return 'No file part in the request'
@@ -91,19 +92,31 @@ def detect_shot():
 
     # if file.filename == '':
     #     return 'No selected file'
-
-    url = 'http://shot_detect:5000/api/detectShot'
-    response = requests.post(url)
-
-    c = response.content
+    
     filePath = "thisistheone.txt"
 
-    with open(filePath, "wb") as file:
-        file.write(c)
+    ws_to_service = simple_websocket.Client(f'ws://shot_detect:5000/detection/audio')
 
-    # print(response)
-    # return "hiiiii"
-    return send_file(filePath, as_attachment=True)
+    # send file
+    ws_to_service.send()
+    
+    # should be the return file in the form of a btye array
+    raw_file = ws_to_service.recive()
+
+    # convert byte array to a .wav file
+    #evaluate that is was a file and not an error 
+
+
+    # should be the shot reuslt
+    raw_shot = ws_to_service.recive()
+
+    #evalute that this was the shot result and not an error
+    
+    ws.send(file)
+    ws.send(file)
+
+
+
 
 
 @app.route('/api/getLocation', methods=['POST'])
