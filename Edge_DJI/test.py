@@ -1,22 +1,29 @@
 # a nice script to test imports and takeoff
-import djisdkpy
-import os
-import time
+print("Start simulator (SITL)")
 
-DRONE_IP = os.environ.get("DRONE_IP", "192.168.42.81")
-def test_takeoff():
-    drone = djisdkpy.Drone('User.Config.txt')
-    drone.initialize()
-    time.sleep()
-    drone.arm()
-    drone.takeoff()
-    time.sleep(5)
-    drone.land()
-    drone.disarm()
-    drone.shutdown()
-    ...
+import dronekit_sitl
+sitl = dronekit_sitl.start_default()
+connection_string = sitl.connection_string()
 
+# Import DroneKit-Python
+from dronekit import connect, VehicleMode
 
-if __name__ == "__main__":
+# Connect to the Vehicle.
+print("Connecting to vehicle on: %s" % (connection_string,))
+vehicle = connect(connection_string, wait_ready=True)
 
-    test_takeoff()
+# Get some vehicle attributes (state)
+print("Get some vehicle attribute values:")
+print(" GPS: %s" % vehicle.gps_0)
+print(" Battery: %s" % vehicle.battery)
+print(" Last Heartbeat: %s" % vehicle.last_heartbeat)
+print(" Is Armable?: %s" % vehicle.is_armable)
+print(" System status: %s" % vehicle.system_status.state)
+print(" Mode: %s" % vehicle.mode.name)    # settable
+
+# Close vehicle object before exiting script
+vehicle.close()
+
+# Shut down simulator
+sitl.stop()
+print("Completed")

@@ -10,9 +10,8 @@ RUN apt-get update && apt-get install -y \
     libavcodec-dev \
     libavformat-dev \
     libswscale-dev
-
-RUN git clone https://github.com/drmaj/dji-sdk-python
-RUN cd dji-sdk-python
+RUN git clone https://github/RosettaDrone/rosettadrone.git
+RUN pip install dronekit
 #RUN git submodule update --init --recursive 
 
 WORKDIR /app
