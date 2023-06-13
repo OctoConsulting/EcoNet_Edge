@@ -52,13 +52,13 @@ CREATE TABLE shot_stats (
     id serial primary key,
     r_err err_range,
     theta_err err_range,
-    phi_err err_range
+    phi_err err_range,
     latitude_err err_range,
     longitude_err err_range,
     ak74_err err_range,
     glock17_err err_range,
     awp_err err_range
-)
+);
 
 CREATE TABLE events (
     id serial primary key,
