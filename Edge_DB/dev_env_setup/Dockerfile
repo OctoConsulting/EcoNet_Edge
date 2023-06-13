@@ -1,6 +1,6 @@
 # RHEL Host OS, but
 # debian dev environment and sql environment
-FROM debian
+FROM debian:bullseye
 
 # basics
 RUN apt-get update
@@ -22,7 +22,19 @@ RUN pip install requests psycopg
 
 RUN apt-get install libpq5 -y
 
+RUN apt-get install tmux -y
+
+RUN mkdir -p /tmp/tmux-1000
+
+#EXPOSE 5000
+
 # new user. Default password is 1234
 RUN useradd -m -G users,sudo -s /bin/bash -p "$(openssl passwd 1234)" developer
 USER developer
 WORKDIR /home/developer
+
+COPY ../app.py .
+COPY ../get_queries.py .
+COPY ../put_queries.py .
+
+CMD [ "flask", "run", "--host=0.0.0.0", "--port=80" ]

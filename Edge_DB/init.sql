@@ -31,9 +31,9 @@ CREATE TYPE gps AS (
 
 CREATE TYPE gun AS ENUM (
     'ak47',
+    'ar15'
     'm4',
-    'glock17',
-    'awp'
+    'glock17'
 );
 
 CREATE TABLE shots (
@@ -45,7 +45,7 @@ CREATE TABLE shots (
     postprocessed_audio_hash VARCHAR(40),
     relative_coords spherical, -- theta, phi, r
     absolute_coords gps, -- lat, long
-    gun_type gun, -- gun most likely
+    gun_type gun -- gun most likely
 );
 
 CREATE TABLE shot_stats (
@@ -55,9 +55,6 @@ CREATE TABLE shot_stats (
     phi_err err_range
     latitude_err err_range,
     longitude_err err_range,
-    ak74_confidence double precision,
-    glock17_confidence double precision,
-    awp_confidence double precision,
     ak74_err err_range,
     glock17_err err_range,
     awp_err err_range

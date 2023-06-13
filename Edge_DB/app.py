@@ -46,15 +46,15 @@ def put_shot_raw():
 
 @app.route('/db/put_shot_detector_model', methods=['PUT'])
 def put_shot_detector_model():
-    print("UNIMPLEMENTED")
+    return jsonify("UNIMPLEMENTED")
 
 @app.route('/db/put_shot_acoustic_model', methods=['PUT'])
 def put_shot_acoustic_model():
-    print("UNIMPLEMENTED")
+    return jsonify("UNIMPLEMENTED")
 
 @app.route('/db/put_shot_drone_mission', methods=['PUT'])
 def put_shot_drone_mission():
-    print("UNIMPLEMENTED")
+    return jsonify("UNIMPLEMENTED")
 
 if __name__ == '__main__':
     app.run()

@@ -2,4 +2,4 @@
 import olympe
 import os
 import time
-from olympe.messages.ardrone3.Piloting import Takeoff, Landing
+#from olympe.messages.ardrone3.Piloting import Takeoff, Landing

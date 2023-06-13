@@ -1,0 +1,16 @@
+import requests
+import json
+
+print("Test I")
+x= requests.get('http://localhost:5000/db/get_all_shots')
+x2= x.json()
+assert(type(x2) == list)
+
+print("Test II")
+params= {
+    hash: "7820b2a002681a7e887bdd8fa73cbc0292ffec1c"
+}
+x= requests.get('http://localhost:5000/db/get_shot_by_pre', params= params)
+print(x.content)
+
+print("Passed all tests :)")

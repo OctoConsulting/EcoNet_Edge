@@ -12,21 +12,13 @@ db_info= "host= db \
 
 # helper function to make querying a whole table easier
 def get_all_from(table: str) -> dict:
-    try:
-        connection= psycopg.connect(db_info)
-        current= connection.cursor(row_factory= dict_row)
+    with psycopg.connect(db_info) as connection, \
+         connection.cursor(row_factory= dict_row) as current:
+            connection= psycopg.connect(db_info)
+            current= connection.cursor(row_factory= dict_row)
 
-        current.execute(f"SELECT * FROM {table}")
-        return(current.fetchall())
-    
-    except Exception as e:
-        print(f"There was an error accessing the database: {e}")
-
-    finally: # runs, even after return :)
-        if connection:
-            connection.close()
-        if current:
-            current.close()
+            current.execute(f"SELECT * FROM {table}")
+            return(current.fetchall())
 
 # helper function that gets all rows where value == column
 def get_all_where(table: str, column: str, operator: str, value:str) -> dict:

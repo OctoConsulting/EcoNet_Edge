@@ -17,6 +17,8 @@ services:
     build:
       #context: dev_env_setup
       dockerfile: ./dev_env_setup/Dockerfile
+    ports:
+      - "5000:5000"
     volumes:
       - type: bind
         source: ../
