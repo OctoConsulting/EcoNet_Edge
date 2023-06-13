@@ -1,27 +1,26 @@
 import os
 import subprocess
 from flask import Flask, request, jsonify, send_file
+import base64
 
 app = Flask(__name__)
 
 @app.route('/process_wav', methods=['POST'])
 def process_wav():
-    # Check if the request contains a file
-    if 'file' not in request.files:
-        return jsonify({'error': 'No file uploaded'}), 400
     
-    file = request.files['file']
-    
-    # Check if the file has a valid extension
-    if file.filename == '' or not file.filename.endswith('.wav'):
-        return jsonify({'error': 'Invalid file type'}), 400
-    
-    # Save the WAV file
-    wav_path = 'input.wav'
-    file.save(wav_path)
+    body = request.json
+
+    base64_bytes = body['audio']
+
+    # convert from base64 to bytes
+    my_bytes = base64.b64decode(base64_bytes)
+
+    # make .wav file
+    with open('myfile.wav', mode='wb') as f:
+        f.write(my_bytes)
     
     # Process the .wav file using audioPlayer.py as a subprocess
-    subprocess_cmd = ['python', 'audioPlayer.py', wav_path]
+    subprocess_cmd = ['python', 'audioPlayer.py', 'myfile.wav']
     subprocess_output = subprocess.run(subprocess_cmd, capture_output=True, text=True)
     
     # Check if the subprocess succeeded
@@ -37,13 +36,20 @@ def process_wav():
     # Validating the full path to the processed file
     processed_wav_path = os.path.join(directory_path, filename)
 
-    wav_path = "DUDE"
-
 # Check if the processed file exists
     if not os.path.exists(processed_wav_path):
         return jsonify({'error': 'Processed file not found'}), 500
-    # Return the processed WAV file to the client
-    return send_file(processed_wav_path, as_attachment=True)
+    
+    resp = {}
+    with open(processed_wav_path, 'rb') as fd:
+        contents = fd.read()
+        resp['audio'] = convert_to_base64(contents)
+
+    return jsonify(resp)
+
+def convert_to_base64(byte_array):
+    base64_bytes = base64.b64encode(byte_array)
+    return base64_bytes.decode('utf-8')
 
 if __name__ == '__main__':
     app.run()

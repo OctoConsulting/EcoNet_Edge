@@ -1,62 +1,45 @@
 from flask import Flask, request, jsonify
-from flask import Flask, send_file
-from flask_sock import Sock
 import subprocess
 import os
 import json
+import base64
 
 app = Flask(__name__)
-sock = Sock(app)
 
-@sock.route('/api/detectShot', methods=['GET'])
-def detect_shot(ws):
+@app.route('/api/detectShot', methods=['POST'])
+def detect_shot():
 
-        while True:
-                message = ws.recive()
-                if message and message == 'file_upload':
-                        file_data = ws.recive()
-                        file = file_data['file']
-                        
-                        # this returns a tupple with file path and shot result
-                        status = prossess_file(file)
+        body = request.json
 
-                        # send_file(filePath, as_attachment=True, download_name='downloaded.txt')
-                        
-                        filePath = status['filePath']
-                        shot = status['shot']
+        base64_bytes = body['audio']
 
-                        if not os.path.exists(filePath):
-                                ws.send({'error': 'Processed file not found'})
-                                return 
-                        
-                        #send the flie
-                        ws.send({'file': filePath})
+        # convert from base64 to bytes
+        my_bytes = base64.b64decode(base64_bytes)
 
-                        #send the json with the result of 
-                        ws.send(jsonify(shot))
+        # make .wav file
+        with open('myfile.wav', mode='wb') as f:
+                f.write(my_bytes)
 
-                        return
-                else:
-                        ws.send({'error': 'no file sent'})
-                        return 
-
-
-
-def prossess_file(file):
-        subprocess_cmd = ['python', 'detector_out.py']
+        subprocess_cmd = ['python', 'detector_out.py', 'myfile.wav']
         subprocess_output = subprocess.run(subprocess_cmd, capture_output=True, text=True)
         if subprocess_output.returncode != 0:
                 return jsonify({'error': 'Subprocess failed'}), 501
 
-
         output = subprocess_output.stdout.strip()
-                
+        print(output)
         json_output = json.loads(output)
-        print(json_output)
 
         resp = {}
         resp['shot'] = json_output['shot']
-        filePath = json_output['filePath']
 
-        return resp
+        with open(json_output['audio'], 'rb') as fd:
+                contents = fd.read()
+                resp['audio'] = convert_to_base64(contents)
         
+        return jsonify(resp)
+
+
+# this is a function that converts a byte array to base64 (this is needed to be able to send in JSON)
+def convert_to_base64(byte_array):
+    base64_bytes = base64.b64encode(byte_array)
+    return base64_bytes.decode('utf-8')

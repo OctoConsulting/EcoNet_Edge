@@ -7,56 +7,10 @@ import simple_websocket
 app = Flask(__name__)
 sock = Sock(app)
 
-    
 
-
-# test websocket endpoint # @sock.route for web sockets
-@sock.route('/api/test', methods=['GET']) # route(path endpoint, {GET, POST, PUT, DELETE})
-def test(ws): # ws for websocket
-    while True:
-        ws.send("hello world") # only can send text & bytearr
-
-
-####################################################################
-
-# detection endpoints
-
-
-@app.route('/api/preporessing', methods=['POST'])
-def preprocessing():
-    # Check if the request contains a file
-    if 'file' not in request.files:
-        return 'No file uploaded', 400
-    
-    file = request.files['file']
-
-    # Get the specified parameter from the request
-    param_value = request.form.get('param')
-
-    # Save the WAV file to a temporary location
-    file.save('input.wav')
-
-    # Send a request to B.py with the WAV file
-    response = requests.post('http://noise:5000/process_wav', files={'file': open('input.wav', 'rb')}, data={'param': param_value})
-
-    if response.status_code == 200:
-        # Retrieve the processed WAV file from B.py
-        processed_file = response.content
-
-        # Save the processed WAV file
-        with open('processed.wav', 'wb') as f:
-            f.write(processed_file)
-
-        return send_file('processed.wav', as_attachment=True)
-    else:
-        return 'Failed to process WAV file'
-
-
-
-@app.route('/api/detection', methods=['GET'])
-def detactions_options():
-    return '***' # return jsonify({}) <-- give them a nice json :)
-
+#################################
+# get audio from mic
+#################################
 @sock.route('/api/detection/audio', methods=['GET'])
 def get_audio(ws):
     audio_format = pyaudio.paInt16
@@ -83,66 +37,68 @@ def get_audio(ws):
     stream.close()
     audio.terminate()
 
-@sock.route('/api/detection/detectShot', methods=['POST'])
+
+#################################
+# detect shot from audio
+#################################
+@app.route('/api/detection/detectShot', methods=['POST'])
 def detect_shot():
-    # if 'file' not in request.files:
-    #     return 'No file part in the request'
+    body = request.json
 
-    # file = request.files['file']
+    headers = {'Content-Type': 'application/json'}
 
-    # if file.filename == '':
-    #     return 'No selected file'
+    response = requests.post('http://shot_detect:5000/api/detectShot', json=body, headers=headers)
+
+    if response.status_code == 200:
+        # resp = response.json
+        # ret = {}
+        # ret['shot'] = body['shot']
+        # ret['audio'] = body['audio']
+        return response.json()
     
-    filePath = "thisistheone.txt"
-
-    ws_to_service = simple_websocket.Client(f'ws://shot_detect:5000/detection/audio')
-
-    # send file
-    ws_to_service.send()
+    else:
+        return 'Failed Shot Detection'
     
-    # should be the return file in the form of a btye array
-    raw_file = ws_to_service.recive()
 
-    # convert byte array to a .wav file
-    #evaluate that is was a file and not an error 
+#################################
+# preporess audio
+#################################
+@app.route('/api/preporessing', methods=['POST'])
+def preprocessing():
+    body = request.json
 
+    headers = {'Content-Type': 'application/json'}
 
-    # should be the shot reuslt
-    raw_shot = ws_to_service.recive()
+    response = requests.post('http://noise:5000/process_wav', json=body, headers=headers)
 
-    #evalute that this was the shot result and not an error
+    if response.status_code == 200:
+        resp = response.json
+        ret = {}
+        ret['audio'] = body['audio']
+        return jsonify(ret)
     
-    ws.send(file)
-    ws.send(file)
+    else:
+        return 'Failed Preprossessing'
 
 
-
-
-
+#################################
+# get loacation of gunshot
+#################################
 @app.route('/api/getLocation', methods=['POST'])
 def get_location():
-    # Check if the request contains a file
-    if 'file' not in request.files:
-        return 'No file uploaded', 400
-    
-    file = request.files['file']
-    
-    # Save the WAV file to a temporary location
-    file.save('input.wav')
-    
-    url = 'http://model:5000/model'
-    response = requests.post(url, files={'file': open('input.wav', 'rb')})
+    body = request.json
 
-    # Extract the response data as JSON
+    headers = {'Content-Type': 'application/json'}
+
+    response = requests.post('http://model:5000/model', json=body, headers=headers)
+
     response_data = response.json()
 
-    # Write the JSON data to a file
-    # try:
-    #     with open('output.json', 'w') as file:
-    #         json.dump(response_data, file)
-    # except Exception as e:
-    #     print(f"Error writing to file: {str(e)}")
     return jsonify(response_data)
+
+
+
+
 
 # drone endpoints
 @app.route('/api/drone', methods=['GET'])

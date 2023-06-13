@@ -1,29 +1,21 @@
-import requests
+import asyncio
+import json
+import simple_websocket
 
-import os
+def main():
+    ws = simple_websocket.Client(f'ws://localhost:5000/api/detectShot')
+    # ws.recive()
+    ws.send(b'\x02\x03\x05\x07')
 
-url = "http://localhost:8000/api/detection/detectShot"
+    file = ws.receive()
 
-#file_path = os.path.abspath("Testing.wav")
+    j = ws.receive()
 
-# file_path = "Testing.wav"
+    print(file)
 
-
-output_path = "UPDATEWORK.txt"
-
-# files = {"file": open(file_path, "rb")}
-
-response = requests.post(url)
+    print(j)
 
 
-if response.status_code == 200:
 
-    with open(output_path, "wb") as f:
-
-        f.write(response.content)
-
-    print("File saved successfully")
-
-else:
-
-    print("Request failed with status code:", response.status_code)
+if __name__ == "__main__":
+    main()
