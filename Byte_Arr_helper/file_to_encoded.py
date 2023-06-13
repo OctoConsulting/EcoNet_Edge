@@ -1,4 +1,9 @@
 import base64
+import sys
+
+##########################################
+# python file_to_encode.py <path to file>
+##########################################
 
 def read_wav_file(file_path):
     with open(file_path, 'rb') as file:
@@ -14,7 +19,7 @@ def write_to_file(file_path, content):
         file.write(content)
 
 # Specify the path to your .wav file
-file_path = 'input_processed.wav'
+file_path = sys.argv[1]
 
 # Read the .wav file and convert it to a byte array
 wav_byte_array = read_wav_file(file_path)
