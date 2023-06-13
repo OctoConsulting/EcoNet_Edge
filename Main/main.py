@@ -22,7 +22,9 @@ def main():
 
             response = requests.post(f'http://{url}/detection/detectShot', json=a)
 
-            shot = response.json()
+            resp_json = response.json()
+            shot = resp_json.get('shot')
+            audio = resp_json.get('audio')
 
             if shot:
                 # run preprossing
@@ -32,9 +34,8 @@ def main():
                 os.fork()
                 PID_AFTER_FORK = os.getpid()
                 if PID_AFTER_FORK != PARENT_PID:
-                    # might need pipe to send data from current to model and deployment code
                     program_path = 'locate_and_deploy'
-                    os.execlp('python3', 'python3', program_path)
+                    os.execlp('python3', program_path, audio)
                         
     except (KeyboardInterrupt, EOFError, simple_websocket.ConnectionClosed):
         ws.close()
