@@ -24,7 +24,8 @@ RUN apt-get install libpq5 -y
 
 RUN apt-get install tmux -y
 
-RUN mkdir -p /tmp/tmux-1000
+RUN apt-get install python3-waitress
+#RUN mkdir -p /tmp/tmux-1000
 
 #EXPOSE 5000
 
@@ -37,4 +38,5 @@ COPY ../app.py .
 COPY ../get_queries.py .
 COPY ../put_queries.py .
 
-CMD [ "flask", "run", "--host=0.0.0.0", "--port=80" ]
+CMD [ "waitress-serve", "--host", "0.0.0.0", "--port=80", "app:app" ]
+#CMD [ "flask", "run", "--host=0.0.0.0", "--port=80" ]
