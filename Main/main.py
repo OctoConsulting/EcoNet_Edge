@@ -2,6 +2,7 @@ import simple_websocket
 import os
 import sys
 import requests
+import base64
 
 
 def main():
@@ -14,21 +15,14 @@ def main():
     try:
         while True:
             byte_array = ws.receive()
-            # take data an feed into shot detector
-            # if data has shot 
-                # fork and exec to new prossess
+            base64_bytes = base64.b64encode(byte_array)
+            
+            a = {}
+            a['audio'] = base64_bytes.decode('utf-8')
 
-            file_path = './temp.txt'  # Path to the file you want to upload
+            response = requests.post(f'http://{url}/detection/detectShot', json=a)
 
-            # Send the audio chunk file through a POST request to detector
-            file = open(file_path, 'wb+')
-            file.write(byte_array)
-            response = requests.post(f'http://{url}/detection/detectShot', files={'file': file})
-
-            print(response)
-            # file.write(str(response))
-
-            shot = response
+            shot = response.json()
 
             if shot:
                 # run preprossing
@@ -41,9 +35,7 @@ def main():
                     # might need pipe to send data from current to model and deployment code
                     program_path = 'locate_and_deploy'
                     os.execlp('python3', 'python3', program_path)
-            
-            file.close()
-            
+                        
     except (KeyboardInterrupt, EOFError, simple_websocket.ConnectionClosed):
         ws.close()
 

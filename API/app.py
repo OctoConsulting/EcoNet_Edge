@@ -50,10 +50,6 @@ def detect_shot():
     response = requests.post('http://shot_detect:5000/api/detectShot', json=body, headers=headers)
 
     if response.status_code == 200:
-        # resp = response.json
-        # ret = {}
-        # ret['shot'] = body['shot']
-        # ret['audio'] = body['audio']
         return response.json()
     
     else:
@@ -72,10 +68,8 @@ def preprocessing():
     response = requests.post('http://noise:5000/process_wav', json=body, headers=headers)
 
     if response.status_code == 200:
-        resp = response.json
-        ret = {}
-        ret['audio'] = body['audio']
-        return jsonify(ret)
+        return response.json()
+
     
     else:
         return 'Failed Preprossessing'
@@ -92,9 +86,11 @@ def get_location():
 
     response = requests.post('http://model:5000/model', json=body, headers=headers)
 
-    response_data = response.json()
-
-    return jsonify(response_data)
+    if response.status_code == 200:
+        return response.json()
+    
+    else:
+        return 'Failed get location'
 
 
 
