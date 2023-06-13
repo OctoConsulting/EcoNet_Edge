@@ -29,7 +29,7 @@ VALUES ('2023-08-20 10:12:32 +05:00',
         'ak47'
         );
 
-INSERT INTO shots (id,
+INSERT INTO shot_stats (id,
                    r_err,
                    theta_err,
                    phi_err,
