@@ -6,9 +6,9 @@ import argparse
 import sys
 import cv2
 
-sys.path.insert(0, "/c/Users/SakethRajesh/Documents/EcoNet/cv_intern_2023/yolo_inference")
-from yolo_inference.yolo_inference_engine import YoloInferenceEngine
-
+# sys.path.insert(0, "/c/Users/SakethRajesh/Documents/EcoNet/cv_intern_2023/yolo_inference")
+# sys.path.append('../yolo_inference')
+from ..yolo_inference.yolo_inference_engine import YoloInferenceEngine
 
 
 def main():
