@@ -37,6 +37,7 @@ WORKDIR /home/developer
 COPY ../app.py .
 COPY ../get_queries.py .
 COPY ../put_queries.py .
+COPY ../tessdata/put_test_data.py .
 
 CMD [ "waitress-serve", "--host", "0.0.0.0", "--port=80", "app:app" ]
 #CMD [ "flask", "run", "--host=0.0.0.0", "--port=80" ]
