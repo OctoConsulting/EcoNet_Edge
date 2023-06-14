@@ -5,21 +5,12 @@ import time
 
 DRONE_IP = os.environ.get("DRONE_IP", "192.168.42.81")
 def test_takeoff():
-
     drone = olympe.Drone(DRONE_IP)
-
     drone.connect()
-
     assert drone(TakeOff()).wait().success()
-
     time.sleep(10)
-
     assert drone(Landing()).wait().success()
-
     drone.disconnect()
 
-
-
 if __name__ == "__main__":
-
     test_takeoff()

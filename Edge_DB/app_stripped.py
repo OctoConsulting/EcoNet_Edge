@@ -1,8 +1,8 @@
 from flask import Flask, request, jsonify
 from flask_sock import Sock
 import requests
-import get_queries
-import put_queries
+#import get_queries
+#import put_queries
 
 app = Flask(__name__)
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
@@ -14,7 +14,7 @@ sock = Sock(app)
 #def test(ws): # ws for websocket
 #    while True:
 #        ws.send("hello world") # only can send text & bytearr
-
+'''
 # gets all shots
 @app.route('/db/get_all_shots', methods=['GET'])
 def get_all_shots():
@@ -55,6 +55,6 @@ def put_shot_acoustic_model():
 @app.route('/db/put_shot_drone_mission', methods=['PUT'])
 def put_shot_drone_mission():
     return jsonify("UNIMPLEMENTED")
-
+'''
 if __name__ == '__main__':
     app.run()

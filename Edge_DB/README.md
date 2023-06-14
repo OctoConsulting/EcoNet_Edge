@@ -1,3 +1,39 @@
+# Usage
+
+## Installation
+
+run docker desktop
+
+navigate to this directory,
+
+run the following
+```Powershell
+powershell.exe .\setup.ps1
+```
+
+## Usage
+```Bash
+curl http://localhost:5000/db/get_all_shots
+```
+
+or in Python
+```Python
+import requests
+requests.get('http://localhost:5000/db/get_all_shots')
+```
+
+or in JavaScript
+```JavaScript
+fetch('http://localhost:5000/db/get_all_shots', {
+    method: "GET"
+})
+
+## API Documentation
+
+
+
+# SQL Stuff for development
+
 # a lil crashcourse on sql :)
 
 If you're like me, then you learned SQL for a class freshman year of college, then proceeded to forget everything about SQL.
