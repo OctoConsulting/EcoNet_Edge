@@ -12,6 +12,14 @@ CREATE TYPE gun AS ENUM (
     'pistol'
 );
 
+-- EdgeDevice Status DB
+CREATE TABLE edge_device_status (
+    bat_percent double precision,
+    cpu_load double precision,
+    cpu_temp double precision,
+    hdd_available double precision
+);
+
 CREATE TABLE shots (
     id serial primary key,
     shot_time timestamp, -- timestamp allows day & time
@@ -30,8 +38,8 @@ CREATE TABLE shots (
 CREATE TABLE shot_stats (
     id integer primary key, -- match with the shots table
     distance_predict double precision,
-    distance_predict_upper double precision,
-    distance_predict_lower double precision,
+    distance_upper double precision,
+    distance_lower double precision,
     microphone_angle_predict double precision,
     microphone_angle_upper double precision,
     microphone_angle_lower double precision,
@@ -67,6 +75,7 @@ CREATE TABLE drone_status_template (
     drone_longitude double precision,
     drone_status integer,
     video_status integer,
+    drone_battery double precision,
     followed_event integer
 );
 

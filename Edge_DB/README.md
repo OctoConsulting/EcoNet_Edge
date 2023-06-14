@@ -2,6 +2,8 @@
 
 ## Installation
 
+NOTE: this is unnecessary if running through the AWS VM on 44.something.something.something.weezer
+
 run docker desktop
 
 navigate to this directory,
@@ -74,7 +76,24 @@ the following have x_predict, x_upper and x_lower representing a confidence inte
 curl http://44.204.71.132/db/get_all_events
 ```
 
-Returns the whole events or "shooter" table as a JSON
+Returns the whole events or "shooter" table as a JSON. It's so we don't send all the drones for the same shooter, so if 3 shots come within like 10 seconds in the same area, we only send 1 drone
+
+* COLUMNS WIP, NOT SURE WHAT WE WILL NEED YET
+
+```Bash
+curl http://44.204.71.132/db/get_drone1_status
+curl http://44.204.71.132/db/get_drone2_status
+curl http://44.204.71.132/db/get_drone3_status
+```
+
+Returns the status of each drone.
+
+* drone_latitude - Location of the drone -90 to 90
+* drone_longitude - Location of the drone -180 to 180
+* drone_status 0 means rest, 1 means flight, etc. Will probably change to an ENUM later
+* video_status 0 means not connected, 1 means connected, etc. Will probably change to an ENUM later
+* drone_battery - 0 to 100, change of the drone
+* followed_event - integer corresponding to an id in the Event table. Which event is the drone going to? 0 means not following an event, -1 means error
 
 # SQL Stuff for development
 You can ignore this stuff, it's mostly for me :)

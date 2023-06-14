@@ -15,6 +15,10 @@ sock = Sock(app)
 #    while True:
 #        ws.send("hello world") # only can send text & bytearr
 
+# hello
+@app.route('/', methods=['GET'])
+def default():
+    return jsonify("heyy :)")
 # gets all shots
 @app.route('/db/get_all_shots', methods=['GET'])
 def get_all_shots():
