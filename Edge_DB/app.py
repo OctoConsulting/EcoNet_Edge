@@ -30,6 +30,12 @@ def get_all_shot_stats():
 def get_all_events():
     return jsonify(query_get.get_all_events())
 
+# gets all events
+#@app.route('/db/get_all_shots_for_event', methods=['GET'])
+#def get_all_shots_for_event():
+#    hash= request.args.get('id')
+#    return jsonify(query_get.get_all_events())
+
 # gets a shot by the preprocessed hash
 @app.route('/db/get_shot_by_pre', methods=['GET'])
 def get_shot_by_pre():

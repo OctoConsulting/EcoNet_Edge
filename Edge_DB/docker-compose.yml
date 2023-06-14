@@ -12,6 +12,8 @@ services:
         source: database_storage
         target: /mnt/database_storage
   dev:
+    depends_on:
+      - db
     hostname: db_dev
     build:
       dockerfile: ./dev_env_setup/Dockerfile # change to a non-dev file later...

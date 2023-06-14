@@ -11,15 +11,6 @@ db_info= "host= db \
     password= changemeoctobby" # TODO: make not hardcoded
 
 with psycopg.connect(db_info) as connection, connection.cursor(row_factory= dict_row) as current:
-  #sql= '''
-  #COPY shots(shot_time, process_time, event_id, preprocessed_audio_hash, postprocessed_audio_hash, distance, microphone_angle, shooter_angle, latitude, longitude, gun_type)
-  #FROM './test_shots.csv'
-  #DELIMITER ','
-  #CSV HEADER;
-  #'''
-  #current.execute(sql)
-  #from_csv = '/path/to/data.csv'
-
   copy_sql = """
     copy shots(shot_time, process_time, event_id, preprocessed_audio_hash, postprocessed_audio_hash, distance, microphone_angle, shooter_angle, latitude, longitude, gun_type)
     from stdin with
