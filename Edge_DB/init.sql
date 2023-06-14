@@ -8,71 +8,68 @@ CREATE DATABASE echonet;
 DROP DATABASE postgres;
 
 CREATE TYPE gun AS ENUM (
-    'ar15',
-    'ak47'
-    'm4',
-    'glock17'
+    'rifle',
+    'pistol'
 );
 
 CREATE TABLE shots (
     id serial primary key,
     shot_time timestamp, -- timestamp allows day & time
     process_time timestamp,
-    event_id int,
+    event_id integer,
     preprocessed_audio_hash VARCHAR(40), -- currently using SHA1HASH
     postprocessed_audio_hash VARCHAR(40),
     distance double precision,
-    angle double precision,
-    azimuth double precision,
+    microphone_angle double precision,
+    shooter_angle double precision,
     latitude double precision,
     longitude double precision,
     gun_type gun -- gun most likely
 );
 
 CREATE TABLE shot_stats (
-    id int primary key, -- match with the shots table
+    id integer primary key, -- match with the shots table
     distance_predict double precision,
     distance_predict_upper double precision,
     distance_predict_lower double precision,
-    angle_predict double precision,
-    angle_upper double precision,
-    angle_lower double precision,
-    azimuth_predict double precision,
-    azimuth_upper double precision,
-    azimuth_lower double precision,
+    microphone_angle_predict double precision,
+    microphone_angle_upper double precision,
+    microphone_angle_lower double precision,
+    shooter_angle_predict double precision,
+    shooter_angle_upper double precision,
+    shooter_angle_lower double precision,
     latitude_predict double precision,
     latitude_upper double precision,
     latitude_lower double precision,
     longitude_predict double precision,
     longitude_upper double precision,
     longitude_lower double precision,
-    ar15_predict double precision,
-    ar15_upper double precision,
-    ar15_lower double precision,
-    ak47_predict double precision,
-    ak47_upper double precision,
-    ak47_lower double precision,
-    m4_predict double precision,
-    m4_upper double precision,
-    m4_lower double precision,
-    glock17_predict double precision,
-    glock17_upper double precision,
-    glock17_lower double precision
+    rifle_predict double precision,
+    rifle_upper double precision,
+    rifle_lower double precision,
+    pistol_predict double precision,
+    pistol_upper double precision,
+    pistol_lower double precision
 );
 
 CREATE TABLE events (
     id serial primary key,
     start_time timestamp,
     end_time timestamp,
-    num_shots int,
+    num_shots integer,
     drone_sent boolean,
-    drone_id int,
+    drone_id integer,
     drone_video_hash VARCHAR(40)
 );
 
-CREATE TABLE drone_1_status (
-    drone_loc gps,
-    drone_status int,
-    video_status int,
-    assigned_event int
-)
+CREATE TABLE drone_status_template (
+    drone_latitude double precision,
+    drone_longitude double precision,
+    drone_status integer,
+    video_status integer,
+    followed_event integer
+);
+
+CREATE TABLE drone_1_status AS (SELECT * FROM drone_status_template);
+CREATE TABLE drone_2_status AS (SELECT * FROM drone_status_template);
+CREATE TABLE drone_3_status AS (SELECT * FROM drone_status_template);
