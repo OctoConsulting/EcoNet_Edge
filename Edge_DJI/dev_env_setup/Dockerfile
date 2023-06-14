@@ -1,7 +1,8 @@
 
 FROM python:3.7-slim-buster
-
 RUN apt-get update && apt-get install -y \
+    python3-dev \
+    python3-pip \
     build-essential \
     cmake \
     git \
@@ -10,9 +11,8 @@ RUN apt-get update && apt-get install -y \
     libavcodec-dev \
     libavformat-dev \
     libswscale-dev
+RUN pip3 install dronekit
 RUN git clone https://github/RosettaDrone/rosettadrone.git
-RUN pip install dronekit
-#RUN git submodule update --init --recursive 
 
 WORKDIR /app
 COPY . /app
