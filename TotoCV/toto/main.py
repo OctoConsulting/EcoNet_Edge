@@ -3,21 +3,25 @@ from bh_runner.klv_validation import *
 import argparse
 import sys
 import cv2
+from tqdm import tqdm
 from yolo_inference.yolo_inference_engine import YoloInferenceEngine
 
 # take in path to a image
-def main(image):
+def main(source):
     # convert to np array
-    img = cv2.imread(image)
-    # BGR -> RGB
-    # img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    frame_num = 0
+    sampling_rate = 1
 
-    conf_thresh=0.25
-    weights = 'yolov5s.pt'
-    
-    inf_eng = YoloInferenceEngine(weights, conf_thresh=conf_thresh)
-     
-    results = inf_eng.do_inference(img)
+    for df in tqdm(decode_stream(source)):
+        if frame_num % sampling_rate == 0:
+            img = df
+
+            conf_thresh=0.25
+            weights = 'yolov5s.pt'
+            
+            inf_eng = YoloInferenceEngine(weights, conf_thresh=conf_thresh)
+            
+            results = inf_eng.do_inference(img)
 
     display_result(results, img)
 
@@ -35,7 +39,7 @@ def display_result(results, img):
     
     cv2.namedWindow("Display", cv2.WINDOW_NORMAL)
     cv2.imshow("Display", img)
-    cv2.waitKey()
+    cv2.waitKey(1)
 
 def list_results(results):
     r = []
