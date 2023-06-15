@@ -72,13 +72,14 @@ def decode_stream_old(source):
         for i, packet in enumerate(container.demux()):
 
             # check if packet is klv packet
-            if packet.stream.type == 'data':
-                meta_data = parse_packets(packet.pts, packet.to_bytes(), verbose=False)
+            # don't need because it parrot does some encode and sending packet whole.
+            # if packet.stream.type == 'data':
+            #     meta_data = parse_packets(packet.pts, packet.to_bytes(), verbose=False)
 
-                # check if meta data is valid and update latest instance
-                # None type is returned on unknown packet types
-                if meta_data is not None:
-                    timed_latest_meta_data_buffer[packet.pts] = meta_data
+            #     # check if meta data is valid and update latest instance
+            #     # None type is returned on unknown packet types
+            #     if meta_data is not None:
+            #         timed_latest_meta_data_buffer[packet.pts] = meta_data
 
             if packet.stream.type == 'video':
 
@@ -158,16 +159,16 @@ def decode_stream(source):
     with av.open(source) as container:
         for i, packet in enumerate(container.demux()):
 
-            if packet.stream.type == 'data':
-                meta = parse_packets(packet.pts, packet.to_bytes(), verbose=False)
+            # if packet.stream.type == 'data':
+            #     meta = parse_packets(packet.pts, packet.to_bytes(), verbose=False)
 
-                if meta is not None:
-                    df = dataframe_buffer.get(packet.pts, DataFrame())
-                    df.pts = packet.pts
-                    df.meta = meta
-                    dataframe_buffer[packet.pts] = df
-                else:
-                    print()
+            #     if meta is not None:
+            #         df = dataframe_buffer.get(packet.pts, DataFrame())
+            #         df.pts = packet.pts
+            #         df.meta = meta
+            #         dataframe_buffer[packet.pts] = df
+            #     else:
+            #         print()
             if packet.stream.type == 'video':
                 for frame in packet.decode():
                     frame = frame.to_ndarray(format='bgr24')

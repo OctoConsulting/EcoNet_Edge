@@ -68,8 +68,9 @@ class YoloInferenceEngine:
         detect_list = []
         for det in pred:  # detections per image
             if self.label_map is None:
-                detect = Detect(int(det[0]), int(det[1]), int(det[2]), int(det[3]), int(det[5]), det[4])
-                detect_list.append(detect)
+                if int(det[5]) == 0:
+                    detect = Detect(int(det[0]), int(det[1]), int(det[2]), int(det[3]), int(det[5]), det[4])
+                    detect_list.append(detect)
             else:
                 if int(det[5]) in self.label_map:
                     label = self.label_map[int(det[5])]
