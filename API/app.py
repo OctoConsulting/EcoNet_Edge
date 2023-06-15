@@ -72,7 +72,7 @@ def preprocessing():
 
     
     else:
-        return 'Failed Preprossessing'
+        return response.json()
 
 
 #################################

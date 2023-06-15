@@ -35,9 +35,11 @@ USER developer
 WORKDIR /home/developer
 
 COPY ../app.py .
-COPY ../get_queries.py .
-COPY ../put_queries.py .
+COPY ../query_get.py .
+COPY ../query_put.py .
 COPY ../tessdata/put_test_data.py .
+COPY ../tessdata/test_shots.csv .
+COPY ../tessdata/test_shot_stats.csv .
+COPY ../test_init.py .
 
 CMD [ "waitress-serve", "--host", "0.0.0.0", "--port=80", "app:app" ]
-#CMD [ "flask", "run", "--host=0.0.0.0", "--port=80" ]

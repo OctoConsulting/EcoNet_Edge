@@ -4,8 +4,7 @@ services:
     hostname: db
     build:
       context: .
-#      dockerfile: Database
-      dockerfile: Dockerfile
+      dockerfile: DockerfileDatabase
     ports:
       - "5432:5432"
     volumes:
@@ -13,24 +12,19 @@ services:
         source: database_storage
         target: /mnt/database_storage
   dev:
+    depends_on:
+      - db
     hostname: db_dev
     build:
-      #context: dev_env_setup
-      dockerfile: ./dev_env_setup/Dockerfile
+      dockerfile: ./dev_env_setup/Dockerfile # change to a non-dev file later...
     ports:
-      - "5000:5000"
-      - "80:80"
+      - "5000:5000" # flask
+      - "80:80" # waitress
     volumes:
-      - type: bind
+      - type: bind # outside source repo
         source: ../
         target: /mnt/
     tty: true
-#  web:
-#    hostname: db_dev
-#    build:
-#      dockerfile: ./DockerFileWeb
-#    ports:
-#      - "80:80"
 
 volumes:
   database_storage:
