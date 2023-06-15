@@ -27,6 +27,7 @@ RUN apt-get install tmux -y
 RUN apt-get install python3-waitress
 #RUN mkdir -p /tmp/tmux-1000
 
+RUN pip install flask-cors
 #EXPOSE 5000
 
 # new user. Default password is 1234
