@@ -8,6 +8,7 @@ RUN apt-get update && \
     python setup.py build && \
     python setup.py install
 #RUN git clone https://github/RosettaDrone/rosettadrone.git
+RUN pip install opencv-python
 
 WORKDIR /app
 COPY . /app
