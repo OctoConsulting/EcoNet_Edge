@@ -1,6 +1,6 @@
 # RHEL Host OS, but
 # debian dev environment and drone container
-FROM debian:buster
+FROM debian:bullseye
 
 # basics
 RUN apt-get update
@@ -17,7 +17,7 @@ RUN apt-get install -y \
 RUN apt-get install lsb-release -y
 
 # olympe
-RUN apt-get install libgl1 -y && pip3 install parrot-olympe
+RUN apt-get install libgl1 -y && pip install parrot-olympe
 
 # parrot repo
 RUN apt-get install lsb-release sudo curl -y
