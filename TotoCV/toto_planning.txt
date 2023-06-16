@@ -1,0 +1,13 @@
+toto main.py
+    -> returns 
+        - x1, x2, y1, y2
+        - label
+        - image hash
+
+    should it be passed back to main and then main takes it to somewhere else
+        or
+    should it pass direncty to continer
+
+
+
+    

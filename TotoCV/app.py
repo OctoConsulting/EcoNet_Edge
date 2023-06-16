@@ -3,6 +3,7 @@ from flask_sock import Sock
 import toto
 import os
 import subprocess
+from toto import main
 
 # this is localhost:8000
 
@@ -12,13 +13,12 @@ sock = Sock(app)
 @app.route('/toto', methods=['POST'])
 def point():
 
-    result = subprocess.run(['python', 'toto/main.py', '../cat.jpeg'], capture_output=True, text=True)
-    output = result.stdout
-
-    d = {
-        'x': 12,
-        'y': 23,
-        'object': output
-    }
+    # how are we getting the ip adress of the drone
+    body = request.json
+    drone_ip = body['drone_ip']
     
-    return jsonify(d)
+    live = 'rtsp://' + drone_ip + '/live'
+
+    main(live)
+    
+    return
