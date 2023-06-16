@@ -1,6 +1,6 @@
 # RHEL Host OS, but
 # debian dev environment and drone container
-FROM debian
+FROM debian:bullseye
 
 # basics
 RUN apt-get update
