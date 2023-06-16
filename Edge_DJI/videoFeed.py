@@ -1,6 +1,6 @@
 import cv2
 
-cap = cv2.VideoCapture('rtmp://172.25.64.1:1953')
+cap = cv2.VideoCapture('rtmp://172.25.64.1:1935')
 
 while True:
     ret, frame = cap.read()
