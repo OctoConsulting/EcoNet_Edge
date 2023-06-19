@@ -26,7 +26,6 @@ def detect_shot():
                 return jsonify({'error': 'Subprocess failed'}), 501
 
         output = subprocess_output.stdout.strip()
-        print(output)
         json_output = json.loads(output)
 
         resp = {}

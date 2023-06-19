@@ -1,21 +1,12 @@
-FROM python:3.9 
-
-ADD client.py .
+FROM python:3.11
 
 WORKDIR /app
 
 COPY . /app/
-COPY audioPlayer.py /app
 
 RUN pip install scikit-learn
 RUN pip install -U Flask
 RUN pip install flask-socketio
-
-
-
-
-#EXPOSE 5000
-
 
 ENV FLASK_APP=client.py
 

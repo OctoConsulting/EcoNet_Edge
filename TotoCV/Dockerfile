@@ -11,6 +11,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the entire project to the container
 COPY . .
 
+WORKDIR /app/toto/bh_runner/klvdata-master
+
+RUN python setup.py install
+
+WORKDIR /app
+
 # Set the environment variable
 ENV FLASK_APP=app.py
 
