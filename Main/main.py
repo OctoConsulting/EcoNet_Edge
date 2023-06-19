@@ -3,6 +3,7 @@ import os
 import sys
 import requests
 import base64
+import subprocess
 
 
 def main():
@@ -27,15 +28,17 @@ def main():
             audio = resp_json.get('audio')
 
             if shot:
-                # run preprossing
-                # store in a file
-                # maybe use subporssess or fork+exec
+                
+                # old way of doing it
+                # os.fork()
+                # PID_AFTER_FORK = os.getpid()
+                # if PID_AFTER_FORK != PARENT_PID:
+                #     program_path = 'locate_and_deploy'
+                #     os.execlp('python3', program_path, audio)
 
-                os.fork()
-                PID_AFTER_FORK = os.getpid()
-                if PID_AFTER_FORK != PARENT_PID:
-                    program_path = 'locate_and_deploy'
-                    os.execlp('python3', program_path, audio)
+                command = 'python locate_and_deploy.py'
+                subprocess.Popen(command, shell=True, stdin=subprocess.PIPE).communicate(input=audio.encode('utf-8'))
+
                         
     except (KeyboardInterrupt, EOFError, simple_websocket.ConnectionClosed):
         ws.close()

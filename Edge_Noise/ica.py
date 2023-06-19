@@ -12,6 +12,12 @@ import sys
 import os
 import wave
 
+#####
+# added this becasue there was a warning
+######
+import warnings
+warnings.filterwarnings("ignore")
+
 
 def ica(input_file, output_folder, mixing, n_components):
     #Sprint('starting ica method')
@@ -68,4 +74,4 @@ if __name__ == '__main__':
         n_components = mixing.shape[0]
 
     ica(sys.argv[1], './ica_output_files', mixing, n_components)
-    sys.out.write(output_file)
+    sys.stdout.write(output_file)

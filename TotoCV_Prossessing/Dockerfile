@@ -1,4 +1,5 @@
-FROM python:3.8
+FROM python:3.11-slim
+
 # Set the working directory inside the container
 WORKDIR /app
 
@@ -11,10 +12,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the entire project to the container
 COPY . .
 
-WORKDIR /app/bh_runner/klvdata-master
-
-RUN python setup.py install
-
-WORKDIR /app/bh_runner
-
-CMD ["python", "bh_runner.py"]
+RUN ["python", "main.py"]

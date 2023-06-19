@@ -1,7 +1,7 @@
 import requests
 import sys
 
-def main(audio):
+def main():
     print('deployment and prossess')
     # take in file from stdin
     # pass file to model
@@ -9,6 +9,8 @@ def main(audio):
     # select drone
         # sets up socket connection with drone
     # send drone
+
+    audio = sys.stdin.read().strip()
 
     url = 'api:5000/api'
 
@@ -30,4 +32,4 @@ def main(audio):
 
 
 if __name__ == '__main__':
-    main(sys.argv[1])
+    main()
