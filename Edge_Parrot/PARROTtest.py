@@ -16,7 +16,9 @@ hello = drone.connect(retry= 3)
 #drone.takeoff()
 #drone(TakeOff()).wait().success()
 #time.sleep(10)
-drone(Landing()).wait().success()
+#drone(Landing()).wait().success()
+drawer= olympe.Pdraw()
+drawer.play("rtsp://192.168.53.1/live")
 drone.disconnect()
 #print("true", hello)
 #drone.fly()
@@ -27,23 +29,23 @@ drone.disconnect()
 #ctrl u to undo ctrl k to eray
 #drone.set_stream_callbacks(raw_cb=handle_frame)
 # Configure the video stream
-drone.set_stream_output_streams([
-    streaming.video_streaming(port=8000),
-    streaming.rtsp_streaming(port=8002)
-])
+# drone.set_stream_output_streams([
+#     streaming.video_streaming(port=8000),
+#     streaming.rtsp_streaming(port=8002)
+# ])
 
-# Start the video stream
-drone.start_video_stream()
+# # Start the video stream
+# drone.start_video_stream()
 
-# Wait for user interruption to stop the stream
-input("Press Enter to stop the video streaming...\n")
+# # Wait for user interruption to stop the stream
+# input("Press Enter to stop the video streaming...\n")
 
-# Stop the video stream
-drone.stop_video_stream()
+# # Stop the video stream
+# drone.stop_video_stream()
 
-# Disconnect from the drone
-drone.disconnection()
-cv2.destroyAllWindows()
+# # Disconnect from the drone
+# drone.disconnection()
+# cv2.destroyAllWindows()
 
 
 #olympe.Pdraw("rtsp://192.168.42.1/live")
