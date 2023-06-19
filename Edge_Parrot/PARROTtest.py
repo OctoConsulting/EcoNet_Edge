@@ -3,12 +3,14 @@ import olympe
 from olympe import *
 import os
 from olympe.messages.ardrone3.Piloting import TakeOff, Landing
+import tempfile
 
 #from olympe import stream
 
 # Initialize Olympe and the drone
 
 DRONE_IP = os.environ.get("DRONE_IP", "192.168.53.1")
+DRONE_RTSP_PORT = os.environ.get("DRONE_RTSP_PORT")
 
 drone = olympe.Drone(DRONE_IP)
 
@@ -18,6 +20,12 @@ hello = drone.connect(retry= 3)
 #time.sleep(10)
 #drone(Landing()).wait().success()
 drawer= olympe.Pdraw()
+drone.streaming.server_addr = f"{DRONE_IP}:{DRONE_RTSP_PORT}"
+tempd = tempfile.mkdtemp(prefix="olympe_streaming_test_")
+drone.streaming.set_output_files(
+    video=os.path.join(tempd, "streaming.mp4"),
+    metadata=os.path.join(tempd, "streaming_metadata.json"),
+)
 drawer.play("rtsp://192.168.53.1/live")
 drone.disconnect()
 #print("true", hello)

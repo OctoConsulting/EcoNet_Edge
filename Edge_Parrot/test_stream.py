@@ -24,7 +24,7 @@ from olympe.video.renderer import PdrawRenderer
 
 olympe.log.update_config({"loggers": {"olympe": {"level": "WARNING"}}})
 
-DRONE_IP = os.environ.get("DRONE_IP", "10.202.0.1")
+DRONE_IP = os.environ.get("DRONE_IP", "192.168.53.1")
 DRONE_RTSP_PORT = os.environ.get("DRONE_RTSP_PORT")
 
 
