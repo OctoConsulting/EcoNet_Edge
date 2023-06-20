@@ -1,5 +1,5 @@
 from .detect import Detect
-from scripts.AppLogger import configure_logger
+# from scripts.AppLogger import configure_logger
 from .yolo_model import yolo_model
 
 class YoloInferenceEngine:
@@ -21,18 +21,18 @@ class YoloInferenceEngine:
         @param iou_thresh: NMS iou threshold
         @type iou_thresh: float
         """
-        self.log = configure_logger("bhRunner")
+        # self.log = configure_logger("bhRunner")
         self.model = yolo_model(weights_path, classes, max_dets, conf_thresh, iou_thresh)
-        self.log.info('Model instantiated from: ' + weights_path)
-        if classes is None:
-            self.log.info('Model instantiated without classes')
-        else:
-            self.log.info('Model instantiated with classes: ' + str(classes))
-        self.log.info('Model instantiated with confidence threshold: ' + str(conf_thresh))
+        # self.log.info('Model instantiated from: ' + weights_path)
+        # if classes is None:
+            # self.log.info('Model instantiated without classes')
+        # else:
+        #     self.log.info('Model instantiated with classes: ' + str(classes))
+        # self.log.info('Model instantiated with confidence threshold: ' + str(conf_thresh))
         self.inf_size = inf_size
         if label_map is not None:
             self.label_map = self._reverse_label_map(label_map)
-            self.log.info('Label map being used: ' + label_map)
+            # self.log.info('Label map being used: ' + label_map)
         else:
             self.label_map = None
 
