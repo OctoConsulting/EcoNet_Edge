@@ -17,7 +17,7 @@ RUN apt-get install -y build-essential clinfo curl debconf-utils
 
 # olympe depends
 RUN apt-get install -y libgl1 libgl1-mesa-glx python3-opencv lsb-release
-RUN pip install opencv-python
+RUN pip install opencv-python pysdl2
 
 # olympe
 RUN pip install parrot-olympe
