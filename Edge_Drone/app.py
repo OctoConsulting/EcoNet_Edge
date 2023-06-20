@@ -19,8 +19,6 @@ def send_command(drone_id):
     else:
         return f"Drone {drone_id} not found"
 
- 
-
 
 @app.route('/drones/<drone_id>/status')
 def get_status(drone_id):
