@@ -36,8 +36,7 @@ def main():
                 #     program_path = 'locate_and_deploy'
                 #     os.execlp('python3', program_path, audio)
 
-                command = 'python locate_and_deploy.py'
-                subprocess.Popen(command, shell=True, stdin=subprocess.PIPE).communicate(input=audio.encode('utf-8'))
+                subprocess.Popen(['python', 'locate_and_deploy.py'], shell=True, stdin=subprocess.PIPE, close_fds=True).communicate(input=audio.encode('utf-8'))
 
                         
     except (KeyboardInterrupt, EOFError, simple_websocket.ConnectionClosed):

@@ -1,5 +1,6 @@
 import requests
 import sys
+import time
 
 def main():
     print('deployment and prossess')
@@ -20,14 +21,13 @@ def main():
     resp_preprossessing = requests.post(f'http://{url}/preporessing', json=body)
     preprossessed = resp_preprossessing.json()
 
-    response = requests.post(f'http://{url}/detection/getLocation', json=preprossessed)
-    location = response.json()
+    # response = requests.post(f'http://{url}/detection/getLocation', json=preprossessed)
+    # location = response.json()
 
     # analyze the location data -> make sure it is resonalble
 
     # if resonable
         # drone deployment operations
-
 
 
 
