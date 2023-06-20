@@ -29,6 +29,7 @@ def point():
 def stream(ws,drone_ip=None):
 
     if not drone_ip:
+        print("error")
         return "error"
     
 

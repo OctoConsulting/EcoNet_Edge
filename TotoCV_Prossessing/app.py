@@ -149,5 +149,4 @@ def main(drone_ip):
 
 
 if __name__ == '__main__':
-    drone_ip = 0
-    main(drone_ip)
+    main('192.168.53.1')
