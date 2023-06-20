@@ -73,10 +73,11 @@ def list_results(results, img):
         e = {}
         e['label'] = detect.label
         e['x1'] = detect.x1
-        e['x1'] = detect.x2
+        e['x2'] = detect.x2
         e['y1'] = detect.y1
         e['y2'] = detect.y2
         e['image'] = image
+        e['id'] = 0
 
         r.append(e)
     

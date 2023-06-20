@@ -21,6 +21,11 @@ def point():
 
     subprocess_cmd = ['python', 'Edge_Model_Main.py', 'myfile.wav']
     subprocess_output = subprocess.run(subprocess_cmd, capture_output=True, text=True)
+
+    # Check if the subprocess succeeded
+    if subprocess_output.returncode != 0:
+        return jsonify({'Subprocess failed': subprocess_output.stderr.strip()}), 501
+    
     # storing stdout of the subprocess to output
     output = subprocess_output.stdout.strip()
     #loading output data into json format into data

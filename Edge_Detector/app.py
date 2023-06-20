@@ -22,8 +22,10 @@ def detect_shot():
 
         subprocess_cmd = ['python', 'detector_out.py', 'myfile.wav']
         subprocess_output = subprocess.run(subprocess_cmd, capture_output=True, text=True)
+        
+        # Check if the subprocess succeeded
         if subprocess_output.returncode != 0:
-                return jsonify({'error': 'Subprocess failed'}), 501
+                return jsonify({'Subprocess failed': subprocess_output.stderr.strip()}), 501
 
         output = subprocess_output.stdout.strip()
         json_output = json.loads(output)
