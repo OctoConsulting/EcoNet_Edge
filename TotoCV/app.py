@@ -3,6 +3,7 @@ from flask_sock import Sock
 import toto
 import os
 import subprocess
+import json
 
 from tqdm import tqdm
 from toto.yolo_inference.yolo_inference_engine import YoloInferenceEngine
@@ -47,12 +48,11 @@ def stream(ws,drone_ip=None):
                 if frame_num % sampling_rate == 0:
                     results = inf_eng.do_inference(df)
 
-                    l = list_results(results, df)
 
                     # send l through a websocket to toto pre prossessing
-                    
                     # load as json first
-                    ws.send(l)
+                    l = list_results(results, df)
+                    ws.send(json.dumps(l))
 
             frame_num += 1
 
