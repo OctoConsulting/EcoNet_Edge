@@ -2,18 +2,20 @@
 import olympe
 import os
 import time
-from olympe.messages.ardrone3.GPSSettingsState import GPSFixStateChanged
 # Connect to the drone
-drone = olympe.Drone("192.168.53.1")
-drone.connect()
+from olympe.messages.ardrone3.PilotingState import GpsLocationChanged
+from olympe.messages.ardrone3.GPSSettingsState import GPSFixStateChanged
 
-gps_fix_info = drone(GPSFixStateChanged()).wait()
+DRONE_IP = os.environ.get("DRONE_IP", "192.168.53.1")
+drone = olympe.Drone(DRONE_IP)
+drone.connection()
 
-# Print the GPS fix information
-print(gps_fix_info)
+# Wait for GPS fix before receiving GPS data
+drone(GPSFixStateChanged(_policy='wait'))
 
+print(drone.get_state(GpsLocationChanged))
 
-# Disconnect from the drone
-drone.disconnect()
-
+print("Latitude:", drone.get_state(GpsLocationChanged)["latitude"])
+print("Longitude:", drone.get_state(GpsLocationChanged)["longitude"])
+print("Altitude:", drone.get_state(GpsLocationChanged)["altitude"])
 
