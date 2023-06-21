@@ -1,75 +1,108 @@
-from flask import Flask, request
-import droneProtocol
+import docker
+from queue import Queue
+from flask import Flask, jsonify, request
+import threading
 
+# Constants
+DOCKER_IMAGE_BASE_NAME = "drone_image"
+EXPOSED_PORT_START = 8000
+
+# Global variables
+COORDINATES_QUEUE = Queue()
+AVAILABLE_DRONES = []
+THREAD_LOCK = threading.Lock()
+
+# Drone profiles
+DRONE_PROFILES = {
+    "parrot_anafi": {
+        "drone_type": "parrot_anafi",
+        "ip_address": "192.168.53.1",
+        "container_id": None,  # To store the container ID
+        "available": True,
+        "port": EXPOSED_PORT_START,  # Initial exposed port
+    },
+    "skydio": {
+        "drone_type": "skydio",
+        "ip_address": "192.168.53.2",
+        "container_id": None,  # To store the container ID
+        "available": True,
+        "port": EXPOSED_PORT_START + 1,  # Initial exposed port for Skydio
+    },
+}
+
+# Create a Flask app
 app = Flask(__name__)
 
- 
-# Dictionary to store information about active drones
-active_drones = {}
+@app.route("/api/availability", methods=["GET"])
+def get_drone_availability():
+    return jsonify({"available_drones": AVAILABLE_DRONES})
 
- 
+@app.route("/api/coordinates", methods=["POST"])
+def receive_coordinates():
+    data = request.get_json()
+    longitude = data["longitude"]
+    latitude = data["latitude"]
+    coordinates = (longitude, latitude)
+    COORDINATES_QUEUE.put(coordinates)
+    main()
+    return jsonify({"message": "Coordinates received and processed"})
 
-@app.route('/drones/<drone_id>/command', methods=['POST'])
-def send_command(drone_id):
-    command = request.json['command']
-    if drone_id in active_drones:
-        # Send the command to the specified drone
-        # Your logic to send the command to the drone goes here
-        tempD = get_key(active_drones, drone_id)
-        droneProtocol.main(tempD)
-        return f"Command '{command}' sent to Drone {drone_id}"
-    else:
-        return f"Drone {drone_id} not found"
+def create_and_run_container(drone_profile, coordinates):
+    # Retrieve the drone profile information
+    getParrot = drone_profile[0]
+    # drone_type = drone_profile["drone_type"]
+    drone_type = getParrot[0]
+    ip_address = drone_profile[1]
+    port = drone_profile[4]
 
-#helper methd to iterate throught the dictionary to find the correct drone
-def get_key(d, value):
-    for k, v in d.items():
-        if v == value:
-            return k
+    # Create a Docker client
+    client = docker.from_env()
 
-@app.route('/drones/<drone_id>/status')
-def get_status(drone_id):
-    if drone_id in active_drones:
-        # Retrieve and return the status of the specified drone
-        # Your logic to retrieve the drone status goes here
-        status = active_drones.get(drone_id)
-        return f"Status of Drone {drone_id} is {status}"
-    else:
-        return f"Drone {drone_id} not found"
+    # Build Docker image
+    dockerfile = f"""
+    FROM python:latest
+    COPY droneProtocol.py 
+    EXPOSE {port}
+    CMD ["python", "droneProtocol.py", "-t", "{drone_type}", "-i", "{ip_address}", "-lon", "{coordinates[0]}", "-lat", "{coordinates[1]}"]
+    """
+    image_name = f"{DOCKER_IMAGE_BASE_NAME}_{drone_type}_{port}"
+    client.images.build(fileobj=dockerfile.encode(), tag=image_name)
 
- 
+    # Create Docker container
+    container = client.containers.create(image=image_name, ports={f"{port}/tcp": port})
 
+    # Start the Docker container
+    container.start()
 
-@app.route('/drones')
-def get_active_drones():
-    return "Active Drones: " + ', '.join(active_drones.keys())
+    # Store the container ID in the drone profile
+    drone_profile["container_id"] = container.id
 
- 
+    # Mark the drone as unavailable and increment the port
+    drone_profile["available"] = False
+    drone_profile["port"] += 1
 
+def handle_coordinates():
+    while not COORDINATES_QUEUE.empty():
+        coordinates = COORDINATES_QUEUE.get()
+        with THREAD_LOCK:
+            if AVAILABLE_DRONES:
+                drone_profile = AVAILABLE_DRONES.pop(0)
+                threading.Thread(target=create_and_run_container, args=(drone_profile, coordinates)).start()
+            else:
+                COORDINATES_QUEUE.put(coordinates)
+                break
 
-@app.route('/drones/<drone_id>', methods=['POST'])
-def add_drone(drone_id):
-    if drone_id not in active_drones:
-        # Add the new drone to the active drones dictionary
-        active_drones[drone_id] = {}
-        return f"Drone {drone_id} added successfully"
-    else:
-        return f"Drone {drone_id} already exists"
+def main():
+    handle_coordinates()
 
- 
-
-
-@app.route('/drones/<drone_id>', methods=['DELETE'])
-def remove_drone(drone_id):
-    if drone_id in active_drones:
-        # Remove the specified drone from the active drones dictionary
-        del active_drones[drone_id]
-        return f"Drone {drone_id} removed successfully"
-    else:
-        return f"Drone {drone_id} not found"
-
- 
-
+def initialize_drones():
+    # Initialize the available drones list based on the drone profiles
+    for drone_profile in DRONE_PROFILES.values():
+        AVAILABLE_DRONES.append(drone_profile["drone_type"])
 
 if __name__ == '__main__':
+    # Initialize the drones
+    initialize_drones()
+
+    # Run the Flask app
     app.run()
