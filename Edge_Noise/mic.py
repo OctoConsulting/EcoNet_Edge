@@ -4,7 +4,7 @@ import time
 
 audio_format = pyaudio.paInt16
 
-channels = 1 
+channels = 4 
 sample_rate = 44100
 chunk_size = 512
 
@@ -38,7 +38,7 @@ audio.terminate()
 ##################################
 ##################################
 ##################################
-wf = wave.open("Testing.wav", 'wb')
+wf = wave.open("whap.wav", 'wb')
 wf.setnchannels(channels)
 wf.setsampwidth(audio.get_sample_size(pyaudio.paInt16))
 wf.setframerate(44100)
