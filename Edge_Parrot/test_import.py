@@ -8,9 +8,11 @@ from olympe.messages.ardrone3.PilotingState import PositionChanged
 drone = olympe.Drone("192.168.53.1")
 drone.connect()
 
-# Print the latitude and longitude of the drone
-print("Latitude:", drone.get_state(PositionChanged)["latitude"])
-print("Longitude:", drone.get_state(PositionChanged)["longitude"])
+gps_fix_info = drone(GPSFixStateChanged()).wait()
+
+# Print the GPS fix information
+print(gps_fix_info)
+
 
 # Disconnect from the drone
 drone.disconnect()
