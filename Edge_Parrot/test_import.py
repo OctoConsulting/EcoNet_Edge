@@ -2,8 +2,7 @@
 import olympe
 import os
 import time
-from olympe.messages.ardrone3.PilotingState import PositionChanged
-
+from olympe.messages.ardrone3.GPSSettingsState import GPSFixStateChanged
 # Connect to the drone
 drone = olympe.Drone("192.168.53.1")
 drone.connect()
