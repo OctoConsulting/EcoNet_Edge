@@ -8,7 +8,7 @@ from olympe.messages.ardrone3.GPSSettingsState import GPSFixStateChanged
 
 DRONE_IP = os.environ.get("DRONE_IP", "192.168.53.1")
 drone = olympe.Drone(DRONE_IP)
-drone.connection()
+drone.connect()
 
 # Wait for GPS fix before receiving GPS data
 drone(GPSFixStateChanged(_policy='wait'))
