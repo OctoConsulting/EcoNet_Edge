@@ -8,7 +8,7 @@ import time
 
 DRONE_IP = os.environ.get("DRONE_IP", "192.168.53.1")
 
-drone = olympe.Drone (DRONE_IP, mpp=True)
+drone = olympe.Drone (DRONE_IP)
 #drone(setPilotingSource(source=\"SkyController\")).wait()
 class FlightListener(olympe.EventListener):
     @olympe.listen_event(FlyingStateChanged() | AlertStateChanged() | 
