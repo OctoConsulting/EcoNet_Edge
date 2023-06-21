@@ -12,7 +12,7 @@ DRONE_IP = os.environ.get("DRONE_IP", "192.168.53.1")
 drone = olympe.Drone(DRONE_IP)
 drone.connect()
 
-drone(GPSFixStateChanged(latitude=37.4219983, longitude=-122.084, altitude=10))
+drone(GPSFixStateChanged(latitude=37.4219983, longitude=-122.084))
 
 print("Latitude:", drone.get_state(PositionChanged)["latitude"])
 print("Longitude:", drone.get_state(PositionChanged)["longitude"])
