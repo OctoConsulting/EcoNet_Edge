@@ -5,7 +5,7 @@ WORKDIR /drones
 
 
 
-RUN ["python", "droneProtocol.py"]
+#RUN ["python", "droneProtocol.py"]
 
 
 # Expose the port that Flask will run on
