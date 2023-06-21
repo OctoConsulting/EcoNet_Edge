@@ -1,5 +1,7 @@
 import olympe 
 from olympe.messages.ardrone3.Piloting import NavigateHome
+from olympe.messages.ardrone3.Piloting import TakeOff, Landing, moveBy
+from olympe.messages.ardrone3.PilotingState import (PositionChanged, AlertStateChanged, FlyingStateChanged, NavigateHomeStateChanged,)
 import os
 import time
 # Connect to the drone
