@@ -6,8 +6,7 @@ import time
 #if it doesnt work then you have to physically takeoff and call client.calibrate(0) once in the air
 from olympe.messages.ardrone3.PilotingState import GpsLocationChanged
 from olympe.messages.ardrone3.GPSSettingsState import GPSFixStateChanged
-import olympe from olympe.messages.ardrone3.Piloting import TakeOff, Landing, moveBy from olympe.messages.ardrone3.PilotingState 
-import (PositionChanged, AlertStateChanged, FlyingStateChanged, NavigateHomeStateChanged,)
+import olympe from olympe.messages.ardrone3.Piloting import TakeOff, Landing, moveBy from olympe.messages.ardrone3.PilotingState import (PositionChanged, AlertStateChanged, FlyingStateChanged, NavigateHomeStateChanged,)
 
 
 
