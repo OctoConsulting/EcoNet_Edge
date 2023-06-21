@@ -37,7 +37,7 @@ def stream(ws,drone_ip=None):
 
         live = 'rtsp://' + drone_ip + '/live'
         frame_num = 0
-        sampling_rate = 6
+        sampling_rate = 3
         conf_thresh=0.25
         weights = 'yolov5s.pt'
 
@@ -53,6 +53,8 @@ def stream(ws,drone_ip=None):
                     # send l through a websocket to toto pre prossessing
                     # load as json first
                     l = list_results(results, df)
+                    display_result(results, df)
+
                     ws.send(json.dumps(l))
 
             frame_num += 1
@@ -111,3 +113,17 @@ def make_image(results, img):
 def convert_to_base64(byte_array):
     base64_bytes = base64.b64encode(byte_array)
     return base64_bytes.decode('utf-8')
+
+def display_result(results, img):
+    if results:
+        for detect in results:
+
+            # draw bounding boxes
+            cv2.rectangle(img, (int(detect.x1), int(detect.y1)), (int(detect.x2), int(detect.y2)), (255, 0, 0), 1)
+            # cv2.putText(img, str(detect.label), (int(detect.x1), int(detect.y1) + 5), fontFace=cv2.FONT_HERSHEY_SIMPLEX,
+            #             fontScale=0.5, color=(0, 0, 255), thickness=1)
+    
+    cv2.namedWindow("Display", cv2.WINDOW_NORMAL)
+    cv2.imshow("Display", img)
+    #delay= int(1000 / 500)
+    cv2.waitKey(1)

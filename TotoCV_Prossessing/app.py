@@ -7,7 +7,7 @@ import math
 ######################################################################################
 # this is a global hash table that has trackign data for each unique id
 ######################################################################################
-tracker = {}
+tracker = {0:{}}
 
 def search_for_people(array_of_dicts):
     for dictionary in array_of_dicts:
@@ -49,18 +49,19 @@ def track(detection, history):
     square_y2 = center_y + side_length
 
     # if history is empty, log entry
-    if len(history) == 0:
+    if not history:
         history['gun'] = True
         history['bounds'] = (square_x1, square_x2, square_y1, square_y2)
         history['record'] = [(center_x, center_y, 0)]
-        history['count'] = 0
+        history['count'] = 1
         history['error_tolorence'] = 0 
         history['lock'] = True 
         history['strikes'] = 0
+        print("this is from history 0")
         return True
 
     # not a new History
-    entry_bounds = history['bounds'][-1]
+    entry_bounds = history['bounds']
     x1 = entry_bounds[0]
     x2 = entry_bounds[1]
     y1 = entry_bounds[2]
@@ -70,11 +71,13 @@ def track(detection, history):
     x = entry_record[0]
     y = entry_record[1]
 
-    distance = math.sqrt((center_x - x) * 2 + (center_y - y) * 2)
+    distance = math.sqrt((center_x - x) ** 2 + (center_y - y) ** 2)
 
     # if this new center in range(range is the bounds)
         # just do normal stuff
     if x1 <= center_x <= x2 and y1 <= center_y <= y2:
+        print("i am in range!")
+
         new_entry = (center_x, center_x, distance)
         history['record'].append(new_entry)
         new_bounds = (square_x1, square_x2, square_y1, square_y2)
@@ -89,8 +92,11 @@ def track(detection, history):
             # throw out detection
         if history['strikes'] >= 3:
             tracker.pop(detection['id'])
+            tracker[0] = {}
+            print('I am popping')
 
         else:
+            print("i am getting a strike")
             # if not in range and less than 3 strikes
             # mark down that this strike one
             history['strikes'] += 1
@@ -109,7 +115,7 @@ def createBody_image(detection):
     return body
 
 def main(drone_ip):
-    url = 'toto:5000'
+    url = 'localhost:5000'
     ws = simple_websocket.Client(f'ws://{url}/toto/{drone_ip}')
 
     treshold = 60
@@ -123,11 +129,13 @@ def main(drone_ip):
             arr = data_loaded['detections']
 
             for detection in arr:
-                history = tracker.get(detection[id], {})
-                if detection['lable'] == 'person' and track(detection, history):
+                history = tracker.get(0)
+                #print(detection['label'])
+                #print('****************************************************************************')
+                if detection['label'] == 'person' and track(detection, history):
                     
                     # if we have determined that the object should be tracked and has met the minimum apperncae treshhold, then act on this
-                    if history['lock'] and history['count'] >= treshold:
+                    if history['lock'] and history['count'] >= 1:
                         # save image --> writing to database
                         # body_image = createBody_image(detection)
                         # url_send_image = 'http://'
@@ -138,12 +146,8 @@ def main(drone_ip):
                         # url_send_to_protocal = 'http://'
                         # requests.post(url_send_to_protocal, json=body_protocal)
                         print(history['record'][-1])
-
-                else:
-                    count = 0
             
  
-    
     except (KeyboardInterrupt, EOFError, simple_websocket.ConnectionClosed):
         ws.close()
 
