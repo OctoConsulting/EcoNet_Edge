@@ -10,12 +10,12 @@ DRONE_IP = os.environ.get("DRONE_IP", "192.168.53.1")
 drone = olympe.Drone(DRONE_IP)
 drone.connect()
 
-# Wait for GPS fix before receiving GPS data
-drone(GPSFixStateChanged(_policy='wait'))
+def gps_callback(self, latitude, longitude, altitude):
+    print("Latitude:", latitude)
+    print("Longitude:", longitude)
+    print("Altitude:", altitude)
 
-print(drone.get_state(GpsLocationChanged))
-
-print("Latitude:", drone.get_state(GpsLocationChanged)["latitude"])
-print("Longitude:", drone.get_state(GpsLocationChanged)["longitude"])
-print("Altitude:", drone.get_state(GpsLocationChanged)["altitude"])
+drone(GPSLocationChanged(_policy = 'wait', _no_expect = True)). \
+    each(gps_callback). \
+    wait()
 
