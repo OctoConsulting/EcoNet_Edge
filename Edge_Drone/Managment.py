@@ -49,9 +49,11 @@ def receive_coordinates():
 
 def create_and_run_container(drone_profile, coordinates):
     # Retrieve the drone profile information
-    drone_type = drone_profile["drone_type"]
-    ip_address = drone_profile["ip_address"]
-    port = drone_profile["port"]
+    getParrot = drone_profile[0]
+    # drone_type = drone_profile["drone_type"]
+    drone_type = getParrot[0]
+    ip_address = drone_profile[1]
+    port = drone_profile[4]
 
     # Create a Docker client
     client = docker.from_env()
@@ -59,9 +61,9 @@ def create_and_run_container(drone_profile, coordinates):
     # Build Docker image
     dockerfile = f"""
     FROM python:latest
-    COPY {DRONE_SCRIPT_NAME} /
+    COPY droneProtocol.py 
     EXPOSE {port}
-    CMD ["python", "{DRONE_SCRIPT_NAME}", "-t", "{drone_type}", "-i", "{ip_address}", "-lon", "{coordinates[0]}", "-lat", "{coordinates[1]}"]
+    CMD ["python", "droneProtocol.py", "-t", "{drone_type}", "-i", "{ip_address}", "-lon", "{coordinates[0]}", "-lat", "{coordinates[1]}"]
     """
     image_name = f"{DOCKER_IMAGE_BASE_NAME}_{drone_type}_{port}"
     client.images.build(fileobj=dockerfile.encode(), tag=image_name)
