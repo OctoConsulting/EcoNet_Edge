@@ -11,12 +11,13 @@ DRONE_IP = os.environ.get("DRONE_IP", "192.168.53.1")
 drone = olympe.Drone (DRONE_IP, drone_type=od.ARSDK_DEVICE_TYPE_ANAFI4K, mpp=True)
 #drone(setPilotingSource(source=\"SkyController\")).wait()
 class FlightListener(olympe.EventListener):
-    @olympe.listen_event(FlyingStateChanged() | AlertStateChanged() | NavigateHomeStateChanged())
+    @olympe.listen_event(FlyingStateChanged() | AlertStateChanged() | 
+NavigateHomeStateChanged())
     def onStateChanged(self, event, scheduler):
-        print(\"{} = {}\".format(event.message.name, event.args[\"state\"]))
+        ...
     @olympe.listen_event(PositionChanged())
     def onPositionChanged(self, event, scheduler):
-        print(\"latitude = {latitude} longitude = {longitude} altitude = {altitude}\".format(**event.args))
+        ...
               
 with FlightListener(drone):
     drone.connect()
