@@ -3,8 +3,6 @@ FROM python:3.9
 # Set the working directory inside the container
 WORKDIR /drones
 
-
-
 #RUN ["python", "droneProtocol.py"]
 
 
