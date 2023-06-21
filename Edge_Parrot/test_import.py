@@ -17,7 +17,7 @@ latitude = 38.945878
 longitude = -77.315577
 altitude = 0
 
-drone(GPSSettings.SendControllerGPS(latitude, longitude, altitude)).wait()
+olympe.messages.ardrone3.GPSSettings.SendControllerGPS(latitude, longitude, altitude, horizontalAccuracy = 1.0, verticalAccuracy = 1.0)
 
 print("Latitude:", drone.get_state(PositionChanged)["latitude"])
 print("Longitude:", drone.get_state(PositionChanged)["longitude"])
