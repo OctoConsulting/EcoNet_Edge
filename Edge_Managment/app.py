@@ -1,10 +1,10 @@
 from queue import Queue
 from flask import Flask, jsonify, request
 import threading
-
+import requests
 # Constants
 DOCKER_IMAGE_BASE_NAME = "drone_image"
-EXPOSED_PORT_START = 8000
+EXPOSED_PORT_START = 8005
 
 # Global variables
 COORDINATES_QUEUE = Queue()
@@ -16,7 +16,7 @@ DRONE_PROFILES = {
     "parrot_anafi": {
         "drone_type": "parrot_anafi",
         "ip_address": "192.168.53.1",
-        "container_name": "containerA",
+        "container_name": "proto1",
         "available": True,
         "port": EXPOSED_PORT_START,  # Initial exposed port
     },
@@ -43,30 +43,43 @@ def receive_coordinates():
     latitude = data["latitude"]
     coordinates = (longitude, latitude)
     COORDINATES_QUEUE.put(coordinates)
+    
     main()
+    send_command_to_container()
     return jsonify({"message": "Coordinates received and processed"})
 
-def send_command_to_container(container_name, command):
+def send_command_to_container():
     # Connect to the Docker daemon using the Docker SDK
-    client = docker.from_env()
+    #client = docker.from_env()
+    flask_url = "http://proto1:5000/api/command"
+    content = "hello"
+    params = {
+        "content": content
+        }
+    response = requests.get(flask_url, json=params)
 
-    try:
+
+    if response.status_code ==200:
+        print("hekki")
+    else:
+        print("kiki")
+   # try:
         # Find the container with the specified name
-        container = client.containers.get(container_name)
+        #container = client.containers.get(container_name)
 
         # Execute a command inside the container
-        response = container.exec_run(command)
-
+        #response = container.exec_run(command)
+        #response = requests.get(flask_url, params=params)
         # Check Flask script response code
-        if response.exit_code == 200:
-            for drone_profile in AVAILABLE_DRONES:
-                if drone_profile["container_name"] == container_name:
-                    drone_profile["available"] = False
+        #if response.exit_code == 200:
+           # for drone_profile in AVAILABLE_DRONES:
+               # if drone_profile["container_name"] == container_name:
+                    #drone_profile["available"] = False
 
         # Print the command output
-        print(response.output.decode().strip())
-    except docker.errors.NotFound:
-        print(f"Container '{container_name}' not found.")
+        #print(response.output.decode().strip())
+    #except Exception as e:
+        #print(f"Container '' not found.")
 
 def create_and_run_container(drone_profile, command):
     # Retrieve the drone profile information
@@ -100,4 +113,4 @@ if __name__ == '__main__':
     initialize_drones()
 
     # Run the Flask app
-    app.run()
+    app.run(debug=True)

@@ -15,6 +15,7 @@ RUN apt-get update && apt-get upgrade -y
 COPY . . 
 
 RUN pip install flask
+RUN pip install requests
 # RUN cat /etc/debian_version && sleep 15
 
 # COPY . .
