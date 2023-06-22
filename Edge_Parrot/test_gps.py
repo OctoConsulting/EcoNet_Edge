@@ -1,5 +1,6 @@
 import olympe
 from olympe.messages.ardrone3.Piloting import TakeOff, Landing
+from olympe.messages.ardrone3.PilotingState import PositionChanged
 
 # Create the Olympe.Drone object from its IP address
 drone = olympe.Drone("192.168.42.1")
@@ -19,6 +20,9 @@ mag_heading = drone.get_state(HomeChanged)["magneto"]["heading"]["fusionUnwrappe
 # Get the drone's current coordinates from navdata.gps.latitude and navdata.gps.longitude
 latitude = drone.get_state(PositionChanged)["latitude"]
 longitude = drone.get_state(PositionChanged)["longitude"]
+
+print("Latitude: {latitude}")
+print("Longitude: {longitude}")
 
 # Land
 drone(Landing()).wait()
