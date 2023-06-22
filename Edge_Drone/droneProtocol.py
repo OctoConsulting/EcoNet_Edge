@@ -9,7 +9,6 @@ def parrot_intake():
 def skydio_intake():
     pass
 
- 
 
 def setup_geofence(drone, latitude, longitude, geofence_size):
     geofence_coordinates = [
@@ -63,7 +62,7 @@ def main(args):
             drone.connect()
             latitude = lat
             longitude = lon
-            altitude = 20
+            altitude = 50
             geofence_size = 0.01
             setup_geofence(drone, latitude, longitude, geofence_size)
             drone.start()
@@ -71,6 +70,12 @@ def main(args):
             #the moveTo command send the drone to a certain coordinate point at a certain height
             #dummy values for now but this is the frame
             drone(moveTo(latitude, longitude, altitude).wait())
+            #set the gimbal to 45 degrees to capture the target
+            drone(gimbal.set_target(gimbal_id=0, control_mode="position", 
+                                    yaw_frame_of_reference="none", yaw=0.0, pitch_frame_of_reference="absolute", pitch=45.0, 
+                                    roll_frame_of_reference="none", roll=0.0)).wait()
+            drone(moveBy(0, 0, 0, math.radians(90))).wait()
+            drone(moveBy(0, 0, 0, math.radians(-90))).wait()
             drone.disconnect()
 
  
