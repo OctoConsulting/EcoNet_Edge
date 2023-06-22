@@ -128,12 +128,12 @@ services:
 # Model CONTAINER
 
 ################################
-  model:
+  prot:
     build:
       context: ./Edge_DroneProto # this is the absolute path to the app directory
       dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
 
-    image: Proto-img # this is the name of the image that will be used by the app service
+    image: proto-img # this is the name of the image that will be used by the app service
     networks:
       - appnet # connect to appnet network
     container_name: proto1
@@ -146,7 +146,7 @@ services:
 # Model CONTAINER
 
 ################################
-  model:
+  manger:
     build:
       context: ./Edge_Managment # this is the absolute path to the app directory
       dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
