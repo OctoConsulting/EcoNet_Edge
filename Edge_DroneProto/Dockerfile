@@ -1,5 +1,8 @@
 FROM debian:bullseye
 
+WORKDIR /app
+
+
 # basics
 RUN apt-get update
 RUN apt-get upgrade -y
@@ -20,9 +23,10 @@ RUN pip install flask
 
 # olympe
 RUN pip install parrot-olympe
+COPY . . 
 
 
-ENV FLASK_APP=client.py
+ENV FLASK_APP=app.py
 
 
 CMD ["flask", "run", "--host=0.0.0.0"]

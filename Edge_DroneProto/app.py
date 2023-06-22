@@ -13,34 +13,7 @@ def skydio_intake():
 
  
 
-def setup_geofence(drone, latitude, longitude, geofence_size):
-    geofence_coordinates = [doc
-        {
-            "latitude": latitude + geofence_size,
-            "longitude": longitude + geofence_size
-        },
-        {
-            "latitude": latitude + geofence_size,
-            "longitude": longitude - geofence_size
-        },
-        {
-            "latitude": latitude - geofence_size,
-            "longitude": longitude - geofence_size
-        },
-        {
-            "latitude": latitude - geofence_size,
-            "longitude": longitude + geofence_size
-        }
-    ]
 
- 
-
-    geofence = Geofence(geofence_coordinates)
-    drone(Geofence.geofence_set(geofence))
-    drone.subscribe(
-        Geofence.ViolationStateChangedEvent(on_geofence_violation),
-        safe=True
-    )
 
  
 
@@ -67,12 +40,10 @@ def main(args):
             longitude = lon
             altitude = 20
             geofence_size = 0.01
-            setup_geofence(drone, latitude, longitude, geofence_size)
             drone.start()
 
             #the moveTo command send the drone to a certain coordinate point at a certain height
             #dummy values for now but this is the frame
-            drone(moveTo(latitude, longitude, altitude).wait())
             drone.disconnect()
 
  
