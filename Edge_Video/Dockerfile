@@ -1,3 +1,54 @@
-FROM nginx:bullseye
-COPY ./index.html /usr/share/nginx/html
-COPY ./test_vid /usr/share/nginx/html
+# FROM nginx:bullseye
+# COPY ./index.html /usr/share/nginx/html
+# COPY ./test_vid /usr/share/nginx/html
+FROM debian:bullseye
+
+RUN apt-get update
+RUN apt-get upgrade -y
+
+# depends
+RUN apt-get install automake libtool pkg-config libconfig-dev -y
+RUN apt-get install libmicrohttpd-dev libssl-dev -y
+
+RUN apt-get update
+RUN apt-get install libjansson-dev libsofia-sip-ua-dev libglib2.0-dev -y
+RUN apt-get install	libopus-dev libogg-dev libcurl4-openssl-dev liblua5.3-dev -y
+
+# dev stuff
+RUN apt-get install emacs-nox git sudo -y
+
+# build depends
+RUN apt-get install meson ninja-build -y
+
+# new user. Default password is 1234
+RUN useradd -m -G users,sudo -s /bin/bash -p "$(openssl passwd 1234)" developer
+USER developer
+WORKDIR /home/developer
+
+RUN git clone https://gitlab.freedesktop.org/libnice/libnice
+WORKDIR /home/developer/libnice
+RUN meson --prefix=/usr build
+RUN echo "1234" | sudo -S ninja -C build install
+
+WORKDIR /home/developer
+
+RUN echo "1234" | sudo -S apt-get update
+RUN echo "1234" | sudo -S apt-get install wget make -y
+RUN wget https://github.com/cisco/libsrtp/archive/v2.2.0.tar.gz
+RUN tar xfv v2.2.0.tar.gz
+WORKDIR /home/developer/libsrtp-2.2.0
+RUN ./configure --prefix=/usr --enable-openssl
+RUN make shared_library
+RUN echo "1234" | sudo -S make install
+
+WORKDIR /home/developer/
+
+RUN git clone https://github.com/meetecho/janus-gateway.git
+WORKDIR /home/developer/janus-gateway
+RUN sh ./autogen.sh
+RUN ./configure --prefix=/opt/janus
+RUN make
+RUN echo "1234" | sudo -S make install
+RUN echo "1234" | sudo -S make configs
+
+CMD [ "/opt/janus/bin/janus" ]
