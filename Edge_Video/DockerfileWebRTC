@@ -1,6 +1,3 @@
-# FROM nginx:bullseye
-# COPY ./index.html /usr/share/nginx/html
-# COPY ./test_vid /usr/share/nginx/html
 FROM debian:bullseye
 
 RUN apt-get update
@@ -51,4 +48,6 @@ RUN make
 RUN echo "1234" | sudo -S make install
 RUN echo "1234" | sudo -S make configs
 
-CMD [ "/opt/janus/bin/janus" ]
+WORKDIR /home/developer
+
+CMD [ "/opt/janus/bin/janus", "-i", "0.0.0.0" ]
