@@ -1,0 +1,45 @@
+version: '3.3'
+services:
+
+#################################
+
+# MAIN CONTAINER
+
+################################
+  manger:
+    build:
+      dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
+    image: manimg # this is the name of the image that will be used by the app service
+    networks:
+      - appnet # connect to appnet network
+    ports:
+      - "8000:5000"
+    expose:
+      - "5000"
+    container_name: manger
+    depends_on:
+      - protocal
+
+
+#################################
+
+# API CONTAINER
+
+################################
+  protocal:
+    build:
+      context: ../Edge_DroneProto # this is the absolute path to the app directory
+      dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
+
+    image: protocalimg # this is the name of the image that will be used by the app service
+    networks:
+      - appnet # connect to appnet network
+    container_name: protocal
+    ports:
+      - "8001:5000"
+    expose:
+      - "5000"
+
+networks:
+  appnet: # define appnet network
+    driver: bridge
