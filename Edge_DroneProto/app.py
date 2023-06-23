@@ -99,10 +99,10 @@ def test_find():
     drone.connect()
     drone.start()
     altitude = 50
-    latitude = drone.get_state(PositionChanged)["latitude"])
-    longitude = drone.get_state(PositionChanged)["longitude"])
+    latitude = drone.get_state(PositionChanged)["latitude"]
+    longitude = drone.get_state(PositionChanged)["longitude"]
 
-    drone(TakeOff()).wait()
+    assert drone(TakeOff()).wait().success()
 
     # Calibrate the magnetometer 
     #temporary fix
@@ -143,11 +143,10 @@ def process_command():
 
         print("recieved")
         return jsonify({"message": "Command 'goodbye' processed."})
-    elif command == "parrot":
-        print("running test find")
-        test_find()
-        return jsonify({"message": "Command 'test_find processed."})
-
+    # elif command == "parrot":
+    #     print("running test find")
+    #     test_find()
+    #     return jsonify({"message": "Command 'test_find processed."})
     else:
         print("idk")
     return jsonify({"message": "Command 'goodbye' processed."})
