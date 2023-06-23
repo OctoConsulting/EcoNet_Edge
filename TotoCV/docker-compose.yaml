@@ -1,0 +1,16 @@
+version: '3.3'
+services:
+
+  toto:
+    build:
+      dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
+      
+    image: toto # this is the name of the image that will be used by the app service
+    container_name: toto
+    network_mode: host
+    ports:
+      - "8000:8000"
+    expose:
+      - "8000"
+
+

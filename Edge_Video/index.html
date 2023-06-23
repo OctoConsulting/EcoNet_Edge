@@ -30,7 +30,7 @@
         }
         else 
         {
-          hls.loadSource("/usr/share/nginx/html/test_vid/manifest.m3u8");
+          hls.loadSource("http://localhost/streaming.m3u8");
         }
         //hls.loadSource("/usr/share/nginx/html/test_vid/manifest.m3u8")
         hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
