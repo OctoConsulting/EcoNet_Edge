@@ -1,5 +1,10 @@
 import olympe
+from olympe.messages.ardrone3.Piloting import TakeOff, Landing, moveTo, moveBy
+from olympe.messages.ardrone3.PilotingSettingsState import Geofence
+from olympe.messages.ardrone3.PilotingState import PositionChanged
+from olympe.messages import gimbal
 import argparse
+import math
 #from geofence import Point, Polygon
 
 def parrot_intake():
@@ -67,6 +72,15 @@ def main(args):
             setup_geofence(drone, latitude, longitude, geofence_size)
             drone.start()
 
+            drone(TakeOff()).wait()
+
+            # Calibrate the magnetometer 
+            #temporary fix
+            drone.calibrate(0)
+
+            # Get the drone's magnetic heading from navdata.magneto.heading.fusionUnwrapped
+            mag_heading = drone.get_state(HomeChanged)["magneto"]["heading"]["fusionUnwrapped"]
+            
             #the moveTo command send the drone to a certain coordinate point at a certain height
             #dummy values for now but this is the frame
             drone(moveTo(latitude, longitude, altitude).wait())
@@ -74,6 +88,7 @@ def main(args):
             drone(gimbal.set_target(gimbal_id=0, control_mode="position", 
                                     yaw_frame_of_reference="none", yaw=0.0, pitch_frame_of_reference="absolute", pitch=45.0, 
                                     roll_frame_of_reference="none", roll=0.0)).wait()
+            
             drone(moveBy(0, 0, 0, math.radians(90))).wait()
             drone(moveBy(0, 0, 0, math.radians(-90))).wait()
             drone.disconnect()
