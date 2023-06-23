@@ -141,7 +141,7 @@ def process_command():
     if command == "hello":
         print("recieved")
         return jsonify({"message": "Command 'goodbye' processed."})
-    elif command == "test_find":
+    elif command == "parrot":
         print("running test find")
         test_find()
         return jsonify({"message": "Command 'test_find processed."})
