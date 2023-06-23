@@ -19,33 +19,34 @@ pool = concurrent.futures.ThreadPoolExecutor(max_workers=num_of_drones)
 app = Flask(__name__)
 sock = Sock(app)
 
-def worker(commands):
+def worker(data):
     #here parse the commands and fitures of what our functiioons to run to send infor to the drone
 
-    target = commands['DroneType']
-    ip_address = commands['DroneIP']
-    lon = commands['LONG']
-    lat = commands['LAT']
-    # physical_port = args.physical_port
+    if data['source'] == 'launch':
+        target = data['DroneType']
+        ip_address = data['DroneIP']
+        lon = data['LONG']
+        lat = data['LAT']
 
+        if target == "parrot":
+            with Olympe() as drone:
+                drone.connect()
+                latitude = lat
+                longitude = lon
+                altitude = 20
+                geofence_size = 0.01
+                drone.start()
 
-    if target == "skydio":
-        # Skydio drone code here
+                #the moveTo command send the drone to a certain coordinate point at a certain height
+                #dummy values for now but this is the frame
+                drone.disconnect()
+        
+        elif target == "skydio":
+            # Skydio drone code here
+            pass
+
+    elif data['source'] == 'toto':
         pass
-
-
-    elif target == "parrot":
-        with Olympe() as drone:
-            drone.connect()
-            latitude = lat
-            longitude = lon
-            altitude = 20
-            geofence_size = 0.01
-            drone.start()
-
-            #the moveTo command send the drone to a certain coordinate point at a certain height
-            #dummy values for now but this is the frame
-            drone.disconnect()
 
 
 @sock.route('/protocal', methods=['GET'])
@@ -55,11 +56,23 @@ def managage_commands(ws):
         while True:
             # reciving data structure
             # json object
+            # from launch
             # params = {
             #     "DroneType": "parrot",
             #     "DRONE_IP": "hello",
             #     "LONG": "223.2",
             #     "LAT": "2232"
+            #     "source": "launch"
+            # }
+            # from toto
+            # params = {
+            #     "DroneType": "parrot",
+            #     "DRONE_IP": "hello",
+            #     "Point_of_interest": {
+            #         'x': 2, 
+            #         'y': 4
+            #     },
+            #     "source": "toto"
             # }
 
             data = ws.receive()
