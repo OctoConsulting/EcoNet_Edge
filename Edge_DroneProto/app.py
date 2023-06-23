@@ -1,7 +1,8 @@
 import olympe
 from olympe.messages.ardrone3.Piloting import TakeOff, Landing, moveTo, moveBy
+from olympe.messages.common.calibration import MagnetoCalibration
 from olympe.messages.ardrone3.PilotingSettingsState import Geofence
-from olympe.messages.ardrone3.PilotingState import PositionChanged
+from olympe.messages.ardrone3.PilotingState import PositionChanged, GPSUpdateStateChanged, moveToChanged
 from olympe.messages import gimbal
 import argparse
 from flask import Flask, jsonify, request
@@ -99,29 +100,48 @@ def test_find():
     drone.connect()
     drone.start()
     altitude = 50
-    latitude = drone.get_state(PositionChanged)["latitude"]
-    longitude = drone.get_state(PositionChanged)["longitude"]
 
     assert drone(TakeOff()).wait().success()
 
     # Calibrate the magnetometer 
     #temporary fix
-    drone.calibrate(0)
+    assert drone(MagnetoCalibration(1)).wait()
+
+    def gps_update_callback(event):
+        print("GPS update state changed:", event.args["state"])
+    
+
+    # Register the callback for GPS update state changes
+    assert drone.subscribe(GPSUpdateStateChanged(gps_update_callback))
+
+    latitude = drone.get_state(PositionChanged)["latitude"]
+    longitude = drone.get_state(PositionChanged)["longitude"]
+
+    assert drone(set_home=[latitude,longitude,altitude]).wait()
 
     # Get the drone's magnetic heading from navdata.magneto.heading.fusionUnwrapped
     #mag_heading = drone.get_state(HomeChanged)["magneto"]["heading"]["fusionUnwrapped"]
 
     #the moveTo command send the drone to a certain coordinate point at a certain height
     #dummy values for now but this is the frame
-    drone(moveTo(latitude, longitude, altitude).wait())
+    #lat and long should be x y and z minus the angle relative to 0,0,0
+    print("moving to location")
+    drone(moveBy(latitude, longitude, altitude).wait())
+
+    assert drone(moveToChanged(_policy="check", _timeout=10)).wait()
     #set the gimbal to 45 degrees to capture the target
-    drone(gimbal.set_target(gimbal_id=0, control_mode="position", 
+    assert drone(gimbal.set_target(gimbal_id=0, control_mode="position", 
                             yaw_frame_of_reference="none", yaw=0.0, pitch_frame_of_reference="absolute", pitch=45.0, 
                             roll_frame_of_reference="none", roll=0.0)).wait()
             
     drone(moveBy(0, 0, 0, math.radians(90))).wait()
+    print("rotating")
     drone(moveBy(0, 0, 0, math.radians(-90))).wait()
-    drone.disconnect()
+    time.sleep(5)
+    drone.ReturnHomeMinAltitude(50)
+    drone(return_to_home()).wait()
+    print("returning home")
+    assert drone.disconnect()
     
     
 def test_takeoff():
