@@ -2,6 +2,9 @@ from queue import Queue
 from flask import Flask, jsonify, request
 import threading
 import requests
+import simple_websocket
+import json
+
 # Constants
 DOCKER_IMAGE_BASE_NAME = "drone_image"
 EXPOSED_PORT_START = 8005
@@ -10,6 +13,7 @@ EXPOSED_PORT_START = 8005
 COORDINATES_QUEUE = Queue()
 AVAILABLE_DRONES = []
 THREAD_LOCK = threading.Lock()
+wc = simple_websocket.Client('ws://protocal:5000/protocal')
 
 # Drone profiles
 DRONE_PROFILES = {
@@ -47,9 +51,9 @@ def receive_coordinates():
     COORDINATES_QUEUE.put(coordinates)
     
     #main()
-    launch()
+    m = launch(1, 1, 1)
     #send_command_to_container()
-    return jsonify({"message": "Coordinates received and processed"})
+    return m
 
 def launch(DTYPE,DADDR,DNAME):
 
@@ -57,36 +61,21 @@ def launch(DTYPE,DADDR,DNAME):
     #client = docker.from_env()
     CONTAINER_NAME = "HELLO" ## SHOULD BE AVAILABLE DRONE
     #DNAME = DNAME
-    flask_url = "http://proto1:5000/api/command"
+    # flask_url = "http://proto1:5000/api/command"
+
     DroneTak = "hello"
     DRONE_IP = "IP"
+
     params = {
         "DroneType": "parrot",
         "DRONE_IP": "hello",
         "LONG": "223.2",
         "LAT": "2232"
-        }
-    response = requests.get(flask_url, json=params)
+    }
+    # response = requests.get(flask_url, json=params
+    wc.send(json.dumps(params))
 
-
-  
-    try:
-        #Find the container with the specified name
-        #container = client.containers.get(container_name)
-
-        #Execute a command inside the container
-        #response = container.exec_run(command)
-        #response = requests.get(flask_url, params=params)
-        #Check Flask script response code
-        if response.exit_code == 200:
-           for drone_profile in AVAILABLE_DRONES:
-               if drone_profile["container_name"] == container_name:
-                    drone_profile["available"] = False
-
-        #Print the command output
-        print(response.output.decode().strip())
-    except Exception as e:
-        print(f"Container '' not found.")
+    return wc.receive()
 
 def handle_coordinates():
     while not COORDINATES_QUEUE.empty():
@@ -117,6 +106,6 @@ def initialize_drones():
 if __name__ == '__main__':
     # Initialize the drones
     initialize_drones()
-
     # Run the Flask app
+    
     app.run(debug=True)
