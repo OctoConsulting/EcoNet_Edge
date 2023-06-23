@@ -1,8 +1,17 @@
+<<<<<<< HEAD
+import olympe
+from olympe.messages.ardrone3.Piloting import TakeOff, Landing, moveTo, moveBy
+from olympe.messages.common.calibration import MagnetoCalibration
+from olympe.messages.ardrone3.PilotingSettingsState import Geofence
+from olympe.messages.ardrone3.PilotingState import PositionChanged, GPSUpdateStateChanged, moveToChanged
+from olympe.messages import gimbal
+=======
 # import olympe
 # from olympe.messages.ardrone3.Piloting import TakeOff, Landing, moveTo, moveBy
 # from olympe.messages.ardrone3.PilotingSettingsState import Geofence
 # from olympe.messages.ardrone3.PilotingState import PositionChanged
 # from olympe.messages import gimbal
+>>>>>>> e66fbf11634c30c2b12b893bcd87240b8f0e90f2
 import argparse
 from flask import Flask, jsonify, request
 import json
@@ -36,17 +45,53 @@ def worker(data):
                 altitude = 20
                 geofence_size = 0.01
                 drone.start()
+                
+                #ONCE AT  1 , 1 , 1
+                #CONNECT TO WEBSOCKET
+                #START WHILE LOOP (BELOW)
 
+                # from toto
+                # params = {
+                #     "Point_of_interest": {
+                #         'x': 2, 
+                #         'y': 4
+                #     },
+                # }
+
+                #activate totcv
+                t_end = time.time() + 60 * 2
+                while time.time() < t_end:
+                    # websoket
+                    # data.revice()
+                    # move drone point to the point that is givven in data
+                
+                    #if data.receive == return
+                        #send home
+                # send home
+
+                
                 #the moveTo command send the drone to a certain coordinate point at a certain height
                 #dummy values for now but this is the frame
+
+                # 1: inital long lat
+                # 2: once at long lat --> eavlute totocv
+                    # get feedback and commit movments
+                    
+                # 3: go back home logic
+
                 drone.disconnect()
+                #  http request to some endpoint in managmnt stating that this done has come back home
+             
+                # IF OBJECT NOT FOUND IN 30 SECOND
+                #     THEN RETURN TO CORDINATE XYZ
+                    #  ALSO SEND CURL COMMAND TO CONTAINER:5000 
+                        # IN MESSAGE TO CONTAINER SEND ID Value
         
         elif target == "skydio":
             # Skydio drone code here
             pass
 
-    elif data['source'] == 'toto':
-        pass
+  
 
 
 @sock.route('/protocal', methods=['GET'])
@@ -62,17 +107,6 @@ def managage_commands(ws):
             #     "DRONE_IP": "hello",
             #     "LONG": "223.2",
             #     "LAT": "2232"
-            #     "source": "launch"
-            # }
-            # from toto
-            # params = {
-            #     "DroneType": "parrot",
-            #     "DRONE_IP": "hello",
-            #     "Point_of_interest": {
-            #         'x': 2, 
-            #         'y': 4
-            #     },
-            #     "source": "toto"
             # }
 
             data = ws.receive()
@@ -134,6 +168,14 @@ def skydio_intake():
 #         print("Drone type not supported")
 
     
+<<<<<<< HEAD
+DRONE_IP = os.environ.get("DRONE_IP", "192.168.53.1")
+def test_find():
+    drone = olympe.Drone(DRONE_IP)
+    drone.connect()
+    drone.start()
+    altitude = 50
+=======
 # DRONE_IP = os.environ.get("DRONE_IP", "192.168.53.1")
 # # def test_find():
 # #     drone = olympe.Drone(DRONE_IP)
@@ -142,16 +184,57 @@ def skydio_intake():
 # #     altitude = 50
 # #     latitude = drone.get_state(PositionChanged)["latitude"])
 # #     longitude = drone.get_state(PositionChanged)["longitude"])
+>>>>>>> e66fbf11634c30c2b12b893bcd87240b8f0e90f2
 
 # #     drone(TakeOff()).wait()
 
+<<<<<<< HEAD
+    # Calibrate the magnetometer 
+    #temporary fix
+    assert drone(MagnetoCalibration(1)).wait()
+
+    def gps_update_callback(event):
+        print("GPS update state changed:", event.args["state"])
+    
+
+    # Register the callback for GPS update state changes
+    assert drone.subscribe(GPSUpdateStateChanged(gps_update_callback))
+
+    latitude = drone.get_state(PositionChanged)["latitude"]
+    longitude = drone.get_state(PositionChanged)["longitude"]
+
+    assert drone(set_home=[latitude,longitude,altitude]).wait()
+=======
 # #     # Calibrate the magnetometer 
 # #     #temporary fix
 # #     drone.calibrate(0)
+>>>>>>> e66fbf11634c30c2b12b893bcd87240b8f0e90f2
 
 # #     # Get the drone's magnetic heading from navdata.magneto.heading.fusionUnwrapped
 # #     #mag_heading = drone.get_state(HomeChanged)["magneto"]["heading"]["fusionUnwrapped"]
 
+<<<<<<< HEAD
+    #the moveTo command send the drone to a certain coordinate point at a certain height
+    #dummy values for now but this is the frame
+    #lat and long should be x y and z minus the angle relative to 0,0,0
+    print("moving to location")
+    drone(moveBy(latitude, longitude, altitude).wait())
+
+    assert drone(moveToChanged(_policy="check", _timeout=10)).wait()
+    #set the gimbal to 45 degrees to capture the target
+    assert drone(gimbal.set_target(gimbal_id=0, control_mode="position", 
+                            yaw_frame_of_reference="none", yaw=0.0, pitch_frame_of_reference="absolute", pitch=45.0, 
+                            roll_frame_of_reference="none", roll=0.0)).wait()
+            
+    drone(moveBy(0, 0, 0, math.radians(90))).wait()
+    print("rotating")
+    drone(moveBy(0, 0, 0, math.radians(-90))).wait()
+    time.sleep(5)
+    drone.ReturnHomeMinAltitude(50)
+    drone(return_to_home()).wait()
+    print("returning home")
+    assert drone.disconnect()
+=======
 # #     #the moveTo command send the drone to a certain coordinate point at a certain height
 # #     #dummy values for now but this is the frame
 # #     drone(moveTo(latitude, longitude, altitude).wait())
@@ -163,6 +246,7 @@ def skydio_intake():
 # #     drone(moveBy(0, 0, 0, math.radians(90))).wait()
 # #     drone(moveBy(0, 0, 0, math.radians(-90))).wait()
 # #     drone.disconnect()
+>>>>>>> e66fbf11634c30c2b12b893bcd87240b8f0e90f2
     
     
 # def test_takeoff():
