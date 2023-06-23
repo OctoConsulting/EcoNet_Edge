@@ -128,17 +128,19 @@ def test_takeoff():
     drone = olympe.Drone(DRONE_IP)
     drone.connect()
     assert drone(TakeOff()).wait().success()
-    time.sleep(10)
+    time.sleep(5)
     assert drone(Landing()).wait().success()
     drone.disconnect
 
 @app.route("/api/command", methods=["GET"])
 def process_command():
-    command = request.json.get("content")
+    command = request.json.get("drone_name")
     print(command)
-    #test_takeoff()
-    
-    if command == "hello":
+    test_takeoff()
+
+    if command == "parrot":
+        test_takeoff()
+
         print("recieved")
         return jsonify({"message": "Command 'goodbye' processed."})
     elif command == "parrot":
