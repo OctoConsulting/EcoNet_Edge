@@ -1,4 +1,8 @@
 import olympe
+from olympe.messages.ardrone3.Piloting import TakeOff, Landing, moveTo, moveBy
+from olympe.messages.ardrone3.PilotingSettingsState import Geofence
+from olympe.messages.ardrone3.PilotingState import PositionChanged
+from olympe.messages import gimbal
 import argparse
 from flask import Flask, jsonify, request
 import websocket
@@ -6,7 +10,7 @@ import json
 import concurrent.futures
 import os 
 import time
-from olympe.messages.ardrone3.Piloting import TakeOff, Landing
+import math
 num_of_drones = 3 
 
 
@@ -90,6 +94,36 @@ def main():
         ws.close()
     
 DRONE_IP = os.environ.get("DRONE_IP", "192.168.53.1")
+def test_find():
+    drone = olympe.Drone(DRONE_IP)
+    drone.connect()
+    drone.start()
+    altitude = 50
+    latitude = drone.get_state(PositionChanged)["latitude"])
+    longitude = drone.get_state(PositionChanged)["longitude"])
+
+    drone(TakeOff()).wait()
+
+    # Calibrate the magnetometer 
+    #temporary fix
+    drone.calibrate(0)
+
+    # Get the drone's magnetic heading from navdata.magneto.heading.fusionUnwrapped
+    #mag_heading = drone.get_state(HomeChanged)["magneto"]["heading"]["fusionUnwrapped"]
+
+    #the moveTo command send the drone to a certain coordinate point at a certain height
+    #dummy values for now but this is the frame
+    drone(moveTo(latitude, longitude, altitude).wait())
+    #set the gimbal to 45 degrees to capture the target
+    drone(gimbal.set_target(gimbal_id=0, control_mode="position", 
+                            yaw_frame_of_reference="none", yaw=0.0, pitch_frame_of_reference="absolute", pitch=45.0, 
+                            roll_frame_of_reference="none", roll=0.0)).wait()
+            
+    drone(moveBy(0, 0, 0, math.radians(90))).wait()
+    drone(moveBy(0, 0, 0, math.radians(-90))).wait()
+    drone.disconnect()
+    
+    
 def test_takeoff():
     drone = olympe.Drone(DRONE_IP)
     drone.connect()
@@ -107,6 +141,10 @@ def process_command():
     if command == "hello":
         print("recieved")
         return jsonify({"message": "Command 'goodbye' processed."})
+    elif command == "test_find":
+        print("running test find")
+        test_find()
+        return jsonify({"message": "Command 'test_find processed."})
 
     else:
         print("idk")

@@ -6,6 +6,7 @@ from olympe.messages import gimbal
 import argparse
 import math
 #from geofence import Point, Polygon
+#recieving coordinates, drone type, 
 
 def parrot_intake():
     pass
@@ -80,7 +81,7 @@ def main(args):
 
             # Get the drone's magnetic heading from navdata.magneto.heading.fusionUnwrapped
             mag_heading = drone.get_state(HomeChanged)["magneto"]["heading"]["fusionUnwrapped"]
-            
+
             #the moveTo command send the drone to a certain coordinate point at a certain height
             #dummy values for now but this is the frame
             drone(moveTo(latitude, longitude, altitude).wait())
