@@ -36,17 +36,53 @@ def worker(data):
                 altitude = 20
                 geofence_size = 0.01
                 drone.start()
+                
+                #ONCE AT  1 , 1 , 1
+                #CONNECT TO WEBSOCKET
+                #START WHILE LOOP (BELOW)
 
+                # from toto
+                # params = {
+                #     "Point_of_interest": {
+                #         'x': 2, 
+                #         'y': 4
+                #     },
+                # }
+
+                #activate totcv
+                t_end = time.time() + 60 * 2
+                while time.time() < t_end:
+                    # websoket
+                    # data.revice()
+                    # move drone point to the point that is givven in data
+                
+                    #if data.receive == return
+                        #send home
+                # send home
+
+                
                 #the moveTo command send the drone to a certain coordinate point at a certain height
                 #dummy values for now but this is the frame
+
+                # 1: inital long lat
+                # 2: once at long lat --> eavlute totocv
+                    # get feedback and commit movments
+                    
+                # 3: go back home logic
+
                 drone.disconnect()
+                #  http request to some endpoint in managmnt stating that this done has come back home
+             
+                # IF OBJECT NOT FOUND IN 30 SECOND
+                #     THEN RETURN TO CORDINATE XYZ
+                    #  ALSO SEND CURL COMMAND TO CONTAINER:5000 
+                        # IN MESSAGE TO CONTAINER SEND ID Value
         
         elif target == "skydio":
             # Skydio drone code here
             pass
 
-    elif data['source'] == 'toto':
-        pass
+  
 
 
 @sock.route('/protocal', methods=['GET'])
@@ -62,17 +98,6 @@ def managage_commands(ws):
             #     "DRONE_IP": "hello",
             #     "LONG": "223.2",
             #     "LAT": "2232"
-            #     "source": "launch"
-            # }
-            # from toto
-            # params = {
-            #     "DroneType": "parrot",
-            #     "DRONE_IP": "hello",
-            #     "Point_of_interest": {
-            #         'x': 2, 
-            #         'y': 4
-            #     },
-            #     "source": "toto"
             # }
 
             data = ws.receive()
