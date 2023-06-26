@@ -4,6 +4,7 @@ from olympe.messages.common.calibration import MagnetoCalibration
 from olympe.messages.ardrone3.PilotingSettingsState import Geofence
 from olympe.messages.ardrone3.PilotingState import PositionChanged, GPSUpdateStateChanged, moveToChanged
 from olympe.messages import gimbal
+from olympe.media.GPS
 import argparse
 from flask import Flask, jsonify, request
 import json
