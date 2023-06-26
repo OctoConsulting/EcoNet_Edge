@@ -1,21 +1,74 @@
 # Usage
 
-## Installation
+## Installation of the Dev Environment
 
 NOTE: this is unnecessary if running through the AWS VM on 44.something.something.something.weezer
 
-run docker desktop
+run Docker Desktop
 
 navigate to this directory,
 
-run the following
+run the following. Note that if running from the Octo Network, it will probably
+fail a few times. This is because some of the urls it tries to install from are
+blocked on the Octo Network (Canadians or something). Just keep rerunning it and
+it will eventually work though.
+
+In Powershell
 ```Powershell
 powershell.exe .\build.ps1
 ```
 
+or In Bash
 ```Bash
 ./bulid.sh
 ```
+
+Afterwards it will put you inside the development container.
+
+In order to push changes to the environment, exit the container by running
+
+```Bash
+exit
+```
+
+and run
+
+```Powershell
+powershell.exe .\build.ps1
+```
+
+again
+
+## Summary of Dev Files
+
+DockerfileDatabase
+
+creates and sets the password for the database. in the future it will install
+something to write long-term backups to the docker volume (which will then be
+backed up to the cloud)
+
+dev_env_setup/Dockerfile
+
+creates the dev environment as a Debian 11 instance and installs several
+development tools. Also runs the Flask and Waitress message broker service.
+Edit this file to add dependencies from pip or apt.
+
+build.ps1 and build.sh
+
+builds database and the flask message broker service. Flask runs on port 80, the
+database runs on port 5432.
+
+init.sql
+
+run by the database container at build time. Initializes tables and data types
+
+test_init.py and tessdata/test_shots.csv and tessdata/test_shot_stats.csv
+
+run by the build scripts after starting containers. test_init.py runs SQL code
+to add test data to the database. can be easily modified to add to more tables
+
+app.py
+run by the Flask the message broker service for what get, post, put, etc. requests are made available. Contains several skeleton functions right now.
 
 ## Usage
 ```Bash
