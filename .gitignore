@@ -3,6 +3,7 @@ temp.txt
 .client
 __pycache__/
 .venv*
+.server
 Edge_Video/test_vid/manifest9.ts
 Edge_Video/test_vid/manifest8.ts
 Edge_Video/test_vid/manifest7.ts
