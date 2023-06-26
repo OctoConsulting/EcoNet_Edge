@@ -1,17 +1,9 @@
-<<<<<<< HEAD
 import olympe
 from olympe.messages.ardrone3.Piloting import TakeOff, Landing, moveTo, moveBy
 from olympe.messages.common.calibration import MagnetoCalibration
 from olympe.messages.ardrone3.PilotingSettingsState import Geofence
 from olympe.messages.ardrone3.PilotingState import PositionChanged, GPSUpdateStateChanged, moveToChanged
 from olympe.messages import gimbal
-=======
-# import olympe
-# from olympe.messages.ardrone3.Piloting import TakeOff, Landing, moveTo, moveBy
-# from olympe.messages.ardrone3.PilotingSettingsState import Geofence
-# from olympe.messages.ardrone3.PilotingState import PositionChanged
-# from olympe.messages import gimbal
->>>>>>> e66fbf11634c30c2b12b893bcd87240b8f0e90f2
 import argparse
 from flask import Flask, jsonify, request
 import json
@@ -168,27 +160,15 @@ def skydio_intake():
 #         print("Drone type not supported")
 
     
-<<<<<<< HEAD
 DRONE_IP = os.environ.get("DRONE_IP", "192.168.53.1")
 def test_find():
     drone = olympe.Drone(DRONE_IP)
     drone.connect()
     drone.start()
     altitude = 50
-=======
-# DRONE_IP = os.environ.get("DRONE_IP", "192.168.53.1")
-# # def test_find():
-# #     drone = olympe.Drone(DRONE_IP)
-# #     drone.connect()
-# #     drone.start()
-# #     altitude = 50
-# #     latitude = drone.get_state(PositionChanged)["latitude"])
-# #     longitude = drone.get_state(PositionChanged)["longitude"])
->>>>>>> e66fbf11634c30c2b12b893bcd87240b8f0e90f2
 
 # #     drone(TakeOff()).wait()
 
-<<<<<<< HEAD
     # Calibrate the magnetometer 
     #temporary fix
     assert drone(MagnetoCalibration(1)).wait()
@@ -204,16 +184,10 @@ def test_find():
     longitude = drone.get_state(PositionChanged)["longitude"]
 
     assert drone(set_home=[latitude,longitude,altitude]).wait()
-=======
-# #     # Calibrate the magnetometer 
-# #     #temporary fix
-# #     drone.calibrate(0)
->>>>>>> e66fbf11634c30c2b12b893bcd87240b8f0e90f2
 
 # #     # Get the drone's magnetic heading from navdata.magneto.heading.fusionUnwrapped
 # #     #mag_heading = drone.get_state(HomeChanged)["magneto"]["heading"]["fusionUnwrapped"]
 
-<<<<<<< HEAD
     #the moveTo command send the drone to a certain coordinate point at a certain height
     #dummy values for now but this is the frame
     #lat and long should be x y and z minus the angle relative to 0,0,0
@@ -234,19 +208,6 @@ def test_find():
     drone(return_to_home()).wait()
     print("returning home")
     assert drone.disconnect()
-=======
-# #     #the moveTo command send the drone to a certain coordinate point at a certain height
-# #     #dummy values for now but this is the frame
-# #     drone(moveTo(latitude, longitude, altitude).wait())
-# #     #set the gimbal to 45 degrees to capture the target
-# #     drone(gimbal.set_target(gimbal_id=0, control_mode="position", 
-# #                             yaw_frame_of_reference="none", yaw=0.0, pitch_frame_of_reference="absolute", pitch=45.0, 
-# #                             roll_frame_of_reference="none", roll=0.0)).wait()
-            
-# #     drone(moveBy(0, 0, 0, math.radians(90))).wait()
-# #     drone(moveBy(0, 0, 0, math.radians(-90))).wait()
-# #     drone.disconnect()
->>>>>>> e66fbf11634c30c2b12b893bcd87240b8f0e90f2
     
     
 # def test_takeoff():
