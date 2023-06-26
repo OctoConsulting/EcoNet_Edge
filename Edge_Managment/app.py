@@ -4,16 +4,17 @@ import threading
 import requests
 import simple_websocket
 import json
-
+import time
 # Constants
 DOCKER_IMAGE_BASE_NAME = "drone_image"
 EXPOSED_PORT_START = 8005
-
+time.sleep(5)
 # Global variables
 COORDINATES_QUEUE = Queue()
 AVAILABLE_DRONES = []
+Unavailable = []
 THREAD_LOCK = threading.Lock()
-wc = simple_websocket.Client('ws://protocal:5000/protocal')
+wc = simple_websocket.Client('ws://proto1:5000/protocal')
 
 # Drone profiles
 DRONE_PROFILES = {
@@ -45,45 +46,46 @@ def receive_coordinates():
     latitude = data["latitude"]
     coordinates = (longitude, latitude)
     COORDINATES_QUEUE.put(coordinates)
-    
-    #main()
-    # m = launch(1, 1, 1)
-    # #send_command_to_container()
-    # return m
+    for drone_profile in DRONE_PROFILES.values():
+        if drone_profile["available"]:
+            drone_profile["available"] = False
+            print(drone_profile["drone_type"])
+            m = launch(longitude, latitude, drone_profile)
+            return m
+        else:
+            return jsonify({"message": "drone"})
+    #m = launch(latitude, longitude)
+    #m = launch(longitude, latitude)
+    #m = launch(1, 1, 1)
+    #send_command_to_container()
+    #return m
 
-def launch(DTYPE,DADDR,DNAME):
-    while not COORDINATES_QUEUE.empty():
-        coordinates = COORDINATES_QUEUE.get()
-       
-        drone_profile1 = find_drone()
+def launch(x, y, z):
 
-        if drone_profile1:
-            drone_profile1['available'] = False
-            
-            DTYPE = drone_profile1["drone_type"]
-            DADDR = drone_profile1["ip_address"]
+        if z:
+            #z["available"] = False
+            DTYPE = z["drone_type"]
+            DADDR = z["ip_address"]
             
             params = {
                 "DroneType": DTYPE,
                 "DRONE_IP": DADDR,
-                "LONG": "223.2",
-                "LAT": "2232",
+                "LONG": x,
+                "LAT": y,
                 "source": "launch"
             }
+            print(params)
             # response = requests.get(flask_url, json=params
             wc.send(json.dumps(params))
 
             return wc.receive()
-            
+            #return params
+
         else:
             COORDINATES_QUEUE.put(coordinates)
 
 
-def find_drone():
-    for drone in DRONE_PROFILES:
-        if drone['available']:
-            return drone
-    return None
+
 
 
 def initialize_drones():

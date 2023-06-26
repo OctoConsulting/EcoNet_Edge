@@ -1,10 +1,9 @@
 import olympe
 from olympe.messages.ardrone3.Piloting import TakeOff, Landing, moveTo, moveBy
-from olympe.messages.common.calibration import MagnetoCalibration
-from olympe.messages.ardrone3.PilotingSettingsState import Geofence
-from olympe.messages.ardrone3.PilotingState import PositionChanged, GPSUpdateStateChanged, moveToChanged
-from olympe.messages import gimbal
-from olympe.media.GPS
+
+# from olympe.messages.ardrone3.PilotingSettingsState import Geofence
+# from olympe.messages.ardrone3.PilotingState import PositionChanged
+# from olympe.messages import gimbal
 import argparse
 from flask import Flask, jsonify, request
 import json
@@ -23,56 +22,56 @@ sock = Sock(app)
 
 def worker(data):
     #here parse the commands and fitures of what our functiioons to run to send infor to the drone
+    #test_takeoff()
+    ip_address = "192.168.53.1"
+    #test_takeoff(ip_address)
 
     if data['source'] == 'launch':
+        test_takeoff(ip_address)
+
         target = data['DroneType']
-        ip_address = data['DroneIP']
+        ip_address = data['Drone_IP']
         lon = data['LONG']
         lat = data['LAT']
-
+        #test_takeoff()
         if target == "parrot":
-            with Olympe() as drone:
-                drone.connect()
-                latitude = lat
-                longitude = lon
-                altitude = 20
-                geofence_size = 0.01
-                drone.start()
-                
+  
+
+                test_takeoff(ip_address)
                 #ONCE AT  1 , 1 , 1
                 #CONNECT TO WEBSOCKET
                 #START WHILE LOOP (BELOW)
 
-                # from toto
-                # params = {
-                #     "Point_of_interest": {
-                #         'x': 2, 
-                #         'y': 4
-                #     },
-                # }
+                #from toto
+                #params = {
+                    #"Point_of_interest": {
+                        #'x': 2, 
+                        #'y': 4
+                    #},
+                #}
 
                 #activate totcv
-                t_end = time.time() + 60 * 2
-                while time.time() < t_end:
-                    # websoket
-                    # data.revice()
-                    # move drone point to the point that is givven in data
+                #t_end = time.time() + 60 * 2
+                #while time.time() < t_end:
+                    #websoket
+                    #data.revice()
+                    #move drone point to the point that is givven in data
                 
                     #if data.receive == return
                         #send home
-                # send home
+                #send home
 
                 
                 #the moveTo command send the drone to a certain coordinate point at a certain height
                 #dummy values for now but this is the frame
 
-                # 1: inital long lat
-                # 2: once at long lat --> eavlute totocv
-                    # get feedback and commit movments
+                #1: inital long lat
+                #2: once at long lat --> eavlute totocv
+                    #get feedback and commit movments
                     
-                # 3: go back home logic
+                #3: go back home logic
 
-                drone.disconnect()
+                    #drone.disconnect()
                 #  http request to some endpoint in managmnt stating that this done has come back home
              
                 # IF OBJECT NOT FOUND IN 30 SECOND
@@ -81,7 +80,7 @@ def worker(data):
                         # IN MESSAGE TO CONTAINER SEND ID Value
         
         elif target == "skydio":
-            # Skydio drone code here
+            #Skydio drone code here
             pass
 
   
@@ -91,34 +90,37 @@ def worker(data):
 def managage_commands(ws):
     
     try:
+        
         while True:
-            # reciving data structure
-            # json object
-            # from launch
-            # params = {
-            #     "DroneType": "parrot",
-            #     "DRONE_IP": "hello",
-            #     "LONG": "223.2",
-            #     "LAT": "2232"
-            # }
-
+ 
             data = ws.receive()
+            
             data_loaded = json.loads(data)
             
             print(data_loaded)
-            
+
             # submit tasks to the pool
             pool.submit(worker, data_loaded)
-
             m = {"message": "thread sent to work"}
-            ws.send(json.dumps(m))
+            ws.send(json.dumps(data_loaded))
             
     except (KeyboardInterrupt, EOFError, simple_websocket.ConnectionClosed):
         pass
 
     return jsonify({"message": "connection closed"})
 
+def test_takeoff(ip):
+    DRONE_IP = os.environ.get("DRONE_IP", ip)
 
+    drone = olympe.Drone(DRONE_IP)
+    drone.connect()
+    
+    assert drone(TakeOff()).wait().success()
+    time.sleep(5)
+    assert drone(Landing()).wait().success()
+    gps_info = olympe.messages.controller_info.gps()
+    print("GPS info: ", gps_info)
+    drone.disconnect
 
 def parrot_intake():
     sleep(10)
