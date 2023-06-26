@@ -2,6 +2,9 @@ from queue import Queue
 from flask import Flask, jsonify, request
 import threading
 import requests
+import simple_websocket
+import json
+
 # Constants
 DOCKER_IMAGE_BASE_NAME = "drone_image"
 EXPOSED_PORT_START = 8005
@@ -10,22 +13,19 @@ EXPOSED_PORT_START = 8005
 COORDINATES_QUEUE = Queue()
 AVAILABLE_DRONES = []
 THREAD_LOCK = threading.Lock()
+wc = simple_websocket.Client('ws://protocal:5000/protocal')
 
 # Drone profiles
 DRONE_PROFILES = {
     "parrot_anafi": {
-        "drone_type": "parrot_anafi",
+        "drone_type": "parrot",
         "ip_address": "192.168.53.1",
-        "container_name": "proto1",
         "available": True,
-        "port": EXPOSED_PORT_START,  # Initial exposed port
     },
     "skydio": {
         "drone_type": "skydio",
         "ip_address": "192.168.53.2",
-        "container_name": "containerB",
         "available": True,
-        "port": EXPOSED_PORT_START + 1,  # Initial exposed port for Skydio
     },
 }
 
@@ -39,69 +39,52 @@ def get_drone_availability():
 @app.route("/api/coordinates", methods=["POST"])
 def receive_coordinates():
     data = request.get_json()
+    global longitute
     longitude = data["longitude"]
+    global latitude
     latitude = data["latitude"]
     coordinates = (longitude, latitude)
     COORDINATES_QUEUE.put(coordinates)
     
-    main()
-    send_command_to_container()
-    return jsonify({"message": "Coordinates received and processed"})
+    #main()
+    # m = launch(1, 1, 1)
+    # #send_command_to_container()
+    # return m
 
-def send_command_to_container():
-    # Connect to the Docker daemon using the Docker SDK
-    #client = docker.from_env()
-    flask_url = "http://proto1:5000/api/command"
-    content = "hello"
-    params = {
-        "content": content
-        }
-    response = requests.get(flask_url, json=params)
-
-
-    if response.status_code ==200:
-        print("hekki")
-    else:
-        print("kiki")
-   # try:
-        # Find the container with the specified name
-        #container = client.containers.get(container_name)
-
-        # Execute a command inside the container
-        #response = container.exec_run(command)
-        #response = requests.get(flask_url, params=params)
-        # Check Flask script response code
-        #if response.exit_code == 200:
-           # for drone_profile in AVAILABLE_DRONES:
-               # if drone_profile["container_name"] == container_name:
-                    #drone_profile["available"] = False
-
-        # Print the command output
-        #print(response.output.decode().strip())
-    #except Exception as e:
-        #print(f"Container '' not found.")
-
-def create_and_run_container(drone_profile, command):
-    # Retrieve the drone profile information
-    container_name = drone_profile["container_name"]
-
-    # Send command to the container
-    send_command_to_container(container_name=container_name, command=command)
-
-def handle_coordinates():
+def launch(DTYPE,DADDR,DNAME):
     while not COORDINATES_QUEUE.empty():
         coordinates = COORDINATES_QUEUE.get()
-        with THREAD_LOCK:
-            if AVAILABLE_DRONES:
-                drone_profile = AVAILABLE_DRONES.pop(0)
-                command = ["echo", "Hello"]
-                threading.Thread(target=create_and_run_container, args=(drone_profile, command)).start()
-            else:
-                COORDINATES_QUEUE.put(coordinates)
-                break
+       
+        drone_profile1 = find_drone()
 
-def main():
-    handle_coordinates()
+        if drone_profile1:
+            drone_profile1['available'] = False
+            
+            DTYPE = drone_profile1["drone_type"]
+            DADDR = drone_profile1["ip_address"]
+            
+            params = {
+                "DroneType": DTYPE,
+                "DRONE_IP": DADDR,
+                "LONG": "223.2",
+                "LAT": "2232",
+                "source": "launch"
+            }
+            # response = requests.get(flask_url, json=params
+            wc.send(json.dumps(params))
+
+            return wc.receive()
+            
+        else:
+            COORDINATES_QUEUE.put(coordinates)
+
+
+def find_drone():
+    for drone in DRONE_PROFILES:
+        if drone['available']:
+            return drone
+    return None
+
 
 def initialize_drones():
     # Initialize the available drones list based on the drone profiles
@@ -111,6 +94,6 @@ def initialize_drones():
 if __name__ == '__main__':
     # Initialize the drones
     initialize_drones()
-
     # Run the Flask app
+    
     app.run(debug=True)

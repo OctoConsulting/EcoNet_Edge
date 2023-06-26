@@ -1,116 +1,222 @@
 import olympe
+from olympe.messages.ardrone3.Piloting import TakeOff, Landing, moveTo, moveBy
+from olympe.messages.common.calibration import MagnetoCalibration
+from olympe.messages.ardrone3.PilotingSettingsState import Geofence
+from olympe.messages.ardrone3.PilotingState import PositionChanged, GPSUpdateStateChanged, moveToChanged
+from olympe.messages import gimbal
 import argparse
 from flask import Flask, jsonify, request
-import websocket
 import json
 import concurrent.futures
 import os 
 import time
-from olympe.messages.ardrone3.Piloting import TakeOff, Landing
-num_of_drones = 3 
+import math
+from flask_sock import Sock
+from time import sleep
 
+num_of_drones = 3 
+pool = concurrent.futures.ThreadPoolExecutor(max_workers=num_of_drones)
 
 app = Flask(__name__)
-def parrot_intake():
-    pass
-def skydio_intake():
-    pass
-def main(args):
-    target = args.target
-    ip_address = args.ip_address
-    physical_port = args.physical_port
-    lon = args.lon
-    lat = args.lat
+sock = Sock(app)
 
- 
-
-    if target == "skydio":
-        with Olympe() as drone:
-            drone.connect(ip_address)
-            # Skydio drone code here
-
- 
-
-    elif target == "parrot":
-        with Olympe() as drone:
-            drone.connect()
-            latitude = lat
-            longitude = lon
-            altitude = 20
-            geofence_size = 0.01
-            drone.start()
-
-            #the moveTo command send the drone to a certain coordinate point at a certain height
-            #dummy values for now but this is the frame
-            drone.disconnect()
-
- 
-
-    else:
-        print("Drone type not supported")
-
-
-
-#if __name__ == '__main__':
-    # parser = argparse.ArgumentParser(description='Drone Connection Script')
-    # parser.add_argument('-t', '--target', type=str, help='Specify the target')
-    # parser.add_argument('-i', '--ip_address', type=str, help='Specify the IP address')
-    # parser.add_argument('-p', '--physical_port', type=int, help='Specify the physical port')
-    # parser.add_argument('-lon', '--lon', type=int, help='Specify Longitude')
-    # parser.add_argument('-lat', '--lat', type=int, help='Specify Latitude')
-
- 
-
-    # args = parser.parse_args()
-    # main(args)
-    #app.run()
-def worker(commands):
-    print("worker thread is running")
+def worker(data):
     #here parse the commands and fitures of what our functiioons to run to send infor to the drone
-    
-def main():
-    ws = websocket.websocket()
-    ws.connect("ws://manger:5000")
-    
-    pool = concurrent.futures.ThreadPoolExecutor(max_workers=num_of_drones)
+
+    if data['source'] == 'launch':
+        target = data['DroneType']
+        ip_address = data['DroneIP']
+        lon = data['LONG']
+        lat = data['LAT']
+
+        if target == "parrot":
+            with Olympe() as drone:
+                drone.connect()
+                latitude = lat
+                longitude = lon
+                altitude = 20
+                geofence_size = 0.01
+                drone.start()
+                
+                #ONCE AT  1 , 1 , 1
+                #CONNECT TO WEBSOCKET
+                #START WHILE LOOP (BELOW)
+
+                # from toto
+                # params = {
+                #     "Point_of_interest": {
+                #         'x': 2, 
+                #         'y': 4
+                #     },
+                # }
+
+                #activate totcv
+                t_end = time.time() + 60 * 2
+                while time.time() < t_end:
+                    # websoket
+                    # data.revice()
+                    # move drone point to the point that is givven in data
+                
+                    #if data.receive == return
+                        #send home
+                # send home
+
+                
+                #the moveTo command send the drone to a certain coordinate point at a certain height
+                #dummy values for now but this is the frame
+
+                # 1: inital long lat
+                # 2: once at long lat --> eavlute totocv
+                    # get feedback and commit movments
+                    
+                # 3: go back home logic
+
+                drone.disconnect()
+                #  http request to some endpoint in managmnt stating that this done has come back home
+             
+                # IF OBJECT NOT FOUND IN 30 SECOND
+                #     THEN RETURN TO CORDINATE XYZ
+                    #  ALSO SEND CURL COMMAND TO CONTAINER:5000 
+                        # IN MESSAGE TO CONTAINER SEND ID Value
+        
+        elif target == "skydio":
+            # Skydio drone code here
+            pass
+
+  
+
+
+@sock.route('/protocal', methods=['GET'])
+def managage_commands(ws):
     
     try:
         while True:
-            
-            
+            # reciving data structure
+            # json object
+            # from launch
+            # params = {
+            #     "DroneType": "parrot",
+            #     "DRONE_IP": "hello",
+            #     "LONG": "223.2",
+            #     "LAT": "2232"
+            # }
+
             data = ws.receive()
             data_loaded = json.loads(data)
             
             print(data_loaded)
             
-            #submit task to the pool
+            # submit tasks to the pool
             pool.submit(worker, data_loaded)
+
+            m = {"message": "thread sent to work"}
+            ws.send(json.dumps(m))
             
     except (KeyboardInterrupt, EOFError, simple_websocket.ConnectionClosed):
-        ws.close()
+        pass
+
+    return jsonify({"message": "connection closed"})
+
+
+
+def parrot_intake():
+    sleep(10)
+    return 
+
+def skydio_intake():
+    sleep(1)
+    return
+
+# def main(args):
+#     target = args.target
+#     ip_address = args.ip_address
+#     physical_port = args.physical_port
+#     lon = args.lon
+#     lat = args.lat
+
+ 
+
+#     if target == "skydio":
+#         with Olympe() as drone:
+#             drone.connect(ip_address)
+#             # Skydio drone code here
+
+ 
+
+#     elif target == "parrot":
+#         with Olympe() as drone:
+#             drone.connect()
+#             latitude = lat
+#             longitude = lon
+#             altitude = 20
+#             geofence_size = 0.01
+#             drone.start()
+
+#             #the moveTo command send the drone to a certain coordinate point at a certain height
+#             #dummy values for now but this is the frame
+#             drone.disconnect()
+
+#     else:
+#         print("Drone type not supported")
+
     
 DRONE_IP = os.environ.get("DRONE_IP", "192.168.53.1")
-def test_takeoff():
+def test_find():
     drone = olympe.Drone(DRONE_IP)
     drone.connect()
-    assert drone(TakeOff()).wait().success()
-    time.sleep(10)
-    assert drone(Landing()).wait().success()
-    drone.disconnect
+    drone.start()
+    altitude = 50
 
-@app.route("/api/command", methods=["GET"])
-def process_command():
-    command = request.json.get("content")
-    print(command)
-    #test_takeoff()
+# #     drone(TakeOff()).wait()
+
+    # Calibrate the magnetometer 
+    #temporary fix
+    assert drone(MagnetoCalibration(1)).wait()
+
+    def gps_update_callback(event):
+        print("GPS update state changed:", event.args["state"])
     
-    if command == "hello":
-        print("recieved")
-        return jsonify({"message": "Command 'goodbye' processed."})
 
-    else:
-        print("idk")
-    return jsonify({"message": "Command 'goodbye' processed."})
+    # Register the callback for GPS update state changes
+    assert drone.subscribe(GPSUpdateStateChanged(gps_update_callback))
+
+    latitude = drone.get_state(PositionChanged)["latitude"]
+    longitude = drone.get_state(PositionChanged)["longitude"]
+
+    assert drone(set_home=[latitude,longitude,altitude]).wait()
+
+# #     # Get the drone's magnetic heading from navdata.magneto.heading.fusionUnwrapped
+# #     #mag_heading = drone.get_state(HomeChanged)["magneto"]["heading"]["fusionUnwrapped"]
+
+    #the moveTo command send the drone to a certain coordinate point at a certain height
+    #dummy values for now but this is the frame
+    #lat and long should be x y and z minus the angle relative to 0,0,0
+    print("moving to location")
+    drone(moveBy(latitude, longitude, altitude).wait())
+
+    assert drone(moveToChanged(_policy="check", _timeout=10)).wait()
+    #set the gimbal to 45 degrees to capture the target
+    assert drone(gimbal.set_target(gimbal_id=0, control_mode="position", 
+                            yaw_frame_of_reference="none", yaw=0.0, pitch_frame_of_reference="absolute", pitch=45.0, 
+                            roll_frame_of_reference="none", roll=0.0)).wait()
+            
+    drone(moveBy(0, 0, 0, math.radians(90))).wait()
+    print("rotating")
+    drone(moveBy(0, 0, 0, math.radians(-90))).wait()
+    time.sleep(5)
+    drone.ReturnHomeMinAltitude(50)
+    drone(return_to_home()).wait()
+    print("returning home")
+    assert drone.disconnect()
+    
+    
+# def test_takeoff():
+#     drone = olympe.Drone(DRONE_IP)
+#     drone.connect()
+#     assert drone(TakeOff()).wait().success()
+#     time.sleep(5)
+#     assert drone(Landing()).wait().success()
+#     drone.disconnect
     
 if __name__ == "__main__":
     #main()
