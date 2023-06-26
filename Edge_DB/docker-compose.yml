@@ -1,0 +1,30 @@
+version: '3'
+services:
+  db:
+    hostname: db
+    build:
+      context: .
+      dockerfile: DockerfileDatabase
+    ports:
+      - "5432:5432"
+    volumes:
+      - type: volume
+        source: database_storage
+        target: /mnt/database_storage
+  dev:
+    depends_on:
+      - db
+    hostname: db_dev
+    build:
+      dockerfile: ./dev_env_setup/Dockerfile # change to a non-dev file later...
+    ports:
+      - "5000:5000" # flask
+      - "80:80" # waitress
+    volumes:
+      - type: bind # outside source repo
+        source: ../
+        target: /mnt/
+    tty: true
+
+volumes:
+  database_storage:
