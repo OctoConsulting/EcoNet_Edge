@@ -211,15 +211,15 @@ def test_find():
     assert drone.disconnect()
     
     
-# def test_takeoff():
-#     drone = olympe.Drone(DRONE_IP)
-#     drone.connect()
-#     assert drone(TakeOff()).wait().success()
-#     time.sleep(5)
-#     assert drone(Landing()).wait().success()
-#     drone.disconnect
+def test_takeoff():
+    drone = olympe.Drone(DRONE_IP)
+    drone.connect()
+    gps_info = olympe.messages.controller_info.gps()
+    print("GPS info: ", gps_info)
+    drone.disconnect
     
 if __name__ == "__main__":
+    test_takeoff()
     #main()
     app.run(debug=True)
             
