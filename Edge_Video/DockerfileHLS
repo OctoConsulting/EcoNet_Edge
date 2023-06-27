@@ -5,6 +5,7 @@ RUN apt-get upgrade -y
 RUN apt-get install ffmpeg -y
 
 RUN apt-get install python3 -y
+RUN apt-get install procps -y
 
 COPY ./index.html /usr/share/nginx/html/
 COPY ./test_vid.mp4 ./
