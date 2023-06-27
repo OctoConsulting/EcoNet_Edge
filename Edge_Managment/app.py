@@ -13,7 +13,6 @@ time.sleep(5)
 COORDINATES_QUEUE = Queue()
 AVAILABLE_DRONES = []
 Unavailable = []
-THREAD_LOCK = threading.Lock()
 wc = simple_websocket.Client('ws://proto1:5000/protocal')
 
 # Drone profiles
@@ -37,6 +36,13 @@ app = Flask(__name__)
 def get_drone_availability():
     return jsonify({"available_drones": AVAILABLE_DRONES})
 
+@app.route("/api/markHome/<profile>", methods=["POST"])
+def mark_drone_home(profile):
+    DRONE_PROFILES[profile]['available'] = True
+    print('home!', flush=True)
+
+    return jsonify({profile: DRONE_PROFILES[profile]})
+
 @app.route("/api/coordinates", methods=["POST"])
 def receive_coordinates():
     data = request.get_json()
@@ -46,14 +52,20 @@ def receive_coordinates():
     latitude = data["latitude"]
     coordinates = (longitude, latitude)
     COORDINATES_QUEUE.put(coordinates)
+
+    # searching for avalible drine
+    print(DRONE_PROFILES, flush=True)
     for drone_profile in DRONE_PROFILES.values():
+        print(drone_profile, flush=True)
+        print(drone_profile["available"], flush=True)
+        
         if drone_profile["available"]:
             drone_profile["available"] = False
             print(drone_profile["drone_type"])
             m = launch(longitude, latitude, drone_profile)
             return m
-        else:
-            return jsonify({"message": "drone"})
+    
+    return jsonify({"message": "drone"})
     #m = launch(latitude, longitude)
     #m = launch(longitude, latitude)
     #m = launch(1, 1, 1)
