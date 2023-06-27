@@ -1,11 +1,14 @@
 FROM nginx:bullseye
-COPY ./index.html /usr/share/nginx/html
-COPY ./test_vid /usr/share/nginx/html
+
 RUN apt-get update
 RUN apt-get upgrade -y
 RUN apt-get install ffmpeg -y
 
-COPY ./video.mp4 /usr/share/nginx/html/
-#COPY ./partialnginx.conf
-#RUN apt-get install libnginx-mod-rtmp -y
-#RUN cat ./partialnginx.conf >> /etc/nginx/nginx.conf
+RUN apt-get install python3 -y
+
+COPY ./index.html /usr/share/nginx/html/
+COPY ./test_vid.mp4 ./
+
+COPY ./encode_vid.sh .
+COPY ./encode_stream.sh .
+COPY ./container_startup.sh .
