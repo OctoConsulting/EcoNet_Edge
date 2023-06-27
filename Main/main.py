@@ -4,6 +4,7 @@ import sys
 import requests
 import base64
 import subprocess
+import json
 
 
 def main():
@@ -25,18 +26,19 @@ def main():
 
             resp_json = response.json()
             shot = resp_json.get('shot')
-            # audio = resp_json.get('audio')
 
             if shot:
-                
-                # old way of doing it
-                # os.fork()
-                # PID_AFTER_FORK = os.getpid()
-                # if PID_AFTER_FORK != PARENT_PID:
-                #     program_path = 'locate_and_deploy'
-                #     os.execlp('python3', program_path, audio)
+                # Define the command and arguments
+                command = ["python", "locate.py"]
 
-                subprocess.Popen(['python', 'locate.py'], shell=True, stdin=subprocess.PIPE, close_fds=True).communicate(input=audio.encode('utf-8'))
+                # Launch the subprocess and redirect stdout to a pipe
+                process = subprocess.Popen(command, stdin=subprocess.PIPE)
+
+                # Send data to the subprocess
+                data = json.dumps(a['audio']).encode("utf-8")  # Encode the string as bytes
+                process.stdin.write(data)
+                process.stdin.close() 
+                    
 
                         
     except (KeyboardInterrupt, EOFError, simple_websocket.ConnectionClosed):

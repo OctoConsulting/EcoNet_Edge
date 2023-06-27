@@ -21,28 +21,19 @@ def main():
         resp_json = response.json()
         shot = resp_json.get('shot')
 
-        # if shot:
-        #     command = 'python locate_and_deploy.py'
-        #     subprocess.Popen(command, shell=True, stdin=subprocess.PIPE).communicate(input=audio.encode('utf-8'))
+        print(str(shot), flush=True)
 
         if shot:
-            r, w = os.pipe()
+            # Define the command and arguments
+            command = ["python", "locate.py"]
 
-            if os.fork() == 0:
-                # Child process
-                os.dup2(r, sys.stdin.fileno())
-                os.close(r)
-                os.close(w)
-                program_path = 'locate.py'
-                os.execlp('python', program_path)
+            # Launch the subprocess and redirect stdout to a pipe
+            process = subprocess.Popen(command, stdin=subprocess.PIPE)
 
-            else:
-                # Parent process
-                os.close(r)
-                w_file = os.fdopen(w, 'w')  # Open write end of the pipe as a file object
-                w_file.write(json.dumps(a))
-                w_file.close()
-                        
+            # Send data to the subprocess
+            data = json.dumps(a['audio']).encode("utf-8")  # Encode the string as bytes
+            process.stdin.write(data)
+            process.stdin.close() 
 
 
 if __name__ == '__main__':

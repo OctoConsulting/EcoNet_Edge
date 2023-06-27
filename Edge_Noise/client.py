@@ -21,9 +21,9 @@ def process_wav():
         f.write(my_bytes)
 
     wav_path = 'myfile.wav'
-    output_filename = 'output.wav'
+    output_filename = 'myfile.wav'
     # Process the .wav file using audioPlayer.py as a subprocess
-    subprocess_cmd = ['python', 'ica.py', wav_path, output_filename] 
+    subprocess_cmd = ['python', './Noice/ica.py', wav_path] 
     # arg1 = input file, arg2 = out file
      
     subprocess_output = subprocess.run(subprocess_cmd, capture_output=True, text=True)
