@@ -20,7 +20,7 @@ def detect_shot():
         with open('myfile.wav', mode='wb') as f:
                 f.write(my_bytes)
 
-        subprocess_cmd = ['python', 'detector_out.py', 'myfile.wav']
+        subprocess_cmd = ['python', './testing/detector_out.py', 'myfile.wav']
         subprocess_output = subprocess.run(subprocess_cmd, capture_output=True, text=True)
         
         # Check if the subprocess succeeded
@@ -33,9 +33,9 @@ def detect_shot():
         resp = {}
         resp['shot'] = json_output['shot']
 
-        with open(json_output['audio'], 'rb') as fd:
-                contents = fd.read()
-                resp['audio'] = convert_to_base64(contents)
+        # with open(json_output['audio'], 'rb') as fd:
+        #         contents = fd.read()
+        #         resp['audio'] = convert_to_base64(contents)
         
         return jsonify(resp)
 

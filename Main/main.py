@@ -8,11 +8,11 @@ import subprocess
 
 def main():
     PARENT_PID = os.getpid()
-    # url = '172.18.0.2:5000/api'
+
     url = 'api:5000/api'
 
     ws = simple_websocket.Client(f'ws://{url}/detection/audio')
-    # ws = simple_websocket.Client(f'ws://{url}/detection/audio')
+
     try:
         while True:
             byte_array = ws.receive()
@@ -25,7 +25,7 @@ def main():
 
             resp_json = response.json()
             shot = resp_json.get('shot')
-            audio = resp_json.get('audio')
+            # audio = resp_json.get('audio')
 
             if shot:
                 
@@ -36,7 +36,7 @@ def main():
                 #     program_path = 'locate_and_deploy'
                 #     os.execlp('python3', program_path, audio)
 
-                subprocess.Popen(['python', 'locate_and_deploy.py'], shell=True, stdin=subprocess.PIPE, close_fds=True).communicate(input=audio.encode('utf-8'))
+                subprocess.Popen(['python', 'locate.py'], shell=True, stdin=subprocess.PIPE, close_fds=True).communicate(input=audio.encode('utf-8'))
 
                         
     except (KeyboardInterrupt, EOFError, simple_websocket.ConnectionClosed):

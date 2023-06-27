@@ -4,6 +4,7 @@ import random
 import sys
 import shutil
 import os
+import time
 
 #write to standard out and send to standard in "stdout" and "stdin"
 #return a dictionary with the contents of the file as a byte array and a boolean
@@ -30,7 +31,7 @@ def main(file):
         resp['audio'] = Finalout
 
         r = json.dumps(resp)
-
+        time.sleep(11)
         return r
         
     except Exception as e:

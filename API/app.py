@@ -1,3 +1,4 @@
+import wave
 from flask import Flask, request, jsonify, send_file
 from flask_sock import Sock
 import pyaudio
@@ -15,24 +16,36 @@ sock = Sock(app)
 def get_audio(ws):
     audio_format = pyaudio.paInt16
 
-    channels = 1 
+    channels = 1
     sample_rate = 44100
-    chunk_size = 1000000
+    # this is in bytes
+    # chunk_size = 65536
+    # 52920
+    chunk_size = 52920*10000
 
     audio = pyaudio.PyAudio()
 
     stream = audio.open(format=audio_format, channels=channels, rate=sample_rate, input=True, frames_per_buffer=chunk_size)
 
     try:
+        i = 0
         while True:
-            data = stream.read(1024)
-            print('data')
-            print('_________________________________________')
+            data = stream.read(52920)
             ws.send(data)
+            
+            # wf = wave.open(f"audio{i}.wav", 'wb')
+            # wf.setnchannels(channels)
+            # wf.setsampwidth(audio.get_sample_size(pyaudio.paInt16))
+            # wf.setframerate(44100)
+            # wf.writeframes(data)
 
+            # duration_seconds = wf.getnframes() / wf.getframerate()
+            # print(duration_seconds)
+            # wf.close
+            # i += 1
         
     except KeyboardInterrupt:
-            pass
+        pass
     stream.stop_stream()
     stream.close()
     audio.terminate()
@@ -67,12 +80,7 @@ def preprocessing():
 
     response = requests.post('http://noise:5000/process_wav', json=body, headers=headers)
 
-    if response.status_code == 200:
-        return response.json()
-
-    
-    else:
-        return response.json()
+    return response.json()
 
 
 #################################

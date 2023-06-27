@@ -1,0 +1,22 @@
+Detector Model
+Input: expect a .wav file through the command line & expect .wav file to be exactly 1.2 seconds long
+    example: python <yourfile>.py input.wav
+
+Output: json object writen to stdout
+    example:
+        {
+            "shot":True
+        }
+
+Aucustic Model
+Input: expect a .wav file file through the command line
+    example: python <yourfile>.py input.wav
+
+Output: json object writen to stdout
+    example:
+        {
+            "theta": 90,
+            "phi": 45,
+            "r": 5.5
+        }
+        * key names do not matter here, just make sure you comunicate what they are to Saketh Rajesh

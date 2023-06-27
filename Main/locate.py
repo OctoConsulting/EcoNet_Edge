@@ -1,15 +1,11 @@
 import requests
 import sys
 import time
+import os
+import json
 
 def main():
-    print('deployment and prossess')
-    # take in file from stdin
-    # pass file to model
-    # convert to drone portocal
-    # select drone
-        # sets up socket connection with drone
-    # send drone
+    print('locate')
 
     audio = sys.stdin.read().strip()
 
@@ -21,14 +17,18 @@ def main():
     resp_preprossessing = requests.post(f'http://{url}/preporessing', json=body)
     preprossessed = resp_preprossessing.json()
 
-    # response = requests.post(f'http://{url}/detection/getLocation', json=preprossessed)
-    # location = response.json()
+    response = requests.post(f'http://{url}/detection/getLocation', json=preprossessed)
+    location = response.json()
+    location_json = json.dumps(location)
 
     # analyze the location data -> make sure it is resonalble
+    resonable = True
 
-    # if resonable
+    if resonable:
         # drone deployment operations
-
+        if os.fork() != 0:
+            program_path = 'deploy.py'
+            os.execlp('python3', program_path, location_json)
 
 
 if __name__ == '__main__':
