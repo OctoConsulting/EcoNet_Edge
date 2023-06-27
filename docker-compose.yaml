@@ -159,6 +159,8 @@ services:
       - "8006:5000"
     expose:
       - "5000"
+    depends_on:
+      - prot
 
 
 
