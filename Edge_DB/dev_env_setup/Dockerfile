@@ -38,6 +38,7 @@ WORKDIR /home/developer
 COPY ../app.py .
 COPY ../query_get.py .
 COPY ../query_put.py .
+COPY ../query_post.py .
 COPY ../tessdata/put_test_data.py .
 COPY ../tessdata/test_shots.csv .
 COPY ../tessdata/test_shot_stats.csv .

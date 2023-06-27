@@ -3,6 +3,7 @@ from flask_sock import Sock
 import requests
 import query_get
 import query_put
+import query_post
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -67,6 +68,23 @@ def put_shot_raw():
 #    preprocessed_audio_hash= request.args.get('preprocessed_audio_hash')
 #    return jsonify(query_get.put_shot_raw(shot_time, preprocessed_audio_hash))
     return jsonify("UNIMPLEMENTED")
+
+@app.route('/db/update_marker_db/<string:id>', methods=['PUT'])
+def update_marker_db(id):
+    # Retrieve the data from the request body
+    query_put.put_marker(request.json, id)
+    
+    # Return a response indicating the success of the operation
+    return jsonify({'message': f'Marker with ID {id} updated successfully'})
+
+@app.route('/db/post_marker_db', methods=['POST'])
+def post_marker_db(id):
+    # Retrieve the data from the request body
+    query_post.post_marker(request.json, id)
+    
+    # Return a response indicating the success of the operation
+    return jsonify({'message': f'Marker inserted successfully'})
+
 
 @app.route('/db/put_shot_detector_model', methods=['PUT'])
 def put_shot_detector_model():

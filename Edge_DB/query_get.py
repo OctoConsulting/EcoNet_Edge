@@ -24,6 +24,16 @@ def get_all_events() -> dict:
     with psycopg.connect(db_info) as connection, connection.cursor(row_factory= dict_row) as current:
         current.execute("SELECT * FROM events")
         return current.fetchall()
+    
+def get_all_markers() -> dict:
+    with psycopg.connect(db_info) as connection, connection.cursor(row_factory= dict_row) as current:
+        current.execute("SELECT * FROM target_markers")
+        return current.fetchall()
+    
+def get_all_users() -> dict:
+    with psycopg.connect(db_info) as connection, connection.cursor(row_factory= dict_row) as current:
+        current.execute("SELECT * FROM target_markers WHERE marker_type = 'android'")
+        return current.fetchall()
 
 # helper function that gets all rows where value == column
 def get_all_where(table: str, column: str, operator: str, value:str) -> dict:
