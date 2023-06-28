@@ -1,0 +1,5 @@
+torch==2.0.1
+torchaudio==2.0.2
+torchsummary==1.5.1
+torchvision==0.15.2
+python==3.10.11
