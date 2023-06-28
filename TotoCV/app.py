@@ -14,12 +14,14 @@ import cv2
 import base64
 import math
 
+
 # this is localhost:8000
 
 app = Flask(__name__)
 sock = Sock(app)
 
 tracker = {0: {}}
+history = {}
 threshHold = 0
 
 
@@ -41,7 +43,7 @@ def stream(ws,drone_ip=None):
 
     try: 
 
-    # live = 'rtsp://' + drone_ip + '/live'
+        live = 'rtsp://' + drone_ip + '/live'
         frame_num = 0
         sampling_rate = 3
         conf_thresh=0.25
@@ -52,7 +54,7 @@ def stream(ws,drone_ip=None):
         print('3', flush=True)
         while True:
             print('4', flush=True)
-            for df in tqdm(decode_stream('rtsp://192.168.53.1/live')):
+            for df in tqdm(decode_stream(live)):
                 results = None
                 if frame_num % sampling_rate == 0:
                     results = inf_eng.do_inference(df)
@@ -63,12 +65,11 @@ def stream(ws,drone_ip=None):
                     arr = l['detections']
 
                     for detection in arr:
-                        history = tracker.get(0)
+                        # history = tracker.get(0)
                         if detection['label'] == 'person' and track(detection, history):
-                            if history['lock'] and history['count'] >= threshHold:
-                                # sock.send(history['record'][-1])
-                                print('5', flush=True)
-                                print(history['record'][-1])
+                            if history['count'] >= 0:
+                                ws.send(history['record'][-1])
+                                # print(history['record'][-1])
 
             frame_num += 1
 
