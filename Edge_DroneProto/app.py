@@ -27,14 +27,14 @@ def worker(data):
     #test_takeoff(ip_address)
 
     if data['source'] == 'launch':
-        test_takeoff(ip_address)
+        #test_takeoff(ip_address)
 
-        target = data['DroneType']
-        ip_address = data['Drone_IP']
-        lon = data['LONG']
-        lat = data['LAT']
+        #target = data['DroneType']
+        #ip_address = data['Drone_IP']
+        #lon = data['LONG']
+        #lat = data['LAT']
         #test_takeoff()
-        if target == "parrot":
+        if data['DroneType'] == 'parrot':
   
 
                 test_takeoff(ip_address)
@@ -115,12 +115,16 @@ def test_takeoff(ip):
     drone = olympe.Drone(DRONE_IP)
     drone.connect()
     
-    assert drone(TakeOff()).wait().success()
-    time.sleep(5)
-    assert drone(Landing()).wait().success()
-    gps_info = olympe.messages.controller_info.gps()
-    print("GPS info: ", gps_info)
-    drone.disconnect
+    #assert drone(TakeOff()).wait().success()
+   #time.sleep(5)
+    print("=======================================================")
+    latitude = drone.get_state(PositionChanged)["latitude"]
+    longitude = drone.get_state(PositionChanged)["longitude"]
+    print("latitude", latitude, "longitude", longitude)
+    #assert drone(Landing()).wait().success()
+    #gps_info = olympe.messages.controller_info.gps()
+    #print("GPS info: ", gps_info)
+    drone.disconnect()
 
 def parrot_intake():
     sleep(10)
@@ -163,30 +167,19 @@ def skydio_intake():
 #         print("Drone type not supported")
 
     
-DRONE_IP = os.environ.get("DRONE_IP", "192.168.53.1")
-def test_find():
-    drone = olympe.Drone(DRONE_IP)
-    drone.connect()
-    drone.start()
-    altitude = 50
 
-# #     drone(TakeOff()).wait()
 
-    # Calibrate the magnetometer 
-    #temporary fix
-    assert drone(MagnetoCalibration(1)).wait()
-
-    def gps_update_callback(event):
-        print("GPS update state changed:", event.args["state"])
+    #def gps_update_callback(event):
+        #print("GPS update state changed:", event.args["state"])
     
 
-    # Register the callback for GPS update state changes
-    assert drone.subscribe(GPSUpdateStateChanged(gps_update_callback))
+    #Register the callback for GPS update state changes
+    #assert drone.subscribe(GPSUpdateStateChanged(gps_update_callback))
 
-    latitude = drone.get_state(PositionChanged)["latitude"]
-    longitude = drone.get_state(PositionChanged)["longitude"]
+    #latitude = drone.get_state(PositionChanged)["latitude"]
+    #longitude = drone.get_state(PositionChanged)["longitude"]
 
-    assert drone(set_home=[latitude,longitude,altitude]).wait()
+    #assert drone(set_home=[latitude,longitude,altitude]).wait()
 
 # #     # Get the drone's magnetic heading from navdata.magneto.heading.fusionUnwrapped
 # #     #mag_heading = drone.get_state(HomeChanged)["magneto"]["heading"]["fusionUnwrapped"]
@@ -213,7 +206,7 @@ def test_find():
     assert drone.disconnect()
     
     
-def test_takeoff():
+def test_takeoff1():
     drone = olympe.Drone(DRONE_IP)
     drone.connect()
     gps_info = olympe.messages.controller_info.gps()
@@ -221,7 +214,7 @@ def test_takeoff():
     drone.disconnect
     
 if __name__ == "__main__":
-    test_takeoff()
+    #test_takeoff()
     #main()
     app.run(debug=True)
             
