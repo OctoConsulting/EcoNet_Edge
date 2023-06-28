@@ -1,4 +1,4 @@
-FROM python:3.9
+FROM python:3.10
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -6,12 +6,12 @@ WORKDIR /app
 # Copy the requirements file to the container
 COPY requirements.txt .
 
-COPY . .
 
 # Install the Python dependencies
-
 RUN pip install flask-sock
 RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
 
 # Set the environment variable
 ENV FLASK_APP=app.py

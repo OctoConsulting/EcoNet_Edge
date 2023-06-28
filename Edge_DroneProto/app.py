@@ -83,7 +83,7 @@ def worker(data):
             # response = requests.post(f'http://{url}/markHome/{drone}')
             pass
 
-        elif target == "skydio":
+        elif data['DroneType'] == "skydio":
             #Skydio drone code here
             pass
 
