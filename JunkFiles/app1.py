@@ -1,80 +1,79 @@
-from flask import Flask, request, jsonify
-from flask_sock import Sock
+from fastapi import FastAPI, WebSocket
 import toto
 import os
 import subprocess
 import json
-import warnings
-warnings.filterwarnings("ignore")
 from tqdm import tqdm
 from toto.yolo_inference.yolo_inference_engine import YoloInferenceEngine
 from toto.bh_runner.decode_stream import *
 from toto.bh_runner.klv_validation import *
 import cv2
 import base64
-import math
 
-# this is localhost:8000
+tracker = {0:{}}
 
-app = Flask(__name__)
-sock = Sock(app)
+app = FastAPI()
 
-tracker = {0: {}}
-threshHold = 0
+@app.websocket("/toto/{drone_ip}")
+async def websocket_endpoint(websocket: WebSocket, drone_ip: str):
+    await websocket.accept()
+    while True:
+        data = await websocket.receive_text()
+        await websocket.send_text(f"Message text was: {data}")
 
 
-###########################################################
-# this should manage comunication with the main porgram
-###########################################################
-@app.route('/toto/main', methods=['POST'])
-def point():
+        if not drone_ip:
+            print("error")
+            return "error"
+        
 
-    return
+        try: 
 
-@sock.route('/toto/<drone_ip>', methods=['GET'])
-def stream(ws,drone_ip=None):
-    print('1', flush=True)
-    if not drone_ip:
-        print("error")
-        return "error"
-    
+            live = 'rtsp://' + drone_ip + '/live'
+            frame_num = 0
+            sampling_rate = 3
+            conf_thresh=0.25
+            weights = 'yolov5s.pt'
 
-    try: 
+            inf_eng = YoloInferenceEngine(weights, conf_thresh=conf_thresh)
 
-    # live = 'rtsp://' + drone_ip + '/live'
-        frame_num = 0
-        sampling_rate = 3
-        conf_thresh=0.25
-        weights = 'yolov5s.pt'
-        print('2', flush=True)
+            while True:
+                for df in tqdm(decode_stream(live)):
+                    results = None
+                    if frame_num % sampling_rate == 0:
+                        results = inf_eng.do_inference(df)
 
-        inf_eng = YoloInferenceEngine(weights, conf_thresh=conf_thresh)
-        print('3', flush=True)
-        while True:
-            print('4', flush=True)
-            for df in tqdm(decode_stream('rtsp://192.168.53.1/live')):
-                results = None
-                if frame_num % sampling_rate == 0:
-                    results = inf_eng.do_inference(df)
-                    print('5', flush=True)
-                    l = list_results(results, df)
-                    display_result(results, df)
 
-                    arr = l['detections']
+                        # send l through a websocket to toto pre prossessing
+                        # load as json first
+                        l = list_results(results, df)
+                        display_result(results, df)
 
-                    for detection in arr:
-                        history = tracker.get(0)
-                        if detection['label'] == 'person' and track(detection, history):
-                            if history['lock'] and history['count'] >= threshHold:
-                                # sock.send(history['record'][-1])
-                                print('5', flush=True)
-                                print(history['record'][-1])
+                        arr = l['detections']
 
-            frame_num += 1
+                        for detection in arr:
+                            history = tracker.get(0)
+                            #print(detection['label'])
+                            #print('****************************************************************************')
+                            if detection['label'] == 'person' and track(detection, history):
+                                
+                                # if we have determined that the object should be tracked and has met the minimum apperncae treshhold, then act on this
+                                if history['lock'] and history['count'] >= 1:
+                                    # save image --> writing to database
+                                    # body_image = createBody_image(detection)
+                                    
 
-    except KeyboardInterrupt:
-            pass
+                                    # send actions to drone protocal
+                                    body_protocal = createBody_protocal(history)
+                                    await websocket.send_json(body_protocal)
+                                    
+                                    print(history['record'][-1])
 
+
+                frame_num += 1
+
+        except KeyboardInterrupt:
+                pass
 
 
 ###########################################
@@ -220,8 +219,4 @@ def createBody_image(detection):
     body['image'] = detection['image']
 
     return body
-    
-if __name__ == '__main__':
-    app.run(port=5000)
-    
     
