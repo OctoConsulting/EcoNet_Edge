@@ -1,3 +1,4 @@
+import requests
 import olympe
 from olympe.messages.ardrone3.Piloting import TakeOff, Landing, moveTo, moveBy
 
@@ -26,88 +27,85 @@ def worker(data):
     ip_address = "192.168.53.1"
     #test_takeoff(ip_address)
 
+    url = 'Manager:5000/api'
+    drone = 'parrot_anafi'
+    response = requests.post(f'http://{url}/markHome/{drone}')
+
     if data['source'] == 'launch':
-        test_takeoff(ip_address)
+        #test_takeoff(ip_address)
 
-        target = data['DroneType']
-        ip_address = data['Drone_IP']
-        lon = data['LONG']
-        lat = data['LAT']
+        #target = data['DroneType']
+        #ip_address = data['Drone_IP']
+        #lon = data['LONG']
+        #lat = data['LAT']
         #test_takeoff()
-        if target == "parrot":
+        if data['DroneType'] == 'parrot':
   
+            # test_takeoff(ip_address)
+            #ONCE AT  1 , 1 , 1
+            #CONNECT TO WEBSOCKET
+            #START WHILE LOOP (BELOW)
 
-                test_takeoff(ip_address)
-                #ONCE AT  1 , 1 , 1
-                #CONNECT TO WEBSOCKET
-                #START WHILE LOOP (BELOW)
+            #from toto
+            #params = {
+                #"Point_of_interest": {
+                    #'x': 2, 
+                    #'y': 4
+                #},
+            #}
 
-                #from toto
-                #params = {
-                    #"Point_of_interest": {
-                        #'x': 2, 
-                        #'y': 4
-                    #},
-                #}
+            #activate totcv
+            #t_end = time.time() + 60 * 2
+            #while time.time() < t_end:
+                #websoket
+                #data.revice()
+                #move drone point to the point that is givven in data
+            
+                #if data.receive == return
+                    #send home
+            #send home
 
-                #activate totcv
-                #t_end = time.time() + 60 * 2
-                #while time.time() < t_end:
-                    #websoket
-                    #data.revice()
-                    #move drone point to the point that is givven in data
+            
+            #the moveTo command send the drone to a certain coordinate point at a certain height
+            #dummy values for now but this is the frame
+
+            #1: inital long lat
+            #2: once at long lat --> eavlute totocv
+                #get feedback and commit movments
                 
-                    #if data.receive == return
-                        #send home
-                #send home
+            #3: go back home logic
 
-                
-                #the moveTo command send the drone to a certain coordinate point at a certain height
-                #dummy values for now but this is the frame
+                #drone.disconnect()
 
-                #1: inital long lat
-                #2: once at long lat --> eavlute totocv
-                    #get feedback and commit movments
-                    
-                #3: go back home logic
+            #  http request to some endpoint in managmnt stating that this done has come back home
+            # url = 'Manager:5000/api'
+            # drone = 'parrot_anafi'
+            # response = requests.post(f'http://{url}/markHome/{drone}')
+            pass
 
-                    #drone.disconnect()
-                #  http request to some endpoint in managmnt stating that this done has come back home
-             
-                # IF OBJECT NOT FOUND IN 30 SECOND
-                #     THEN RETURN TO CORDINATE XYZ
-                    #  ALSO SEND CURL COMMAND TO CONTAINER:5000 
-                        # IN MESSAGE TO CONTAINER SEND ID Value
-        
         elif target == "skydio":
             #Skydio drone code here
             pass
 
   
-
-
-@sock.route('/protocal', methods=['GET'])
-def managage_commands(ws):
+@app.route('/protocal', methods=['POST'])
+def managage_commands():
     
-    try:
-        
-        while True:
- 
-            data = ws.receive()
-            
-            data_loaded = json.loads(data)
-            
-            print(data_loaded)
+    data_loaded = request.json
+    
+    print(data_loaded)
 
-            # submit tasks to the pool
-            pool.submit(worker, data_loaded)
-            m = {"message": "thread sent to work"}
-            ws.send(json.dumps(data_loaded))
-            
-    except (KeyboardInterrupt, EOFError, simple_websocket.ConnectionClosed):
-        pass
+    # submit tasks to the pool
+    pool.submit(worker, data_loaded)
+    m = {"message": "thread sent to work"}
 
-    return jsonify({"message": "connection closed"})
+    # url = 'Manager:5000/api'
+    # drone = 'parrot_anafi'
+    # response = requests.post(f'http://{url}/markHome/{drone}')
+    
+    return jsonify(m)
+
+
 
 def test_takeoff(ip):
     DRONE_IP = os.environ.get("DRONE_IP", ip)
@@ -115,12 +113,16 @@ def test_takeoff(ip):
     drone = olympe.Drone(DRONE_IP)
     drone.connect()
     
-    assert drone(TakeOff()).wait().success()
-    time.sleep(5)
-    assert drone(Landing()).wait().success()
-    gps_info = olympe.messages.controller_info.gps()
-    print("GPS info: ", gps_info)
-    drone.disconnect
+    #assert drone(TakeOff()).wait().success()
+   #time.sleep(5)
+    print("=======================================================")
+    latitude = drone.get_state(PositionChanged)["latitude"]
+    longitude = drone.get_state(PositionChanged)["longitude"]
+    print("latitude", latitude, "longitude", longitude)
+    #assert drone(Landing()).wait().success()
+    #gps_info = olympe.messages.controller_info.gps()
+    #print("GPS info: ", gps_info)
+    drone.disconnect()
 
 def parrot_intake():
     sleep(10)
@@ -163,30 +165,19 @@ def skydio_intake():
 #         print("Drone type not supported")
 
     
-DRONE_IP = os.environ.get("DRONE_IP", "192.168.53.1")
-def test_find():
-    drone = olympe.Drone(DRONE_IP)
-    drone.connect()
-    drone.start()
-    altitude = 50
 
-# #     drone(TakeOff()).wait()
 
-    # Calibrate the magnetometer 
-    #temporary fix
-    assert drone(MagnetoCalibration(1)).wait()
-
-    def gps_update_callback(event):
-        print("GPS update state changed:", event.args["state"])
+    #def gps_update_callback(event):
+        #print("GPS update state changed:", event.args["state"])
     
 
-    # Register the callback for GPS update state changes
-    assert drone.subscribe(GPSUpdateStateChanged(gps_update_callback))
+    #Register the callback for GPS update state changes
+    #assert drone.subscribe(GPSUpdateStateChanged(gps_update_callback))
 
-    latitude = drone.get_state(PositionChanged)["latitude"]
-    longitude = drone.get_state(PositionChanged)["longitude"]
+    #latitude = drone.get_state(PositionChanged)["latitude"]
+    #longitude = drone.get_state(PositionChanged)["longitude"]
 
-    assert drone(set_home=[latitude,longitude,altitude]).wait()
+    #assert drone(set_home=[latitude,longitude,altitude]).wait()
 
 # #     # Get the drone's magnetic heading from navdata.magneto.heading.fusionUnwrapped
 # #     #mag_heading = drone.get_state(HomeChanged)["magneto"]["heading"]["fusionUnwrapped"]
@@ -213,7 +204,7 @@ def test_find():
     assert drone.disconnect()
     
     
-def test_takeoff():
+def test_takeoff1():
     drone = olympe.Drone(DRONE_IP)
     drone.connect()
     gps_info = olympe.messages.controller_info.gps()
@@ -221,7 +212,7 @@ def test_takeoff():
     drone.disconnect
     
 if __name__ == "__main__":
-    test_takeoff()
+    #test_takeoff()
     #main()
     app.run(debug=True)
             

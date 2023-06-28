@@ -5,15 +5,8 @@ import requests
 import simple_websocket
 import json
 import time
-# Constants
-DOCKER_IMAGE_BASE_NAME = "drone_image"
-EXPOSED_PORT_START = 8005
-time.sleep(5)
 # Global variables
 COORDINATES_QUEUE = Queue()
-AVAILABLE_DRONES = []
-Unavailable = []
-wc = simple_websocket.Client('ws://proto1:5000/protocal')
 
 # Drone profiles
 DRONE_PROFILES = {
@@ -31,10 +24,6 @@ DRONE_PROFILES = {
 
 # Create a Flask app
 app = Flask(__name__)
-
-@app.route("/api/availability", methods=["GET"])
-def get_drone_availability():
-    return jsonify({"available_drones": AVAILABLE_DRONES})
 
 @app.route("/api/markHome/<profile>", methods=["POST"])
 def mark_drone_home(profile):
@@ -87,27 +76,13 @@ def launch(x, y, z):
                 "source": "launch"
             }
             print(params)
-            # response = requests.get(flask_url, json=params
-            wc.send(json.dumps(params))
+            url = 'http://proto1:5000/protocal'
+            response = requests.post(url, json=params)
 
-            return wc.receive()
-            #return params
+            return str(response.json)
 
         else:
             COORDINATES_QUEUE.put(coordinates)
 
-
-
-
-
-def initialize_drones():
-    # Initialize the available drones list based on the drone profiles
-    for drone_profile in DRONE_PROFILES.values():
-        AVAILABLE_DRONES.append(drone_profile)
-
 if __name__ == '__main__':
-    # Initialize the drones
-    initialize_drones()
-    # Run the Flask app
-    
     app.run(debug=True)

@@ -1,0 +1,13 @@
+av
+numpy
+opencv-python
+tqdm
+torch
+pandas
+requests
+pillow
+psutil
+torchvision
+pyyaml
+ultralytics
+gitpython==3.1.30
