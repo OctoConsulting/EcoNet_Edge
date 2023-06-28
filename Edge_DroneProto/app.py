@@ -1,3 +1,4 @@
+import requests
 import olympe
 from olympe.messages.ardrone3.Piloting import TakeOff, Landing, moveTo, moveBy
 
@@ -26,6 +27,10 @@ def worker(data):
     ip_address = "192.168.53.1"
     #test_takeoff(ip_address)
 
+    url = 'Manager:5000/api'
+    drone = 'parrot_anafi'
+    response = requests.post(f'http://{url}/markHome/{drone}')
+
     if data['source'] == 'launch':
         #test_takeoff(ip_address)
 
@@ -36,78 +41,71 @@ def worker(data):
         #test_takeoff()
         if data['DroneType'] == 'parrot':
   
+            # test_takeoff(ip_address)
+            #ONCE AT  1 , 1 , 1
+            #CONNECT TO WEBSOCKET
+            #START WHILE LOOP (BELOW)
 
-                test_takeoff(ip_address)
-                #ONCE AT  1 , 1 , 1
-                #CONNECT TO WEBSOCKET
-                #START WHILE LOOP (BELOW)
+            #from toto
+            #params = {
+                #"Point_of_interest": {
+                    #'x': 2, 
+                    #'y': 4
+                #},
+            #}
 
-                #from toto
-                #params = {
-                    #"Point_of_interest": {
-                        #'x': 2, 
-                        #'y': 4
-                    #},
-                #}
+            #activate totcv
+            #t_end = time.time() + 60 * 2
+            #while time.time() < t_end:
+                #websoket
+                #data.revice()
+                #move drone point to the point that is givven in data
+            
+                #if data.receive == return
+                    #send home
+            #send home
 
-                #activate totcv
-                #t_end = time.time() + 60 * 2
-                #while time.time() < t_end:
-                    #websoket
-                    #data.revice()
-                    #move drone point to the point that is givven in data
+            
+            #the moveTo command send the drone to a certain coordinate point at a certain height
+            #dummy values for now but this is the frame
+
+            #1: inital long lat
+            #2: once at long lat --> eavlute totocv
+                #get feedback and commit movments
                 
-                    #if data.receive == return
-                        #send home
-                #send home
+            #3: go back home logic
 
-                
-                #the moveTo command send the drone to a certain coordinate point at a certain height
-                #dummy values for now but this is the frame
+                #drone.disconnect()
 
-                #1: inital long lat
-                #2: once at long lat --> eavlute totocv
-                    #get feedback and commit movments
-                    
-                #3: go back home logic
+            #  http request to some endpoint in managmnt stating that this done has come back home
+            # url = 'Manager:5000/api'
+            # drone = 'parrot_anafi'
+            # response = requests.post(f'http://{url}/markHome/{drone}')
+            pass
 
-                    #drone.disconnect()
-                #  http request to some endpoint in managmnt stating that this done has come back home
-             
-                # IF OBJECT NOT FOUND IN 30 SECOND
-                #     THEN RETURN TO CORDINATE XYZ
-                    #  ALSO SEND CURL COMMAND TO CONTAINER:5000 
-                        # IN MESSAGE TO CONTAINER SEND ID Value
-        
         elif target == "skydio":
             #Skydio drone code here
             pass
 
   
-
-
-@sock.route('/protocal', methods=['GET'])
-def managage_commands(ws):
+@app.route('/protocal', methods=['POST'])
+def managage_commands():
     
-    try:
-        
-        while True:
- 
-            data = ws.receive()
-            
-            data_loaded = json.loads(data)
-            
-            print(data_loaded)
+    data_loaded = request.json
+    
+    print(data_loaded)
 
-            # submit tasks to the pool
-            pool.submit(worker, data_loaded)
-            m = {"message": "thread sent to work"}
-            ws.send(json.dumps(data_loaded))
-            
-    except (KeyboardInterrupt, EOFError, simple_websocket.ConnectionClosed):
-        pass
+    # submit tasks to the pool
+    pool.submit(worker, data_loaded)
+    m = {"message": "thread sent to work"}
 
-    return jsonify({"message": "connection closed"})
+    # url = 'Manager:5000/api'
+    # drone = 'parrot_anafi'
+    # response = requests.post(f'http://{url}/markHome/{drone}')
+    
+    return jsonify(m)
+
+
 
 def test_takeoff(ip):
     DRONE_IP = os.environ.get("DRONE_IP", ip)
