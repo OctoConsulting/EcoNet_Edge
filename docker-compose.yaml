@@ -162,12 +162,15 @@ services:
     depends_on:
       - prot
 
-
-
-
-
-
-
+  video:
+    hostname: video
+    build:
+      context: ./Edge_Video
+      dockerfile: DockerfileHLS
+    ports:
+      - "8080:8080"
+      - "80:80"
+      - "5000:5000"
 
 networks:
   appnet: # define appnet network

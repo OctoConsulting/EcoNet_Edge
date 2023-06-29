@@ -27,5 +27,6 @@ COPY ./encode_stop.sh .
 COPY ./container_startup.sh .
 COPY ./controls.py .
 COPY ./app.py .
+COPY ./nginx.conf /etc/nginx/nginx.conf
 
 CMD [ "./container_startup.sh" ]

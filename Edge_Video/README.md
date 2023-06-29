@@ -39,6 +39,10 @@ stops the stream
 
 runs on container startup, starts the nginx and waitress servers
 
+**nginx.conf**
+
+Config for the NGINX server
+
 **setup.ps1**
 
 runs everything

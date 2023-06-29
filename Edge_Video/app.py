@@ -16,11 +16,11 @@ def default():
 
 @app.route('/video/start_drone1', methods=['GET'])
 def drone1_start():
-    return jsonify(controls.start_drone(1))
+    return jsonify(controls.start_drone(1).name)
 
 @app.route('/video/stop_drone1', methods=['GET'])
 def drone1_stop():
-    return jsonify(controls.stop_drone(1))
+    return jsonify(controls.stop_drone(1).name)
 
 @app.route('/video/start_drone2', methods=['GET'])
 def drone2_start():
