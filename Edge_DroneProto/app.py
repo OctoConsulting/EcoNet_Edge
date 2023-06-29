@@ -116,12 +116,27 @@ def test_takeoff(ip):
     #assert drone(TakeOff()).wait().success()
    #time.sleep(5)
     print("=======================================================")
-    latitude = drone.get_state(PositionChanged)["latitude"]
-    longitude = drone.get_state(PositionChanged)["longitude"]
-    print("latitude", latitude, "longitude", longitude)
-    #assert drone(Landing()).wait().success()
-    #gps_info = olympe.messages.controller_info.gps()
-    #print("GPS info: ", gps_info)
+    drone(olympe.messages.gimbal.set_target(
+        gimbal_id=0, 
+        control_mode="position", 
+        yaw_frame_of_reference="none", 
+        yaw=0.0, 
+        pitch_frame_of_reference="absolute", 
+        pitch=45.0, #-45 goes up and 45 goes down
+        roll_frame_of_reference="none", 
+        roll=0.0)).wait()
+    
+    time.sleep(5)
+    drone(olympe.messages.ardrone3.GPSSettingsState.GPSFixStateChanged(_policy='wait'))
+    gps_location = drone.get_state(olympe.messages.ardrone3.PilotingState.GpsLocationChanged)
+
+    latitude = gps_location['latitude']
+    longitude = gps_location['longitude']
+    altitude = gps_location['altitude']
+
+    print("Lat: {}".format(latitude))
+    print("Long: {}".format(longitude))
+    print("Altitude: {}".format(altitude))
     drone.disconnect()
 
 def parrot_intake():
