@@ -51,27 +51,25 @@ def stream(ws,drone_ip=None):
         print('2', flush=True)
 
         inf_eng = YoloInferenceEngine(weights, conf_thresh=conf_thresh)
+        print('3', flush=True)
         while True:
             print('4', flush=True)
             for df in tqdm(decode_stream(live)):
                 results = None
                 if frame_num % sampling_rate == 0:
                     results = inf_eng.do_inference(df)
+                    print('5', flush=True)
                     l = list_results(results, df)
-                    #display_result(results, df)
+                    display_result(results, df)
 
                     arr = l['detections']
 
                     for detection in arr:
                         # history = tracker.get(0)
                         if detection['label'] == 'person' and track(detection, history):
-                            if history['count'] >= 1:
+                            if history['count'] >= 0:
                                 ws.send(history['record'][-1])
                                 # print(history['record'][-1])
-                            #if history['lock'] and history['count'] >= 0:
-                                #print('6', flush=True)
-                                #ws.send(history['record'][-1])
-                                #print(history['record'][-1])
 
             frame_num += 1
 
