@@ -44,7 +44,7 @@ services:
       - "5000"
 
     devices:
-      - /dev/bus/usb:/dev/bus/usb
+      - /dev/snd:/dev/snd
     privileged: true
 
 #################################
@@ -52,19 +52,19 @@ services:
 # TOTOCV CONTAINER
 
 ################################
-  # totocv:
-  #   build:
-  #     context: ./TotoCV # this is the absolute path to the app directory
-  #     dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
+  totocv:
+    build:
+      context: ./TotoCV # this is the absolute path to the app directory
+      dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
 
-  #   image: totocv-img #the name of the image that will be used by the app service
-  #   networks:
-  #     - appnet # connect to appnet network
-  #   container_name: toto
-  #   ports:
-  #     - "8001:5000"
-  #   expose:
-  #     - "5000"
+    image: totocv-img #the name of the image that will be used by the app service
+    networks:
+      - appnet # connect to appnet network
+    container_name: toto
+    ports:
+      - "8001:5000"
+    expose:
+      - "5000"
 
 #################################
 

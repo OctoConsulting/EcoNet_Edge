@@ -9,7 +9,6 @@ COPY ./requirements.txt .
 RUN apt-get update 
 RUN apt-get upgrade -y
 
-
 RUN apt-get install -y python3-pip
 
 # Install Gunicorn
@@ -24,8 +23,8 @@ RUN pip install klvdata \
 
 RUN apt-get install libgl1-mesa-glx -y
 RUN apt-get install libglib2.0-0 -y
-RUN apt-get install ssh
 RUN pip install --upgrade flask_sock
+RUN apt-get install ssh -y
 
 # Copy the entire project to the container
 COPY . .
