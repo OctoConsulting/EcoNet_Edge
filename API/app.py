@@ -25,7 +25,11 @@ def get_audio(ws):
 
     audio = pyaudio.PyAudio()
 
-    stream = audio.open(format=audio_format, channels=channels, rate=sample_rate, input=True, frames_per_buffer=chunk_size)
+    stream = audio.open(format=audio_format, \
+                               channels=channels, \
+                               rate=sample_rate, \
+                               input=True, \
+                               frames_per_buffer=chunk_size)
 
     try:
         i = 0
