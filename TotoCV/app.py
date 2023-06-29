@@ -67,7 +67,7 @@ def stream(ws,drone_ip=None):
                     for detection in arr:
                         # history = tracker.get(0)
                         if detection['label'] == 'person' and track(detection, history):
-                            if history['count'] >= 0:
+                            if history['count'] >= 6:
                                 ws.send(history['record'][-1])
                                 # print(history['record'][-1])
 
@@ -135,10 +135,10 @@ def display_result(results, img):
             # cv2.putText(img, str(detect.label), (int(detect.x1), int(detect.y1) + 5), fontFace=cv2.FONT_HERSHEY_SIMPLEX,
             #             fontScale=0.5, color=(0, 0, 255), thickness=1)
     
-    cv2.namedWindow("Display", cv2.WINDOW_NORMAL)
-    cv2.imshow("Display", img)
+    #cv2.namedWindow("Display", cv2.WINDOW_NORMAL)
+    #cv2.imshow("Display", img)
     #delay= int(1000 / 500)
-    cv2.waitKey(1)
+    #cv2.waitKey(1)
 
 
 def track(detection, history):
@@ -199,7 +199,7 @@ def track(detection, history):
         # if not in range and 3 strikes or more
             # throw out detection
         if history['strikes'] >= 3:
-            tracker.pop(detection['id'])
+            #tracker.pop(detection['id'])
             # tracker[0] = {}
             history = {}
             print('I am popping')
