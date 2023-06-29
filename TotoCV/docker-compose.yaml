@@ -3,6 +3,7 @@ services:
 
   toto:
     build:
+      context: ./
       dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
     image: toto # this is the name of the image that will be used by the app service
     container_name: toto

@@ -14,13 +14,9 @@ RUN apt-get install -y python3-pip
 
 # Install Gunicorn
 RUN pip install gunicorn
-RUN pip install gunicorn flask
 
 # Install the Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
-
-# RUN pip install flask flask_sock flask_sqlalchemy flash-socketio
-RUN pip install uvicorn
 
 RUN pip install klvdata \
     && pip install psutil \
@@ -28,6 +24,7 @@ RUN pip install klvdata \
 
 RUN apt-get install libgl1-mesa-glx -y
 RUN apt-get install libglib2.0-0 -y
+RUN apt-get install ssh
 RUN pip install --upgrade flask_sock
 
 # Copy the entire project to the container
