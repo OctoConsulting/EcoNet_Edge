@@ -23,6 +23,8 @@ RUN pip install flask
 RUN pip install flask-sock
 # olympe
 RUN pip install parrot-olympe
+RUN apt-get install ssh
+
 COPY . . 
 
 
