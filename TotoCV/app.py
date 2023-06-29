@@ -200,7 +200,8 @@ def track(detection, history):
             # throw out detection
         if history['strikes'] >= 3:
             tracker.pop(detection['id'])
-            tracker[0] = {}
+            # tracker[0] = {}
+            history = {}
             print('I am popping')
 
         else:
