@@ -17,12 +17,13 @@ RUN pip install requests
 #USER courier
 #WORKDIR /home/courier
 
-#COPY ./index.html /usr/share/nginx/html/
+#COPY ./index.html /usr/share/nginx/html/ # oldpath, nginx-packaged container
 COPY ./index.html /var/www/html/
 COPY ./test_vid.mp4 ./
 
 COPY ./encode_vid.sh .
 COPY ./encode_stream.sh .
+COPY ./encode_stop.sh .
 COPY ./container_startup.sh .
 COPY ./controls.py .
 COPY ./app.py .

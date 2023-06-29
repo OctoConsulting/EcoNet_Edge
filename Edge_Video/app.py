@@ -14,13 +14,29 @@ sock = Sock(app)
 def default():
     return jsonify("heyy :)")
 
-@app.route('/video/drone1_start', methods=['GET'])
+@app.route('/video/start_drone1', methods=['GET'])
 def drone1_start():
     return jsonify(controls.start_drone(1))
 
-@app.route('/video/drone1_stop', methods=['GET'])
+@app.route('/video/stop_drone1', methods=['GET'])
 def drone1_stop():
-    return jsonify("heyy :)")
+    return jsonify(controls.stop_drone(1))
+
+@app.route('/video/start_drone2', methods=['GET'])
+def drone2_start():
+    return jsonify("UNIMPLEMENTED")
+
+@app.route('/video/stop_drone2', methods=['GET'])
+def drone2_stop():
+    return jsonify("UNIMPLEMENTED")
+
+@app.route('/video/start_drone3', methods=['GET'])
+def drone3_start():
+    return jsonify("UNIMPLEMENTED")
+
+@app.route('/video/stop_drone3', methods=['GET'])
+def drone3_stop():
+    return jsonify("UNIMPLEMENTED")
 
 if __name__ == '__main__':
     app.run()

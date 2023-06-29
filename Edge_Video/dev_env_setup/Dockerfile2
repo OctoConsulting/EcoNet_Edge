@@ -1,3 +1,5 @@
+# currently unused
+
 # RHEL Host OS, but
 # debian dev environment and sql environment
 FROM debian:bullseye

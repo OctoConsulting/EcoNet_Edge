@@ -1,3 +1,6 @@
+# file that includes functions to start and stop video for a drone given an arg.
+# drone number.
+
 import os
 from enum import Enum
 
@@ -8,5 +11,5 @@ def start_drone(drone_number: int) -> Status:
   return Status.STARTED
 
 def stop_drone(drone_number: int) -> Status:
-  os.system('./stop_encode.sh')
+  os.system('./encode_stop.sh')
   return Status.STOPPED

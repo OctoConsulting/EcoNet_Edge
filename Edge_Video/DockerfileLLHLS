@@ -1,3 +1,4 @@
+# currently unused
 FROM bluenviron/mediamtx:latest-ffmpeg
 
 RUN apt-get update
