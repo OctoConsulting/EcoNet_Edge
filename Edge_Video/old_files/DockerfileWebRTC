@@ -1,4 +1,4 @@
-# currently unused
+# currently unused. Used to create a WebRTC server
 
 FROM debian:bullseye
 

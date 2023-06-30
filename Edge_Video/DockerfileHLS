@@ -2,8 +2,6 @@ FROM debian:bullseye
 
 RUN apt-get update && apt-get upgrade -y
 
-RUN apt-get update && apt-get install nginx -y
-
 RUN apt-get update && apt-get install ffmpeg -y
 RUN apt-get update && apt-get install procps -y
 
@@ -13,12 +11,6 @@ RUN apt-get update && apt-get install python3-waitress -y
 RUN pip install flask flask_sock flask_sqlalchemy flask_cors
 RUN pip install requests
 
-#RUN useradd -m -G users -s /bin/bash courier
-#USER courier
-#WORKDIR /home/courier
-
-#COPY ./index.html /usr/share/nginx/html/ # oldpath, nginx-packaged container
-COPY ./index.html /var/www/html/
 COPY ./test_vid.mp4 ./
 
 COPY ./encode_vid.sh .
@@ -27,6 +19,7 @@ COPY ./encode_stop.sh .
 COPY ./container_startup.sh .
 COPY ./controls.py .
 COPY ./app.py .
-COPY ./nginx.conf /etc/nginx/nginx.conf
+
+RUN mkdir /srv/feed1/
 
 CMD [ "/bin/bash", "./container_startup.sh" ]
