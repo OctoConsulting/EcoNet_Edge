@@ -36,6 +36,11 @@ def get_all_shot_stats():
 def get_all_events():
     return jsonify(query_get.get_all_events())
 
+# gets all markers
+@app.route('/db/get_all_markers', methods=['GET'])
+def get_all_markers():
+    return jsonify(query_get.get_all_markers())
+
 # gets all events
 #@app.route('/db/get_all_shots_for_event', methods=['GET'])
 #def get_all_shots_for_event():
@@ -61,12 +66,30 @@ def get_shot_stats_by_id():
     id= request.args.get('id')
     return jsonify(query_get.get_all_where("shot_stats", "id", "=", id)[0])
 
+
 @app.route('/db/put_shot_raw', methods=['POST'])
 def put_shot_raw():
 #    shot_time= request.args.get('shot_time')
 #    preprocessed_audio_hash= request.args.get('preprocessed_audio_hash')
 #    return jsonify(query_get.put_shot_raw(shot_time, preprocessed_audio_hash))
     return jsonify("UNIMPLEMENTED")
+
+@app.route('/db/update_marker_db/<string:id>', methods=['PUT'])
+def update_marker_db(id):
+    # Retrieve the data from the request body
+    query_put.put_marker(request.json, id)
+    
+    # Return a response indicating the success of the operation
+    return jsonify({'message': f'Marker with ID {id} updated successfully'})
+
+@app.route('/db/post_marker_db', methods=['POST'])
+def post_marker_db():
+    # Retrieve the data from the request body
+    query_post.post_marker(request.json)
+    
+    # Return a response indicating the success of the operation
+    return jsonify({'message': f'Marker inserted successfully'})
+
 
 @app.route('/db/put_shot_detector_model', methods=['PUT'])
 def put_shot_detector_model():

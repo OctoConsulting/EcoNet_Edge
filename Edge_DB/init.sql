@@ -12,6 +12,14 @@ CREATE TYPE gun AS ENUM (
     'pistol'
 );
 
+CREATE TYPE target_type AS ENUM (
+    'drone',
+    'objective',
+    'person',
+    'vehicle',
+    'android'
+);
+
 -- EdgeDevice Status DB
 CREATE TABLE edge_device_status (
     bat_percent double precision,
@@ -77,6 +85,18 @@ CREATE TABLE drone_status_template (
     video_status integer,
     drone_battery double precision,
     followed_event integer
+);
+
+CREATE TABLE target_markers (
+    ID VARCHAR(100) primary key,
+    altitude double precision,
+    direction double precision,
+    distance double precision,
+    latitude double precision,
+    longitude double precision,
+    update_time integer,
+    marker_type target_type,
+    is_active boolean
 );
 
 CREATE TABLE drone_1_status AS (SELECT * FROM drone_status_template);
