@@ -2,6 +2,8 @@ import requests
 import olympe
 from olympe.messages.ardrone3.Piloting import TakeOff, Landing, moveTo, moveBy
 from olympe.messages.gimbal import *
+from olympe.messages.ardrone3.PilotingState import FlyingStateChanged
+from olympe.enums.ardrone3.PilotingState import FlyingStateChanged_State as FlyingState
 #from olympe.messages.ardrone3.GPSSettingState import GPSFixStateChanged
 # from olympe.messages.ardrone3.PilotingState import PositionChanged
 
@@ -12,6 +14,7 @@ import concurrent.futures
 import os 
 import time
 import math
+from enum import Enum
 from time import sleep
 import simple_websocket
 
@@ -33,15 +36,16 @@ def worker(data):
         sendDroneOut(ip_address, lat, lon, angle)
         # let toto take over
 
-        ws = simple_websocket.Client(f'ws://toto:5000/toto/{ip_address}')
-        t_end = time.time() + 60 * 2
-        while time.time() < t_end:
-            data = ws.recive()
-            loaded = json.loads(data)
-
-            x = loaded['x']
-            y = loaded['y']
-        
+        if(flyingStatus.ARRIVED_TO_SHOT == 4):
+            ws = simple_websocket.Client(f'ws://toto:5000/toto/{ip_address}')
+            t_end = time.time() + 60 * 2
+            while time.time() < t_end:
+                data = ws.recive()
+                loaded = json.loads(data)
+                x = loaded['x']
+                y = loaded['y']
+        else:
+            flyingStatus.ARRIVED_TO_SHOT = 2
         
         # go home logic
         returnToHome(ip_address, lat, lon, angle)
@@ -50,6 +54,13 @@ def worker(data):
         drone = 'parrot_anafi'
         response = requests.post(f'http://{url}/markHome/{drone}')
 
+class flyingStatus(Enum):
+    TAKE_OFF = 0
+    IN_PROGRESS = 1
+    ARRIVED_TO_SHOT = 2
+    RETURNED = 3
+    
+    
   
 @app.route('/protocal', methods=['POST'])
 def managage_commands():
@@ -92,6 +103,16 @@ def sendDroneOut(ip, latitude, longitude, angle):
         drone(olympe.messages.ardrone3.PilotingSettings.MaxAltitude(current=100,_timeout=20))
         drone(moveBy(0,0,50,0)).wait()
         drone(moveBy(latitude,longitude,0,angle)).wait()
+        
+
+        flying_states = FlyingState._bitfield_type_("takingoff|hovering|flying")
+
+        if drone.get_state(olympe.messages.ardrone3.PilotingState.FLyingStateChanged)["hovering"] in flying_states:
+            assert True, "The drone is hovering"
+            flyingStatus.ARRIVED_TO_SHOT = 4
+        else:
+            flyingStatus.IN_PROGRESS
+
         drone(olympe.messages.gimbal.set_target(
             gimbal_id=0,
             control_mode="position",
