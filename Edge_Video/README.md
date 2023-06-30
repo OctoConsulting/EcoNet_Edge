@@ -8,7 +8,15 @@ Where encoding, the flask interface and the nginx web server is run
 
 **app.py**
 
-Flask interface. Includes a few apis:
+Flask interface. Includes a few apis that can be run with
+
+```Bash
+curl http://localhost:5000/video/start_test
+```
+
+/video/start_test
+
+/video/stop_test
 
 /video/start_drone1
 

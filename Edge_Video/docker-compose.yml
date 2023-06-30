@@ -6,8 +6,8 @@ services:
       context: .
       dockerfile: DockerfileHTML
     ports:
-      - "8080:8080"
-      - "80:80"
+     - "8080:8080"
+     - "80:80"
     volumes:
     - type: volume
       source: feed1
@@ -18,7 +18,7 @@ services:
       context: .
       dockerfile: DockerfileHLS
     ports:
-      - "5000:5000"
+     - "5000:5000"
     volumes:
     - type: volume
       source: feed1
