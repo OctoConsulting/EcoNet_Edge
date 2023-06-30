@@ -1,3 +1,5 @@
+# api app.py
+
 import wave
 from flask import Flask, request, jsonify, send_file
 from flask_sock import Sock
@@ -21,32 +23,36 @@ def get_audio(ws):
     # this is in bytes
     # chunk_size = 65536
     # 52920
+    #chunk_size= 52920
     chunk_size = 52920*10000
-
+    #chunk_size= 1024
+    
     audio = pyaudio.PyAudio()
-
+    mic_info = audio.get_device_info_by_index(0)
+    print(mic_info)
+    input_device_indexs = 4
     stream = audio.open(format=audio_format, \
                                channels=channels, \
                                rate=sample_rate, \
                                input=True, \
+                               input_device_index=input_device_indexs, \
                                frames_per_buffer=chunk_size)
-
     try:
         i = 0
         while True:
             data = stream.read(52920)
             ws.send(data)
             
-            # wf = wave.open(f"audio{i}.wav", 'wb')
-            # wf.setnchannels(channels)
-            # wf.setsampwidth(audio.get_sample_size(pyaudio.paInt16))
-            # wf.setframerate(44100)
-            # wf.writeframes(data)
+            #wf = wave.open(f"audio{i}.wav", 'wb')
+            #wf.setnchannels(channels)
+            #wf.setsampwidth(audio.get_sample_size(pyaudio.paInt16))
+            #wf.setframerate(44100)
+            #wf.writeframes(data)
 
-            # duration_seconds = wf.getnframes() / wf.getframerate()
-            # print(duration_seconds)
-            # wf.close
-            # i += 1
+            #duration_seconds = wf.getnframes() / wf.getframerate()
+            #print(duration_seconds)
+            #wf.close
+            #i += 1
         
     except KeyboardInterrupt:
         pass

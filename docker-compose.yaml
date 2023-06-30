@@ -103,6 +103,8 @@ services:
       - "8003:5000"
     expose:
       - "5000"
+    devices:
+      - /dev/snd:/dev/snd
 
 #################################
 
@@ -162,15 +164,15 @@ services:
     depends_on:
       - prot
 
-  video:
-    hostname: video
-    build:
-      context: ./Edge_Video
-      dockerfile: DockerfileHLS
-    ports:
-      - "8080:8080"
-      - "80:80"
-      - "5000:5000"
+  #video:
+    #hostname: video
+    #build:
+      #context: ./Edge_Video
+      #dockerfile: DockerfileHLS
+    #ports:
+      #- "8080:8080"
+      #- "80:80"
+      #- "5000:5000"
 
 networks:
   appnet: # define appnet network

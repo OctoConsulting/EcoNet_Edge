@@ -1,3 +1,5 @@
+# shot detect dockerfile
+
 FROM python:3.10
 
 # Set the working directory inside the container
@@ -10,6 +12,9 @@ COPY requirements.txt .
 # Install the Python dependencies
 RUN pip install flask-sock
 RUN pip install --no-cache-dir -r requirements.txt
+RUN apt-get update && apt-get install libasound-dev libportaudio2 libportaudiocpp0 portaudio19-dev -y
+RUN pip install --upgrade pip setuptools wheel
+RUN pip install pyaudio
 
 COPY . .
 

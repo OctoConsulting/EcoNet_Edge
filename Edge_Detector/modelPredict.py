@@ -22,7 +22,7 @@ class AudioClassifier:
 
         # Load the PyTorch model
         model = CNNNetwork().to(device)
-        model.load_state_dict(torch.load('./ShotDetectorPredictor/model_1.2.pt', map_location=torch.device('cpu')))
+        model.load_state_dict(torch.load('./model_1.2.pt', map_location=torch.device('cpu')))
 
         # Load the audio file
         waveform, _ = torchaudio.load(audio_file)
