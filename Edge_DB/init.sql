@@ -17,10 +17,8 @@ CREATE TYPE target_type AS ENUM (
     'objective',
     'person',
     'vehicle',
-    'android',
-)
-
-CREATE TYPE marker_type AS 
+    'android'
+);
 
 -- EdgeDevice Status DB
 CREATE TABLE edge_device_status (
@@ -98,7 +96,7 @@ CREATE TABLE target_markers (
     longitude double precision,
     update_time integer,
     marker_type target_type,
-    is_active boolean,
+    is_active boolean
 );
 
 CREATE TABLE drone_1_status AS (SELECT * FROM drone_status_template);
