@@ -10,7 +10,7 @@ chunk_size = 512
 
 audio = pyaudio.PyAudio()
 
-stream = audio.open(format=audio_format, channels=channels, rate=sample_rate, input=True, frames_per_buffer=chunk_size, input_device_index=0)
+stream = audio.open(format=audio_format, channels=1, rate=sample_rate, input=True, frames_per_buffer=chunk_size, input_device_index=0)
 
 frame = []
 

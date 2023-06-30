@@ -1,8 +1,12 @@
+# shot_detector app.py
+
 from flask import Flask, request, jsonify
 import subprocess
 import os
 import json
 import base64
+import wave
+import pyaudio
 
 app = Flask(__name__)
 
@@ -16,11 +20,16 @@ def detect_shot():
         # convert from base64 to bytes
         my_bytes = base64.b64decode(base64_bytes)
 
+        channels= 1
         # make .wav file
-        with open('myfile.wav', mode='wb') as f:
-                f.write(my_bytes)
+        audio= pyaudio.PyAudio()
+        with wave.open('myfile.wav', 'wb') as f:
+            f.setnchannels(channels)
+            f.setsampwidth(audio.get_sample_size(pyaudio.paInt16))
+            f.setframerate(44100)
+            f.writeframes(my_bytes)
 
-        subprocess_cmd = ['python', './ShotDetectorPredictor/modelPredict.py', 'myfile.wav']
+        subprocess_cmd = ['python', './modelPredict.py', 'myfile.wav']
         subprocess_output = subprocess.run(subprocess_cmd, capture_output=True, text=True)
         
         # Check if the subprocess succeeded
