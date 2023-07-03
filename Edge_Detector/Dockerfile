@@ -6,6 +6,8 @@ WORKDIR /app
 # Copy the requirements file to the container
 COPY requirements.txt .
 
+# Install Gunicorn
+RUN pip install gunicorn
 
 # Install the Python dependencies
 RUN pip install flask-sock
@@ -21,5 +23,5 @@ EXPOSE 5000
 
 # Run the Flask application
 # Create the output data true(1) and false(0)
-
-CMD ["flask", "run", "--host=0.0.0.0"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "app:app"]
+# CMD ["flask", "run", "--host=0.0.0.0"]

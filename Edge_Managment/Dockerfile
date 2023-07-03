@@ -17,6 +17,10 @@ COPY . .
 RUN pip install flask
 RUN pip install requests
 RUN pip install simple-websocket
+
+# Install Gunicorn
+RUN pip install gunicorn
+
 # RUN cat /etc/debian_version && sleep 15
 
 # COPY . .
@@ -27,4 +31,5 @@ RUN pip install simple-websocket
 EXPOSE 5000
 
 # Run the Flask application
+# CMD ["gunicorn", "--bind", "0.0.0.0:8000", "app:app"]
 CMD ["flask", "run", "--host=0.0.0.0"]
