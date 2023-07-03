@@ -1,3 +1,5 @@
+# API dockerfile
+
 FROM python:3.9
 # Set the working directory inside the container
 WORKDIR /app
@@ -26,4 +28,5 @@ EXPOSE 5000
 
 # Run the Flask application
 # CMD ["gunicorn", "--bind", "0.0.0.0:8000", "app:app"]
+# CMD ["/bin/bash"]
 CMD ["flask", "run", "--host=0.0.0.0"]

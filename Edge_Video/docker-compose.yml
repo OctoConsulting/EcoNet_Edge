@@ -4,9 +4,33 @@ services:
     hostname: web
     build:
       context: .
+      dockerfile: DockerfileHTML
+    ports:
+     - "8080:8080"
+     - "80:80"
+    volumes:
+    - type: volume
+      source: feed1
+      target: /usr/share/nginx/html/feed1
+  encode:
+    hostname: encode
+    build:
+      context: .
       dockerfile: DockerfileHLS
     ports:
-      - "8080:8080"
-      - "80:80"
-      - "1935:1935"
-      - "5000:5000"
+     - "5000:5000"
+    volumes:
+    - type: volume
+      source: feed1
+      target: /srv/feed1
+    - type: volume
+      source: feed2
+      target: /srv/feed2
+    - type: volume
+      source: feed3
+      target: /srv/feed3
+  
+volumes:
+  feed1:
+  feed2:
+  feed3:
