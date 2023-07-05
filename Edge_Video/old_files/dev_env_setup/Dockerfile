@@ -1,3 +1,5 @@
+# currently unused, used for testing ffmpeg commands with different libraries
+
 # RHEL Host OS, but
 # debian dev environment and sql environment
 FROM debian:bullseye

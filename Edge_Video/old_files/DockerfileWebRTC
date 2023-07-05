@@ -1,3 +1,5 @@
+# currently unused. Used to create a WebRTC server
+
 FROM debian:bullseye
 
 RUN apt-get update

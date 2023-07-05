@@ -5,15 +5,8 @@ import requests
 import simple_websocket
 import json
 import time
-# Constants
-DOCKER_IMAGE_BASE_NAME = "drone_image"
-EXPOSED_PORT_START = 8005
-time.sleep(5)
 # Global variables
 COORDINATES_QUEUE = Queue()
-AVAILABLE_DRONES = []
-Unavailable = []
-wc = simple_websocket.Client('ws://proto1:5000/protocal')
 
 # Drone profiles
 DRONE_PROFILES = {
@@ -32,10 +25,6 @@ DRONE_PROFILES = {
 # Create a Flask app
 app = Flask(__name__)
 
-@app.route("/api/availability", methods=["GET"])
-def get_drone_availability():
-    return jsonify({"available_drones": AVAILABLE_DRONES})
-
 @app.route("/api/markHome/<profile>", methods=["POST"])
 def mark_drone_home(profile):
     DRONE_PROFILES[profile]['available'] = True
@@ -46,68 +35,40 @@ def mark_drone_home(profile):
 @app.route("/api/coordinates", methods=["POST"])
 def receive_coordinates():
     data = request.get_json()
-    global longitute
     longitude = data["longitude"]
-    global latitude
     latitude = data["latitude"]
     coordinates = (longitude, latitude)
-    COORDINATES_QUEUE.put(coordinates)
 
     # searching for avalible drine
-    print(DRONE_PROFILES, flush=True)
     for drone_profile in DRONE_PROFILES.values():
-        print(drone_profile, flush=True)
-        print(drone_profile["available"], flush=True)
-        
         if drone_profile["available"]:
             drone_profile["available"] = False
             print(drone_profile["drone_type"])
             m = launch(longitude, latitude, drone_profile)
             return m
     
-    return jsonify({"message": "drone"})
-    #m = launch(latitude, longitude)
-    #m = launch(longitude, latitude)
-    #m = launch(1, 1, 1)
-    #send_command_to_container()
-    #return m
+    # if there are no avalible drones
+    COORDINATES_QUEUE.put(coordinates)
+    
+    return jsonify({"message": "no drones avalible"})
 
-def launch(x, y, z):
+def launch(longitude, latitude, drone_profile):
 
-        if z:
-            #z["available"] = False
-            DTYPE = z["drone_type"]
-            DADDR = z["ip_address"]
-            
-            params = {
-                "DroneType": DTYPE,
-                "DRONE_IP": DADDR,
-                "LONG": x,
-                "LAT": y,
-                "source": "launch"
-            }
-            print(params)
-            # response = requests.get(flask_url, json=params
-            wc.send(json.dumps(params))
+        DTYPE = drone_profile["drone_type"]
+        DADDR = drone_profile["ip_address"]
+        
+        params = {
+            "DroneType": DTYPE,
+            "DRONE_IP": DADDR,
+            "LONG": longitude,
+            "LAT": latitude,
+        }
 
-            return wc.receive()
-            #return params
+        url = 'http://proto1:5000/protocal'
+        response = requests.post(url, json=params)
 
-        else:
-            COORDINATES_QUEUE.put(coordinates)
+        return str(response)
 
-
-
-
-
-def initialize_drones():
-    # Initialize the available drones list based on the drone profiles
-    for drone_profile in DRONE_PROFILES.values():
-        AVAILABLE_DRONES.append(drone_profile)
 
 if __name__ == '__main__':
-    # Initialize the drones
-    initialize_drones()
-    # Run the Flask app
-    
     app.run(debug=True)

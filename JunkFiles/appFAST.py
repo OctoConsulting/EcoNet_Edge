@@ -1,11 +1,8 @@
-from flask import Flask, request, jsonify
-from flask_sock import Sock
+from fastapi import FastAPI, WebSocket
 import toto
 import os
 import subprocess
 import json
-import warnings
-warnings.filterwarnings("ignore")
 from tqdm import tqdm
 from toto.yolo_inference.yolo_inference_engine import YoloInferenceEngine
 from toto.bh_runner.decode_stream import *
@@ -14,68 +11,52 @@ import cv2
 import base64
 import math
 
-
-# this is localhost:8000
-
-app = Flask(__name__)
-sock = Sock(app)
-
 tracker = {0: {}}
-history = {}
-threshHold = 0
+threshHold = 20
+app = FastAPI()
 
+async def stream_frames(live):
+    for df in decode_stream(live):
+        yield df
 
-###########################################################
-# this should manage comunication with the main porgram
-###########################################################
-@app.route('/toto/main', methods=['POST'])
-def point():
+@app.websocket("/toto/{drone_ip}")
+async def websocket_endpoint(websocket: WebSocket, drone_ip: str):
+    await websocket.accept()
 
-    return
-
-@sock.route('/toto/<drone_ip>', methods=['GET'])
-def stream(ws,drone_ip=None):
-    print('1', flush=True)
     if not drone_ip:
         print("error")
-        return "error"
+        await websocket.close(code=1002)
     
-
-    try: 
-
+    try:
         live = 'rtsp://' + drone_ip + '/live'
         frame_num = 0
-        sampling_rate = 3
-        conf_thresh=0.25
+        sampling_rate = 6
+        conf_thresh = 0.25
         weights = 'yolov5s.pt'
-        print('2', flush=True)
 
         inf_eng = YoloInferenceEngine(weights, conf_thresh=conf_thresh)
-        print('3', flush=True)
-        while True:
-            print('4', flush=True)
-            for df in tqdm(decode_stream(live)):
-                results = None
-                if frame_num % sampling_rate == 0:
-                    results = inf_eng.do_inference(df)
-                    print('5', flush=True)
-                    l = list_results(results, df)
-                    display_result(results, df)
 
-                    arr = l['detections']
+        async for df in stream_frames(live):
+            results = None
+            if frame_num % sampling_rate == 0:
+                results = inf_eng.do_inference(df)
 
-                    for detection in arr:
-                        # history = tracker.get(0)
-                        if detection['label'] == 'person' and track(detection, history):
-                            if history['count'] >= 6:
-                                ws.send(history['record'][-1])
-                                # print(history['record'][-1])
+                l = list_results(results, df)
+                display_result(results, df)
+
+                arr = l['detections']
+
+                for detection in arr:
+                    history = tracker.get(0)
+                    if detection['label'] == 'person' and track(detection, history):
+                        if history['lock'] and history['count'] >= threshHold:
+                            await websocket.send_text("hello")
+                            print(history['record'][-1])
 
             frame_num += 1
-
+                
     except KeyboardInterrupt:
-            pass
-
+        pass
 
 
 ###########################################
@@ -135,10 +116,10 @@ def display_result(results, img):
             # cv2.putText(img, str(detect.label), (int(detect.x1), int(detect.y1) + 5), fontFace=cv2.FONT_HERSHEY_SIMPLEX,
             #             fontScale=0.5, color=(0, 0, 255), thickness=1)
     
-    #cv2.namedWindow("Display", cv2.WINDOW_NORMAL)
-    #cv2.imshow("Display", img)
+    cv2.namedWindow("Display", cv2.WINDOW_NORMAL)
+    cv2.imshow("Display", img)
     #delay= int(1000 / 500)
-    #cv2.waitKey(1)
+    cv2.waitKey(1)
 
 
 def track(detection, history):
@@ -199,9 +180,8 @@ def track(detection, history):
         # if not in range and 3 strikes or more
             # throw out detection
         if history['strikes'] >= 3:
-            #tracker.pop(detection['id'])
-            # tracker[0] = {}
-            history = {}
+            tracker.pop(detection['id'])
+            tracker[0] = {}
             print('I am popping')
 
         else:
@@ -222,8 +202,4 @@ def createBody_image(detection):
     body['image'] = detection['image']
 
     return body
-    
-if __name__ == '__main__':
-    app.run(port=5000)
-    
     
