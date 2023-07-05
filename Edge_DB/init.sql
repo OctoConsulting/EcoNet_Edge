@@ -80,15 +80,15 @@ CREATE TABLE drone_status_template (
 );
 
 CREATE TABLE target_markers (
-    _ID VARCHAR(100) primary key,
-    _Alt double precision,
-    _Direction double precision,
-    _Distance double precision,
-    _Lat double precision,
-    _Lon double precision,
-    _Timestamp integer,
-    _Type integer,
-    _isActive boolean
+    "_ID" VARCHAR(100) primary key,
+    "_Alt" double precision,
+    "_Direction" double precision,
+    "_Distance" double precision,
+    "_Lat" double precision,
+    "_Lon" double precision,
+    "_Timestamp" integer,
+    "_Type" integer,
+    "_isActive" boolean
 );
 
 CREATE TABLE drone_1_status AS (SELECT * FROM drone_status_template);

@@ -12,7 +12,7 @@ def post_marker(data):
     with psycopg.connect(db_info) as connection, connection.cursor() as cursor:
         # Example update query
         insert_query = """
-        INSERT INTO target_markers (_Alt, _Direction, _Distance, _Lat, _Lon, _Timestamp, _Type, _isActive, _ID)
+        INSERT INTO target_markers ("_Alt", "_Direction", "_Distance", "_Lat", "_Lon", "_Timestamp", "_Type", "_isActive", "_ID")
         VALUES (%s::double precision, %s::double precision, %s::double precision, %s::double precision, %s::double precision, %s::integer, %s::integer, %s::boolean, %s)
         """
         values = (
