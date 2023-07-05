@@ -28,5 +28,5 @@ EXPOSE 5000
 
 # Run the Flask application
 # Create the output data true(1) and false(0)
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "app:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
 # CMD ["flask", "run", "--host=0.0.0.0"]
