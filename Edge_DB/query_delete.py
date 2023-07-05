@@ -12,7 +12,7 @@ def delete_marker(id):
     with psycopg.connect(db_info) as connection, connection.cursor() as cursor:
         delete_query = """
         DELETE FROM target_markers
-        WHERE id = %s;
+        WHERE "_ID" = %s;
         """
         values = (id,)  # Replace id with the actual ID value you want to delete
         cursor.execute(delete_query, values)
