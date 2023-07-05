@@ -2,4 +2,8 @@ FROM nginx
 
 COPY ./index.html /usr/share/nginx/html/
 COPY ./nginx.conf /etc/nginx/nginx.conf
+
 RUN mkdir /usr/share/nginx/html/feed1/
+
+RUN mkdir /usr/share/nginx/html/lib/
+COPY ./lib/hls.js /usr/share/nginx/ntml/lib/hls.js

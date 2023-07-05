@@ -12,10 +12,6 @@ RUN pip install flask flask_sock flask_sqlalchemy flask_cors
 RUN pip install requests
 
 COPY ./index.html /usr/share/nginx/html/
-
-RUN mkdir /usr/share/nginx/html/lib/hls.js
-COPY ./lib/hls.js /usr/share/nginx/html/lib/hls.js
-
 COPY ./test_vid.mp4 ./
 
 COPY ./encode_vid.sh .
