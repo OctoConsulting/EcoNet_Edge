@@ -22,6 +22,4 @@ ENV FLASK_APP=client.py
 EXPOSE 5000
 
 # Run the Flask application
-# CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
-# CMD ["flask", "run", "--host=0.0.0.0"]
 CMD ["flask", "run", "--host=0.0.0.0"]

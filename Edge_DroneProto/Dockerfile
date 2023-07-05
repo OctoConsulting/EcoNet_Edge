@@ -20,14 +20,14 @@ RUN apt-get install -y libgl1 libgl1-mesa-glx lsb-release \
     python3-opencv python3-opengl
 RUN pip install opencv-python pysdl2 pysdl2-dll
 RUN pip install flask
-RUN pip install simple-websocket
+RUN pip install flask-sock
 # olympe
 RUN pip install parrot-olympe
+
 COPY . . 
+
 
 ENV FLASK_APP=app.py
 
-# CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
-# CMD ["flask", "run", "--host=0.0.0.0"]
 
 CMD ["flask", "run", "--host=0.0.0.0"]

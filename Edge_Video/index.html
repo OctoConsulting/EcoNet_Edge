@@ -13,9 +13,7 @@
         </video>
     </div>
 -->
-  <video id="video"
-    autoplay="true" controls="controls" type='application/x-mpegURL'>
-  </video>
+  <video id="video" autoplay="true" controls="controls" type='application/x-mpegURL'></video>
   <script>
     console.log("logs");
     if (Hls.isSupported()) {
@@ -32,8 +30,7 @@
         }
         else 
         {
-          // note the above line needs to be changed depending on deployment
-          hls.loadSource("http://localhost/feed1/streaming.m3u8");
+          hls.loadSource("http://localhost/streaming.m3u8");
         }
         //hls.loadSource("/usr/share/nginx/html/test_vid/manifest.m3u8")
         hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {

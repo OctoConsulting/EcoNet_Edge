@@ -24,7 +24,7 @@ services:
 # Model CONTAINER
 
 ################################
-  Manager:
+  manger:
     build:
       # context: ./Edge_Managment # this is the absolute path to the app directory
       dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory

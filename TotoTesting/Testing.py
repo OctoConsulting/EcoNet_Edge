@@ -1,7 +1,7 @@
 import simple_websocket
 
 def main():
-    ws = simple_websocket.Client('ws://localhost:5000/toto/192.168.53.1')
+    ws = simple_websocket.Client('ws://localhost:8001/toto/192.168.53.1')
     try:
         while True:
             data = ws.receive()

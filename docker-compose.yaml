@@ -44,7 +44,7 @@ services:
       - "5000"
 
     devices:
-      - /dev/snd:/dev/snd
+      - /dev/bus/usb:/dev/bus/usb
     privileged: true
 
 #################################
@@ -52,19 +52,19 @@ services:
 # TOTOCV CONTAINER
 
 ################################
-  totocv:
-    build:
-      context: ./TotoCV # this is the absolute path to the app directory
-      dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
+  # totocv:
+  #   build:
+  #     context: ./TotoCV # this is the absolute path to the app directory
+  #     dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
 
-    image: totocv-img #the name of the image that will be used by the app service
-    networks:
-      - appnet # connect to appnet network
-    container_name: toto
-    ports:
-      - "8001:5000"
-    expose:
-      - "5000"
+  #   image: totocv-img #the name of the image that will be used by the app service
+  #   networks:
+  #     - appnet # connect to appnet network
+  #   container_name: toto
+  #   ports:
+  #     - "8001:5000"
+  #   expose:
+  #     - "5000"
 
 #################################
 
@@ -103,8 +103,6 @@ services:
       - "8003:5000"
     expose:
       - "5000"
-    devices:
-      - /dev/snd:/dev/snd
 
 #################################
 
@@ -150,10 +148,10 @@ services:
 ################################
   manger:
     build:
-      context: ./Edge_Managment # the absolute path to the app directory
-      dockerfile: Dockerfile # the name of the Dockerfile in the app directory
+      context: ./Edge_Managment # this is the absolute path to the app directory
+      dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
 
-    image: manner-img # the name of the image to be used by the app service
+    image: manner-img # this is the name of the image that will be used by the app service
     networks:
       - appnet # connect to appnet network
     container_name: Manager
@@ -164,48 +162,15 @@ services:
     depends_on:
       - prot
 
-#######################
-#_    _ __ ____
-#\    / | |   \
-# \  /  | |   |
-#  \/   | |_ /
-#
-#######################
-  web:
-    hostname: web
-    build:
-      context: ./Edge_Video
-      dockerfile: DockerfileHTML
-#    expose: # will be published w/ reverse proxy
-#       - "8080:8080/tcp"
-#       - "80:80/tcp"
-    volumes:
-    - type: volume
-      source: feed1
-      target: /usr/share/nginx/html/feed1
-  encode:
-    hostname: encode
-    build:
-      context: ./Edge_Video
-      dockerfile: DockerfileHLS
-#    expose: # will be published w/ reverse proxy
-#      - "5000:5000"
-    volumes:
-    - type: volume
-      source: feed1
-      target: /srv/feed1
-    - type: volume
-      source: feed2
-      target: /srv/feed2
-    - type: volume
-      source: feed3
-      target: /srv/feed3
-  
-volumes:
-  feed1:
-  feed2:
-  feed3:
+
+
+
+
+
+
 
 networks:
   appnet: # define appnet network
     driver: bridge
+
+

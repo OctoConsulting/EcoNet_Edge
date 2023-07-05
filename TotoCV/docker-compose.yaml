@@ -3,21 +3,14 @@ services:
 
   toto:
     build:
-      context: ./
       dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
+      
     image: toto # this is the name of the image that will be used by the app service
     container_name: toto
     network_mode: host
-
-  client:
-    build:
-      context: ./TotoTesting # this is the absolute path to the app directory
-      dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
-      
-    image: client # this is the name of the image that will be used by the app service
-    container_name: client
-    network_mode: host
-    depends_on:
-      - toto
+    ports:
+      - "8000:8000"
+    expose:
+      - "8000"
 
 

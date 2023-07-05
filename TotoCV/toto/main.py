@@ -22,8 +22,8 @@ def main(source):
             results = inf_eng.do_inference(df)
 
             display_result(results, df)
-            # l = list_results(results,df)
-            # print(l)    
+            l = list_results(results)
+            print(l)    
 
             # TODO l should look like this 
 
@@ -50,8 +50,12 @@ def main(source):
 
             # send l through a websocket to toto pre prossessing
 
+
+        
+
         frame_num += 1
 
+    return l
 
 def list_results(results, img):
     image = make_image(results, img)
