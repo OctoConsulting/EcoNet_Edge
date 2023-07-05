@@ -10,9 +10,9 @@ import json
 def main():
     PARENT_PID = os.getpid()
 
-    url = 'api:5000/api'
+    #url = 'api:5000/api'
 
-    ws = simple_websocket.Client(f'ws://{url}/detection/audio')
+    #ws = simple_websocket.Client(f'ws://{url}/detection/audio')
 
     try:
         while True:
