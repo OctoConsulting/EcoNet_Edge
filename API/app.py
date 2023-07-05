@@ -16,49 +16,15 @@ sock = Sock(app)
 #################################
 @sock.route('/api/detection/audio', methods=['GET'])
 def get_audio(ws):
-    audio_format = pyaudio.paInt16
-
-    channels = 1
-    sample_rate = 44100
-    # this is in bytes
-    # chunk_size = 65536
-    # 52920
-    #chunk_size= 52920
-    chunk_size = 52920*10000
-    #chunk_size= 1024
-    
-    audio = pyaudio.PyAudio()
-    mic_info = audio.get_device_info_by_index(0)
-    print(mic_info)
-    input_device_indexs = 4
-    stream = audio.open(format=audio_format, \
-                               channels=channels, \
-                               rate=sample_rate, \
-                               input=True, \
-                               input_device_index=input_device_indexs, \
-                               frames_per_buffer=chunk_size)
     try:
-        i = 0
+        url = 'host.docker.internal:5000'
+        w_out = simple_websocket.Client(f'ws://{url}/audio')
         while True:
-            data = stream.read(52920)
+            data = w_out.receive()
             ws.send(data)
             
-            #wf = wave.open(f"audio{i}.wav", 'wb')
-            #wf.setnchannels(channels)
-            #wf.setsampwidth(audio.get_sample_size(pyaudio.paInt16))
-            #wf.setframerate(44100)
-            #wf.writeframes(data)
-
-            #duration_seconds = wf.getnframes() / wf.getframerate()
-            #print(duration_seconds)
-            #wf.close
-            #i += 1
-        
     except KeyboardInterrupt:
         pass
-    stream.stop_stream()
-    stream.close()
-    audio.terminate()
 
 
 #################################
