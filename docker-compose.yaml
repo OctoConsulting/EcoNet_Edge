@@ -87,7 +87,7 @@ services:
 
 #################################
 
-# Shot detect CONTAINER
+# MODLE(Shot detect) CONTAINER
 
 ################################
   shot_detect:
@@ -127,7 +127,7 @@ services:
 
 #################################
 
-# DroneProto CONTAINER
+# Model CONTAINER
 
 ################################
   prot:
@@ -145,7 +145,7 @@ services:
       - "5000"
 #################################
 
-# DroneManagment CONTAINER
+# Model CONTAINER
 
 ################################
   manger:

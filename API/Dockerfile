@@ -7,9 +7,6 @@ WORKDIR /app
 # Copy the requirements file to the container
 COPY requirements.txt .
 
-# Install Gunicorn
-RUN pip install gunicorn
-
 RUN apt-get update
 RUN apt-get install libasound-dev libportaudio2 libportaudiocpp0 portaudio19-dev -y
 RUN pip install --upgrade pip setuptools wheel
@@ -27,6 +24,7 @@ ENV FLASK_APP=app.py
 EXPOSE 5000
 
 # Run the Flask application
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
+# CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
 # CMD ["/bin/bash"]
 # CMD ["flask", "run", "--host=0.0.0.0"]
+CMD ["flask", "run", "--host=0.0.0.0"]

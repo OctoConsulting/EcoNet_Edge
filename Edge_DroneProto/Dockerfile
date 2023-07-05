@@ -23,13 +23,11 @@ RUN pip install flask
 RUN pip install simple-websocket
 # olympe
 RUN pip install parrot-olympe
-
-# Install Gunicorn
-RUN pip install gunicorn
-
 COPY . . 
 
 ENV FLASK_APP=app.py
 
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
+# CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
 # CMD ["flask", "run", "--host=0.0.0.0"]
+
+CMD ["flask", "run", "--host=0.0.0.0"]
