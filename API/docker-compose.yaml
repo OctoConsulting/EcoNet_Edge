@@ -1,0 +1,22 @@
+version: '3.3'
+services:
+
+#################################
+
+# API CONTAINER
+
+################################
+  api2:
+    build:
+      dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
+
+    image: imgapi # this is the name of the image that will be used by the app service
+    container_name: api2
+    ports:
+      - "8000:5000"
+    expose:
+      - "5000"
+    privileged: true
+
+#################################
+
