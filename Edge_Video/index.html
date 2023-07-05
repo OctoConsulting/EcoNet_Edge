@@ -3,7 +3,7 @@
 <head>
   <title>Live Cam</title>
 </head>
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script src="http://192.168.50.203/lib/hls.js"></script>
 <body>
   <!-- Use this if you only support Safari!!
     <div id="player">
@@ -30,7 +30,7 @@
         }
         else 
         {
-          hls.loadSource("http://localhost/streaming.m3u8");
+          hls.loadSource("http://192.168.50.203/streaming.m3u8");
         }
         //hls.loadSource("/usr/share/nginx/html/test_vid/manifest.m3u8")
         hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
