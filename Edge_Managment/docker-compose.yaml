@@ -26,7 +26,7 @@ services:
 ################################
   Manager:
     build:
-      # context: ./Edge_Managment # this is the absolute path to the app directory
+      context: . # this is the absolute path to the app directory
       dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
 
     image: manner-img # this is the name of the image that will be used by the app service
@@ -40,7 +40,23 @@ services:
     depends_on:
       - prot
 
+###############################
+#Toto 
+###############################
 
+  totocv:
+    build:
+      context: ../TotoCV # this is the absolute path to the app directory
+      dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
+
+    image: totocv-img #the name of the image that will be used by the app service
+    networks:
+      - appnet # connect to appnet network
+    container_name: toto
+    ports:
+      - "8007:5000"
+    expose:
+      - "5000"
 
 
 

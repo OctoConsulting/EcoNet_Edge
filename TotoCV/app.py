@@ -42,7 +42,6 @@ def stream(ws,drone_ip=None):
     
 
     try: 
-
         live = 'rtsp://' + drone_ip + '/live'
         frame_num = 0
         sampling_rate = 3

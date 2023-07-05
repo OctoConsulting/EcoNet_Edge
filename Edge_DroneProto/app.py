@@ -24,31 +24,50 @@ pool = concurrent.futures.ThreadPoolExecutor(max_workers=num_of_drones)
 app = Flask(__name__)
 
 def worker(data):
-
+    print("=========================================================")
+    print("before int",flush=True)
     drone = data['DroneType']
     ip_address = data['DRONE_IP']
+    print(ip_address,flush=True)
     lon = data['LONG']
     lat = data['LAT']
     angle = 0 #add models real angle when we get it
-
+    print("=========================================================")
+    print("before if",flush=True)
     if drone == 'parrot':
         # send drone to long lat
         #sendDroneOut(ip_address, lat, lon, angle)
         # let toto take over
-        testGimbalWithToTo(ip_address)
-        if(flyingStatus.ARRIVED_TO_SHOT == 4):
-            ws = simple_websocket.Client(f'ws://toto:5000/toto/{ip_address}')
-            t_end = time.time() + 60 * 2
-            while time.time() < t_end:
+        print("=====================================================")
+        print("starting movement")
+        
+        
+        
+        ws = simple_websocket.Client(f'ws://toto:5000/toto/{ip_address}')
+        print("totf",flush=True)
+
+        t_end = time.time() + 60 * 2
+        while time.time() < t_end:
+            testGimbalWithToTo(ip_address)
+            if(flyingStatus.ARRIVED_TO_SHOT == 4):
+                print("gimbal completion",flush=True)
+
                 data = ws.recive()
                 loaded = json.loads(data)
                 x = loaded['x']
                 y = loaded['y']
-        else:
-            flyingStatus.ARRIVED_TO_SHOT = 2
+                print(x, flush=True)
+                print(y, flush=True)
+                
+            else:
+                flyingStatus.ARRIVED_TO_SHOT = 2
+                    
+            
+        
+            
         
         # go home logic
-        returnToHome(ip_address, lat, lon, angle)
+        #returnToHome(ip_address, lat, lon, angle)
         # tell managmnet that drone came home
         url = 'Manager:5000/api'
         drone = 'parrot_anafi'
@@ -95,28 +114,29 @@ def returnToHome(ip, latitude, longitude, angle):
     ...
 
 def testGimbalWithToTo(ip):
-    with olympe.Drone(ip) as drone:
-        drone.__init__(ip)
-        drone.connect()   
-        drone(olympe.messages.gimbal.set_target(
-            gimbal_id=0,
-            control_mode="position",
-            yaw_frame_of_reference="none",
-            yaw=10.0,
-            pitch_frame_of_reference="absolute",
-            pitch=-45.0,
-            roll_frame_of_reference="none",
-            roll=10.0,)).wait()
-        
-        start_time = time.time()
-
-        while True:
-            current_time = time.time()
-            elapsed_time = current_time - start_time
-
-            if elapsed_time >= 5:
-                flyingStatus.ARRIVED_TO_SHOT = 4
-                break
+    drone = olympe.Drone(ip)
+    drone.__init__(ip)
+    drone.connect()   
+    
+    drone(olympe.messages.gimbal.reset_orientation(gimbal_id=0)).wait()
+    time.sleep(5)
+    drone(olympe.messages.gimbal.set_target(
+        gimbal_id=0,
+        control_mode="position",
+        yaw_frame_of_reference="none",
+        yaw=10.0,
+        pitch_frame_of_reference="absolute",
+        pitch=-15.0,
+        roll_frame_of_reference="none",
+        roll=10.0,)).wait()
+    
+    print("=========== done moving=============== ")
+    start_time = time.time() + 5
+    current_time = time.time()
+    elapsed_time = current_time - start_time
+    flyingStatus.ARRIVED_TO_SHOT = 4
+                
+            
 
         
 
