@@ -12,10 +12,20 @@ def post_marker(data):
     with psycopg.connect(db_info) as connection, connection.cursor() as cursor:
         # Example update query
         insert_query = """
-        INSERT INTO target_markers (altitude, direction, distance, latitude, longitude, update_time, marker_type, is_active, ID)
-        VALUES (%s::double precision, %s::double precision, %s::double precision, %s::double precision, %s::double precision, %s::integer, %s::target_type, %s::boolean, %s)
+        INSERT INTO target_markers (_Alt, _Direction, _Distance, _Lat, _Lon, _Timestamp, _Type, _isActive, _ID)
+        VALUES (%s::double precision, %s::double precision, %s::double precision, %s::double precision, %s::double precision, %s::integer, %s::integer, %s::boolean, %s)
         """
-        values = (data['_Alt'], data['_Direction'], data['_Distance'], data['_Lat'], data['_Lon'], data['_Timestamp'], data['_Type'], data['_isActive'], data['_ID'])
+        values = (
+            data.get('_Alt', 0.0),
+            data.get('_Direction', 0.0),
+            data.get('_Distance', 0.0),
+            data.get('_Lat', 0.0),
+            data.get('_Lon', 0.0),
+            data.get('_Timestamp', 0),
+            data.get('_Type', 0),
+            data.get('_isActive', True),
+            data.get('_ID')
+        )
         cursor.execute(insert_query, values)
         
         # Commit the changes
