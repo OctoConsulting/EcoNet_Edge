@@ -33,9 +33,9 @@ def worker(data):
 
     if drone == 'parrot':
         # send drone to long lat
-        sendDroneOut(ip_address, lat, lon, angle)
+        #sendDroneOut(ip_address, lat, lon, angle)
         # let toto take over
-
+        testGimbalWithToTo(ip_address)
         if(flyingStatus.ARRIVED_TO_SHOT == 4):
             ws = simple_websocket.Client(f'ws://toto:5000/toto/{ip_address}')
             t_end = time.time() + 60 * 2
@@ -93,6 +93,32 @@ def returnToHome(ip, latitude, longitude, angle):
         assert drone.disconnect()
 
     ...
+
+def testGimbalWithToTo(ip):
+    with olympe.Drone(ip) as drone:
+        drone.__init__(ip)
+        drone.connect()   
+        drone(olympe.messages.gimbal.set_target(
+            gimbal_id=0,
+            control_mode="position",
+            yaw_frame_of_reference="none",
+            yaw=10.0,
+            pitch_frame_of_reference="absolute",
+            pitch=-45.0,
+            roll_frame_of_reference="none",
+            roll=10.0,)).wait()
+        
+        start_time = time.time()
+
+        while True:
+            current_time = time.time()
+            elapsed_time = current_time - start_time
+
+            if elapsed_time >= 5:
+                flyingStatus.ARRIVED_TO_SHOT = 4
+                break
+
+        
 
 def sendDroneOut(ip, latitude, longitude, angle):
     with olympe.Drone(ip) as drone:
