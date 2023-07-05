@@ -4,6 +4,7 @@ import requests
 import query_get
 import query_put
 import query_post
+import query_delete
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -77,20 +78,40 @@ def put_shot_raw():
 
 @app.route('/db/update_marker_db/<string:id>', methods=['PUT'])
 def update_marker_db(id):
-    # Retrieve the data from the request body
-    query_put.put_marker(request.json, id)
-    
-    # Return a response indicating the success of the operation
-    return jsonify({'message': f'Marker with ID {id} updated successfully'})
+    try:
+        # Retrieve the data from the request body
+        query_put.put_marker(request.json, id)
+        
+        # Return a response indicating the success of the operation
+        return jsonify({'message': f'Marker with ID {id} updated successfully'})
+    except Exception as e:
+        error_message = f"An error occurred while inserting the marker: {str(e)}"
+        return jsonify({'error': error_message}), 500
+
 
 @app.route('/db/post_marker_db', methods=['POST'])
 def post_marker_db():
-    # Retrieve the data from the request body
-    query_post.post_marker(request.json)
-    
-    # Return a response indicating the success of the operation
-    return jsonify({'message': f'Marker inserted successfully'})
+    try:
+        # Retrieve the data from the request body
+        query_post.post_marker(request.json)
+        
+        # Return a response indicating the success of the operation
+        return jsonify({'message': f'Marker inserted successfully'})
+    except Exception as e:
+        error_message = f"An error occurred while inserting the marker: {str(e)}"
+        return jsonify({'error': error_message}), 500
 
+@app.route('/db/delete_marker_db/<string:id>', methods=['DELETE'])
+def delete_marker_db(id):
+    try:
+        # Retrieve the data from the request body
+        query_delete.delete_marker(id)
+        
+        # Return a response indicating the success of the operation
+        return jsonify({'message': f'Marker deleted successfully'})
+    except Exception as e:
+        error_message = f"An error occurred while inserting the marker: {str(e)}"
+        return jsonify({'error': error_message}), 500
 
 @app.route('/db/put_shot_detector_model', methods=['PUT'])
 def put_shot_detector_model():

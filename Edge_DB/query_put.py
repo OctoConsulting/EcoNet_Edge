@@ -44,7 +44,7 @@ def put_marker(data, id):
         # Example update query
         update_query = """
         UPDATE target_markers
-        SET altitude = %s::double precision, direction = %s::double precision, distance = %s::double precision, latitude = %s::double precision, longitude = %s::double precision, update_time = %s::integer, marker_type = %s::target_type, is_active = %s::boolean,
+        SET altitude = %s::double precision, direction = %s::double precision, distance = %s::double precision, latitude = %s::double precision, longitude = %s::double precision, update_time = %s::integer, marker_type = %s::target_type, is_active = %s::boolean
         WHERE id = %s
         """
         values = (data['_Alt'], data['_Direction'], data['_Distance'], data['_Lat'], data['_Lon'], data['_Timestamp'], data['_Type'], data['_isActive'], id)
