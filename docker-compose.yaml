@@ -176,9 +176,9 @@ services:
     build:
       context: ./Edge_Video
       dockerfile: DockerfileHTML
-    expose: # will be published w/ reverse proxy
-       - "8080:8080"
-       - "80:80"
+#    expose: # will be published w/ reverse proxy
+#       - "8080:8080/tcp"
+#       - "80:80/tcp"
     volumes:
     - type: volume
       source: feed1
@@ -188,8 +188,8 @@ services:
     build:
       context: ./Edge_Video
       dockerfile: DockerfileHLS
-    expose: # will be published w/ reverse proxy
-      - "5000:5000"
+#    expose: # will be published w/ reverse proxy
+#      - "5000:5000"
     volumes:
     - type: volume
       source: feed1
