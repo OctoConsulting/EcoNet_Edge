@@ -16,6 +16,7 @@ services:
       - db
     hostname: db_dev
     build:
+      context: .
       dockerfile: ./dev_env_setup/Dockerfile # change to a non-dev file later...
     ports:
       - "5000:5000" # flask
