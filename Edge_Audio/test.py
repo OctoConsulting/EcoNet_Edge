@@ -5,7 +5,7 @@ import simple_websocket
 import pyaudio
 import wave
 
-CHUNK = 52920*10000
+CHUNK = 52920*10
 FORMAT = pyaudio.paInt16
 CHANNELS = 4
 RATE = 44100
