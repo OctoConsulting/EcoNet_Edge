@@ -13,8 +13,8 @@ class AudioClassifier:
         transforms = Compose([
             torchaudio.transforms.Resample(orig_freq=44100, new_freq=22050),
             torchaudio.transforms.MelSpectrogram(sample_rate=22050, n_fft=1024, hop_length=512, n_mels=64),
-            torchaudio.transforms.AmplitudeToDB(),
-            Normalize(mean=[-14.92], std=[19.03])  # Adjust with appropriate mean and std
+            #torchaudio.transforms.AmplitudeToDB(),
+            #Normalize(mean=[-14.92], std=[19.03])  # Adjust with appropriate mean and std
         ])
 
         # Set the device for model inference
@@ -22,13 +22,14 @@ class AudioClassifier:
 
         # Load the PyTorch model
         model = CNNNetwork().to(device)
-        model.load_state_dict(torch.load('./model_1.2.pt', map_location=torch.device('cpu')))
+        model.load_state_dict(torch.load('./model_1.2.pt',  map_location=device))
 
         # Load the audio file
         waveform, _ = torchaudio.load(audio_file)
 
         # Mix audio channels down to one
-        mixed_waveform = waveform.mean(dim=0, keepdim=True)
+       # mixed_waveform = waveform.mean(dim=0, keepdim=True)
+        mixed_waveform = torch.mean(waveform, dim=0, keepdim=True)
 
         # Preprocess the audio
         input_tensor = transforms(mixed_waveform).unsqueeze(0).to(device)
@@ -44,6 +45,7 @@ class AudioClassifier:
         predicted_label = torch.argmax(output, 1).item()
 
         # Create a JSON object
+        # print(predicted_label)
         output_json = {
             "shot": predicted_label == 6  # True if predicted label is 6, False otherwise
         }

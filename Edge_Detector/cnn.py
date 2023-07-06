@@ -81,4 +81,3 @@ class CNNNetwork(nn.Module):
 if __name__ == "__main__":
     cnn = CNNNetwork()
     summary(cnn.cuda(), (1, 64, 44))
-
