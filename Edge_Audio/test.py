@@ -1,20 +1,18 @@
 import pyaudio
 import wave
-
-# p = pyaudio.PyAudio()
-# for i in range(p.get_device_count()):
-#     if p.get_device_info_by_index(i)['']
-#     print(p.get_device_info_by_index(i))
+import simple_websocket
 
 import pyaudio
 import wave
 
-CHUNK = 1024
+CHUNK = 52920*10000
 FORMAT = pyaudio.paInt16
 CHANNELS = 4
 RATE = 44100
 RECORD_SECONDS = 1.2
 OUTPUT_FILENAME = "output.wav"
+
+ws = simple_websocket.Client('ws://192.168.50.203:5000/api/detection/audio')
 
 p = pyaudio.PyAudio()
 
@@ -30,25 +28,17 @@ stream = p.open(format=FORMAT,
                 input_device_index=device_index,
                 frames_per_buffer=CHUNK)
 
-frames = []
 
 print("Recording started...")
 
-for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
-    data = stream.read(CHUNK)
-    frames.append(data)
-
-print("Recording finished.")
-
+try:
+    i = 0
+    while True:
+        data = stream.read(52920)
+        ws.send(data)
+    
+except KeyboardInterrupt:
+    pass
 stream.stop_stream()
 stream.close()
 p.terminate()
-
-wf = wave.open(OUTPUT_FILENAME, 'wb')
-wf.setnchannels(CHANNELS)
-wf.setsampwidth(p.get_sample_size(FORMAT))
-wf.setframerate(RATE)
-wf.writeframes(b''.join(frames))
-wf.close()
-
-print(f"Audio saved to {OUTPUT_FILENAME}.")
