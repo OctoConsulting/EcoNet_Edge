@@ -1,12 +1,14 @@
-FROM python:3.11
+FROM python:3.10
 
 WORKDIR /app
 
-COPY . /app/
 
-RUN pip install scikit-learn
-RUN pip install -U Flask
-RUN pip install flask-socketio
+RUN pip install PyWavelets
+RUN pip install numpy
+RUN pip install librosa
+RUN pip install flask
+
+COPY . .
 
 ENV FLASK_APP=client.py
 

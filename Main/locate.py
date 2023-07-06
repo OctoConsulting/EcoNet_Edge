@@ -17,10 +17,10 @@ def main():
     body = {}
     body['audio'] = audio
 
-    # resp_preprossessing = requests.post(f'http://{url}/preporessing', json=body)
-    # preprossessed = resp_preprossessing.json()
+    resp_preprossessing = requests.post(f'http://{url}/preporessing', json=body)
+    preprossessed = resp_preprossessing.json()
 
-    # print(preprossessed, flush=True)
+    print(preprossessed, flush=True)
 
     time.sleep(500)
 

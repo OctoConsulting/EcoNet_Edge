@@ -1,7 +1,6 @@
 import wave
 from flask import Flask, request, jsonify, send_file
 from flask_sock import Sock
-import pyaudio
 import requests, json
 import simple_websocket
 import subprocess

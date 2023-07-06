@@ -2,6 +2,7 @@ import os
 import subprocess
 from flask import Flask, request, jsonify, send_file
 import base64
+import wave
 
 app = Flask(__name__)
 
@@ -17,13 +18,16 @@ def process_wav():
 
     # make .wav file
   
-    with open('myfile.wav', mode='wb') as f:
-        f.write(my_bytes)
+    with wave.open('myfile.wav', 'wb') as f:
+        f.setnchannels(4)
+        f.setsampwidth(2)
+        f.setframerate(44100)
+        f.writeframes(my_bytes)
 
     wav_path = 'myfile.wav'
-    output_filename = 'myfile.wav'
+    output_filename = 'out.wav'
     # Process the .wav file using audioPlayer.py as a subprocess
-    subprocess_cmd = ['python', './Noice/ica.py', wav_path] 
+    subprocess_cmd = ['python', 'JSP.py', wav_path, output_filename] 
     # arg1 = input file, arg2 = out file
      
     subprocess_output = subprocess.run(subprocess_cmd, capture_output=True, text=True)

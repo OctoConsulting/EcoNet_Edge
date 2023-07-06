@@ -19,55 +19,55 @@ sock = Sock(app)
 #################################
 # get audio from mic
 #################################
-@sock.route('/api/detection/audio', methods=['GET'])
-def get_audio(ws):
-    #try:
+# @sock.route('/api/detection/audio', methods=['GET'])
+# def get_audio(ws):
+#     #try:
     
-    #    url = '192.168.50.100:5000'
-    #    w_out = simple_websocket.Client(f'ws://{url}/audio')
-    #    while True:
-    #        data = w_out.receive()
-    #        ws.send(data)
+#     #    url = '192.168.50.100:5000'
+#     #    w_out = simple_websocket.Client(f'ws://{url}/audio')
+#     #    while True:
+#     #        data = w_out.receive()
+#     #        ws.send(data)
             
-    #except KeyboardInterrupt:
-    #    pass
+#     #except KeyboardInterrupt:
+#     #    pass
     
-    try:
-        while True:
-            byte_array = ws.receive()
-            base64_bytes = base64.b64encode(byte_array)
+#     try:
+#         while True:
+#             byte_array = ws.receive()
+#             base64_bytes = base64.b64encode(byte_array)
             
-            a = {}
-            a['audio'] = base64_bytes.decode('utf-8')
-            audio= pyaudio.PyAudio()
-            #with file.open('heyy', 'w') as file:
-            with wave.open(f"audio[i].wav", "wb") as wf:
-                wf.setnchannels(4)
-                wf.setsampwidth(audio.get_sample_size(pyaudio.paInt16))
-                wf.setframerate(44100)
-                wf.writeframes(byte_array)
-            #print(a, flush= True)
-            #response = requests.post(f'http://{url}/detection/detectShot', json=a)
+#             a = {}
+#             a['audio'] = base64_bytes.decode('utf-8')
+#             audio= pyaudio.PyAudio()
+#             #with file.open('heyy', 'w') as file:
+#             with wave.open(f"audio[i].wav", "wb") as wf:
+#                 wf.setnchannels(4)
+#                 wf.setsampwidth(audio.get_sample_size(pyaudio.paInt16))
+#                 wf.setframerate(44100)
+#                 wf.writeframes(byte_array)
+#             #print(a, flush= True)
+#             #response = requests.post(f'http://{url}/detection/detectShot', json=a)
 
-            #resp_json = response.json()
-            #shot = resp_json.get('shot')
+#             #resp_json = response.json()
+#             #shot = resp_json.get('shot')
 
-            #if shot:
-                # Define the command and arguments
-            #    command = ["python", "locate.py"]
+#             #if shot:
+#                 # Define the command and arguments
+#             #    command = ["python", "locate.py"]
 
-                # Launch the subprocess and redirect stdout to a pipe
-            #    process = subprocess.Popen(command, stdin=subprocess.PIPE)
+#                 # Launch the subprocess and redirect stdout to a pipe
+#             #    process = subprocess.Popen(command, stdin=subprocess.PIPE)
 
-                # Send data to the subprocess
-            #    data = json.dumps(a['audio']).encode("utf-8")  # Encode the string as bytes
-            #    process.stdin.write(data)
-            #    process.stdin.close() 
+#                 # Send data to the subprocess
+#             #    data = json.dumps(a['audio']).encode("utf-8")  # Encode the string as bytes
+#             #    process.stdin.write(data)
+#             #    process.stdin.close() 
                     
 
                         
-    except (KeyboardInterrupt, EOFError, simple_websocket.ConnectionClosed):
-        ws.close()
+#     except (KeyboardInterrupt, EOFError, simple_websocket.ConnectionClosed):
+#         ws.close()
 
 
 

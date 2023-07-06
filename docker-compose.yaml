@@ -23,6 +23,10 @@ services:
     devices:
       - /dev/bus/usb:/dev/bus/usb
     container_name: main
+    ports:
+      - "5000:5000"
+    expose:
+      - "5000"
 
 #################################
 

@@ -1,10 +1,14 @@
-FROM python:3.9-slim
+FROM python:3.9
 
 # Set the working directory inside the container
 WORKDIR /app
 
 # Copy the requirements file to the container
 COPY requirements.txt .
+
+RUN apt-get update
+RUN apt-get install libasound-dev libportaudio2 libportaudiocpp0 portaudio19-dev -y
+RUN pip install --upgrade pip setuptools wheel
 
 # Install the Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt

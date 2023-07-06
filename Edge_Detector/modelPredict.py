@@ -9,13 +9,7 @@ from cnn import CNNNetwork
 
 class AudioClassifier:
     def __init__(self, audio_file):
-        # Define the transforms for preprocessing the audio
-        transforms = Compose([
-            torchaudio.transforms.Resample(orig_freq=44100, new_freq=22050),
-            torchaudio.transforms.MelSpectrogram(sample_rate=22050, n_fft=1024, hop_length=512, n_mels=64),
-            #torchaudio.transforms.AmplitudeToDB(),
-            #Normalize(mean=[-14.92], std=[19.03])  # Adjust with appropriate mean and std
-        ])
+        
 
         # Set the device for model inference
         device = torch.device("cpu")
@@ -25,7 +19,15 @@ class AudioClassifier:
         model.load_state_dict(torch.load('./model_1.2.pt',  map_location=device))
 
         # Load the audio file
-        waveform, _ = torchaudio.load(audio_file)
+        waveform, sr = torchaudio.load(audio_file)
+
+        # Define the transforms for preprocessing the audio
+        transforms = Compose([
+            torchaudio.transforms.Resample(orig_freq=sr, new_freq=22050),
+            torchaudio.transforms.MelSpectrogram(sample_rate=22050, n_fft=1024, hop_length=512, n_mels=64),
+            #torchaudio.transforms.AmplitudeToDB(),
+            #Normalize(mean=[-14.92], std=[19.03])  # Adjust with appropriate mean and std
+        ])
 
         # Mix audio channels down to one
        # mixed_waveform = waveform.mean(dim=0, keepdim=True)

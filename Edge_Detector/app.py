@@ -20,7 +20,7 @@ def detect_shot():
         # convert from base64 to bytes
         my_bytes = base64.b64decode(base64_bytes)
 
-        channels= 1
+        channels= 4
         # make .wav file
         audio= pyaudio.PyAudio()
         with wave.open('myfile.wav', 'wb') as f:
@@ -29,7 +29,7 @@ def detect_shot():
             f.setframerate(44100)
             f.writeframes(my_bytes)
 
-        subprocess_cmd = ['python', './modelPredict.py', 'myfile.wav']
+        subprocess_cmd = ['python', 'modelPredict.py', 'myfile.wav']
         subprocess_output = subprocess.run(subprocess_cmd, capture_output=True, text=True)
         
         # Check if the subprocess succeeded
