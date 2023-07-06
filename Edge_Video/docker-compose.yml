@@ -5,6 +5,9 @@ services:
     build:
       context: .
       dockerfile: DockerfileHTML
+    expose:
+     - "8080"
+     - "80"
     ports:
      - "8080:8080"
      - "80:80"
@@ -17,6 +20,8 @@ services:
     build:
       context: .
       dockerfile: DockerfileHLS
+    expose:
+     - "5000"
     ports:
      - "5000:5000"
     volumes:
