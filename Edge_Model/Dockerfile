@@ -14,6 +14,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install tensorflow
 RUN pip install soundfile
 RUN pip install numpy
+RUN pip install librosa
 
 # Copy the entire project to the container
 COPY . .

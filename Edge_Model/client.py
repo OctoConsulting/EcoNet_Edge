@@ -2,6 +2,9 @@ from flask import Flask, request, jsonify
 from flask_sock import Sock
 import os, json, subprocess, shutil
 import base64
+import librosa
+from librosa import onset
+import wave
 
 app = Flask(__name__)
 
@@ -16,8 +19,12 @@ def point():
     my_bytes = base64.b64decode(base64_bytes)
 
     # make .wav file
-    with open('myfile.wav', mode='wb') as f:
-        f.write(my_bytes)
+    with wave.open('myfile.wav', 'wb') as f:
+        f.setnchannels(4)
+        f.setsampwidth(2)
+        f.setframerate(44100)
+        f.writeframes(my_bytes)
+
 
     subprocess_cmd = ['python', 'acoustic_inference_tf.py', 'myfile.wav']
     subprocess_output = subprocess.run(subprocess_cmd, capture_output=True, text=True)
