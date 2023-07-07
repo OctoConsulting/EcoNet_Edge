@@ -32,3 +32,17 @@ def post_marker(data):
         connection.commit()
         connection.close()
         cursor.close()
+
+# function to add a new shot
+def post_shot_raw(preprocessed_audio_hash: str):
+    with psycopg.connect(db_info) as connection, connection.cursor() as current:
+        sql_code= f'''
+        INSERT INTO shots (shot_time, preprocessed_audio_hash)
+        VALUES (now(), '%s')
+        RETURNING id;
+        '''
+
+        current.execute(sql_code, "UNIMPLEMENTED")
+        connection.commit()
+
+        return current.fetchone()[0] # fetchone returns a tuple
