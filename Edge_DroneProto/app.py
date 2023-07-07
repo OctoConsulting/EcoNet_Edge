@@ -1,5 +1,6 @@
 import requests
 import olympe
+from olympe.messages import *
 from olympe.messages.ardrone3.Piloting import TakeOff, Landing, moveTo, moveBy
 from olympe.messages.gimbal import *
 from olympe.messages.ardrone3.PilotingState import FlyingStateChanged
@@ -24,32 +25,142 @@ pool = concurrent.futures.ThreadPoolExecutor(max_workers=num_of_drones)
 app = Flask(__name__)
 
 def worker(data):
-
+    print("=========================================================")
+    print("before int",flush=True)
     drone = data['DroneType']
     ip_address = data['DRONE_IP']
+    print(ip_address,flush=True)
     lon = data['LONG']
     lat = data['LAT']
     angle = 0 #add models real angle when we get it
-
+    print("=========================================================")
+    print("before if",flush=True)
+    
     if drone == 'parrot':
         # send drone to long lat
-        #sendDroneOut(ip_address, lat, lon, angle)
         # let toto take over
-        testGimbalWithToTo(ip_address)
-        if(flyingStatus.ARRIVED_TO_SHOT == 4):
-            ws = simple_websocket.Client(f'ws://toto:5000/toto/{ip_address}')
-            t_end = time.time() + 60 * 2
-            while time.time() < t_end:
-                data = ws.recive()
-                loaded = json.loads(data)
-                x = loaded['x']
-                y = loaded['y']
-        else:
-            flyingStatus.ARRIVED_TO_SHOT = 2
+        print("=====================================================")
+        print("starting movement")
         
-        # go home logic
-        returnToHome(ip_address, lat, lon, angle)
-        # tell managmnet that drone came home
+        DRONE_IP = os.environ.get("DRONE_IP", ip_address)
+
+        drone = olympe.Drone(DRONE_IP)
+        drone.connect()  
+        #drone.__init__(ip_address)
+        drone(olympe.messages.ardrone3.PilotingSettings.MaxAltitude(current=20,_timeout=20)).wait()
+
+        #sendDroneOut(ip_address, lat, lon, angle, drone)
+        assert drone(TakeOff()
+                     >> FlyingStateChanged(state="hovering",_timeout=5)
+                     ).wait().success()
+            #drone(olympe.messages.ardrone3.PilotingSettings.MaxAltitude(current=100,_timeout=20)).wait()
+
+        assert drone(moveBy(0,0,-5,0)
+                            >> FlyingStateChanged(state="hovering",_timeout=5)
+                            ).wait().success()
+        
+        assert drone(moveBy(lat,lon,0,angle)
+                     >> FlyingStateChanged(state="hovering",_timeout=5)
+                     ).wait().success()
+        
+        ###############################################################################
+        ##get cooridnates of the shpt
+        task_1 = drone(olympe.messages.ardrone3.GPSSettingsState.GPSFixStateChanged(_policy='wait'))
+        print(task_1.explain())
+        gps_location = drone.get_state(olympe.messages.ardrone3.PilotingState.GpsLocationChanged)
+
+        newLatitude = gps_location['latitude']
+        newLongitude = gps_location['longitude']
+        newAltitude = gps_location['altitude']
+
+
+        print("=======================================================")
+        print("Shot Lat: {}".format(newLatitude))
+        print("Shot Long: {}".format(newLongitude))
+        print("Shot Altitude: {}".format(newAltitude))
+        print("=======================================================")
+        
+          
+        #TODO send the coordinates to surge
+        ###############################################################################
+        #set gimbal to a default angle of 30 degrees to see the target
+        drone(olympe.messages.gimbal.set_target(
+            gimbal_id=0,
+            control_mode="position",
+            yaw_frame_of_reference="none",
+            yaw=0.0,
+            pitch_frame_of_reference="absolute",
+            pitch=-45.0, #pre set to get the inital detection
+            roll_frame_of_reference="none",
+            roll=10.0,)).wait()
+        
+        time.sleep(3)
+        
+        #drone(olympe.messages.follow_me.start(1)).wait()
+        
+        
+        #########################################################################
+        #
+        #start_time = time.time()
+        #ws = simple_websocket.Client(f'ws://toto:5000/toto/{ip_address}')
+        ws = simple_websocket.Client(f'ws://toto:5000/toto/{ip_address}')
+        #drone(olympe.messages.follow_me.start(1)).wait()
+
+        #current_time = time.time()
+        #elapsed_time = current_time - start_time
+        #data = ws.recive()
+        #loaded = json.loads(data)
+        #pitch = x 
+        #roll = y
+        #TODO implement the camera update using Toto
+        #Idea: create some if statements to monitor where in the screen x and y are since pitch and roll are -90 -> 90 noninclusive and spherical 
+        #x = loaded['x']
+        #y = loaded['y']
+        #print(x, flush=True)
+        #print(y, flush=True)
+        #print("before close")
+        
+            #if elapsed_time >= 10:
+        time.sleep(60)
+        assert drone(moveBy(-lat,-lon,0,-angle)
+                        >> FlyingStateChanged(state="hovering",_timeout=5)
+                        ).wait().success()
+        ######################################################################
+        #reset the gimbal
+        drone(olympe.messages.gimbal.reset_orientation(gimbal_id=0)).wait()
+        time.sleep(1)
+        ######################################################################
+        #land the drone
+        assert drone(Landing()).wait().success()
+        
+                #break
+        print("close complete")
+        #ws.close()
+            
+        ########################################################################
+        #return home
+        assert drone(moveBy(-lat,-lon,0,-angle)
+                     >> FlyingStateChanged(state="hovering",_timeout=5)
+                     ).wait().success()
+        ######################################################################
+        #reset the gimbal
+        drone(olympe.messages.gimbal.reset_orientation(gimbal_id=0)).wait()
+        time.sleep(1)
+        ######################################################################
+        #land the drone
+        assert drone(Landing()).wait().success()
+        
+        #######################################################################
+        #return the battery percentage of the drone after flight
+        batteryPercent = drone.get_state(olympe.messages.common.CommonState.BatteryStateChanged)["percent"]
+        print("Battery percentage: ", batteryPercent)
+        #TODO send the battery percentage after the flight to surge
+        
+        #########################################################################
+        #disconnect the drone
+        drone.disconnect()
+        
+        #tell managmnet that drone came home
         url = 'Manager:5000/api'
         drone = 'parrot_anafi'
         response = requests.post(f'http://{url}/markHome/{drone}')
@@ -58,7 +169,8 @@ class flyingStatus(Enum):
     TAKE_OFF = 0
     IN_PROGRESS = 1
     ARRIVED_TO_SHOT = 2
-    RETURNED = 3
+    RETURNING = 3
+    RETURNED = 4
     
     
   
@@ -74,136 +186,101 @@ def managage_commands():
     
     return jsonify(m)
 
-def returnToHome(ip, latitude, longitude, angle):
-    with olympe.Drone(ip) as drone:
-        drone.ReturnHomeMinAltitude(50)
-        print("returning home")
-
-        drone(moveBy(latitude,longitude,0,-angle)).wait()
-
-        print("Drone returned")
-
-        drone(olympe.messages.gimbal.reset_orientation(gimbal_id=0)).wait()
-        assert drone(Landing()).wait().success()
-        #return the battery percentage of the drone after flight
-        batteryPercent = drone.get_state(olympe.messages.common.CommonState.BatteryStateChanged)["percent"]
-        print("Battery percentage: ", batteryPercent)
-
-        #send the battery percentage out
-        assert drone.disconnect()
-
-    ...
-
-def testGimbalWithToTo(ip):
-    with olympe.Drone(ip) as drone:
-        drone.__init__(ip)
-        drone.connect()   
-        drone(olympe.messages.gimbal.set_target(
-            gimbal_id=0,
-            control_mode="position",
-            yaw_frame_of_reference="none",
-            yaw=10.0,
-            pitch_frame_of_reference="absolute",
-            pitch=-45.0,
-            roll_frame_of_reference="none",
-            roll=10.0,)).wait()
-        
-        start_time = time.time()
-
-        while True:
-            current_time = time.time()
-            elapsed_time = current_time - start_time
-
-            if elapsed_time >= 5:
-                flyingStatus.ARRIVED_TO_SHOT = 4
-                break
-
-        
-
-def sendDroneOut(ip, latitude, longitude, angle):
-    with olympe.Drone(ip) as drone:
-        
-        drone.__init__(ip)
-        drone.connect()   
-        assert drone(TakeOff()).wait().success()
-        drone(olympe.messages.ardrone3.PilotingSettings.MaxAltitude(current=100,_timeout=20))
-        drone(moveBy(0,0,50,0)).wait()
-        drone(moveBy(latitude,longitude,0,angle)).wait()
-        
-
-        flying_states = FlyingState._bitfield_type_("takingoff|hovering|flying")
-
-        if drone.get_state(olympe.messages.ardrone3.PilotingState.FLyingStateChanged)["hovering"] in flying_states:
-            assert True, "The drone is hovering"
-            flyingStatus.ARRIVED_TO_SHOT = 4
-        else:
-            flyingStatus.IN_PROGRESS
-
-        drone(olympe.messages.gimbal.set_target(
-            gimbal_id=0,
-            control_mode="position",
-            yaw_frame_of_reference="none",
-            yaw=10.0,
-            pitch_frame_of_reference="absolute",
-            pitch=-45.0,
-            roll_frame_of_reference="none",
-            roll=10.0,)).wait()
-        
-        task_1 = drone(olympe.messages.ardrone3.GPSSettingsState.GPSFixStateChanged(_policy='wait'))
-        print(task_1.explain())
-        gps_location = drone.get_state(olympe.messages.ardrone3.PilotingState.GpsLocationChanged)
-
-        newLatitude = gps_location['latitude']
-        newLongitude = gps_location['longitude']
-        newAltitude = gps_location['altitude']
-
-
-        print("=======================================================")
-        print("Shot Lat: {}".format(newLatitude))
-        print("Shot Long: {}".format(newLongitude))
-        print("Shot Altitude: {}".format(newAltitude))
-        print("=======================================================")
-
-
-        #TODO send lat, long, and altitude with requests
-
-    ...
-
-
-def test_takeoff(ip):
-    DRONE_IP = os.environ.get("DRONE_IP", ip)
-
-    with olympe.Drone(DRONE_IP) as drone:
-        
-        drone.__init__(DRONE_IP)
-        drone.connect()   
-        assert drone(TakeOff()).wait().success()
-        
-        print("=======================================================")
-
-        task_1 = drone(olympe.messages.ardrone3.GPSSettingsState.GPSFixStateChanged(_policy='wait'))
-        print(task_1.explain())
-
-        gps_location = drone.get_state(olympe.messages.ardrone3.PilotingState.GpsLocationChanged)
-        latitude = gps_location['latitude']
-        longitude = gps_location['longitude']
-        altitude = gps_location['altitude']
-
-        print("Lat: {}".format(latitude))
-        print("Long: {}".format(longitude))
-        print("Altitude: {}".format(altitude))
-
-
-        drone(moveBy(latitude, longitude, altitude).wait())
-       
-        drone(moveBy(0, 0, 0, math.radians(90))).wait()
-        print("rotating")
-        drone(moveBy(0, 0, 0, math.radians(-90))).wait()
-        time.sleep(5)
-        drone.ReturnHomeMinAltitude(50)
-        print("returning home")
-        assert drone.disconnect()
+def returnToHome(ip, latitude, longitude, angle, droneF):
     
+    drone = droneF
+    drone.ReturnHomeMinAltitude(50)
+    print("returning home")
+    assert drone(moveBy(-latitude,-longitude,0,-angle)
+                 >> FlyingStateChanged(state="hovering",_timeout=5)
+                 ).wait().success()
+    print("Drone returned")
+
+    drone(olympe.messages.gimbal.reset_orientation(gimbal_id=0)).wait()
+    time.sleep(1)
+    assert drone(Landing()).wait().success()
+    
+    #return the battery percentage of the drone after flight
+    batteryPercent = drone.get_state(olympe.messages.common.CommonState.BatteryStateChanged)["percent"]
+    print("Battery percentage: ", batteryPercent)
+
+    #send the battery percentage out
+    drone.disconnect()
+
+...
+
+def testGimbalWithToTo(ip, droneF):
+    drone = droneF
+    
+    drone(olympe.messages.gimbal.reset_orientation(gimbal_id=0)).wait()
+    time.sleep(5)
+    drone(olympe.messages.gimbal.set_target(
+        gimbal_id=0,
+        control_mode="position",
+        yaw_frame_of_reference="none",
+        yaw=10.0,
+        pitch_frame_of_reference="absolute",
+        pitch=-15.0,
+        roll_frame_of_reference="none",
+        roll=10.0,)).wait()
+    
+    print("=========== done moving=============== ")
+    start_time = time.time() + 5
+    current_time = time.time()
+    elapsed_time = current_time - start_time
+    flyingStatus.ARRIVED_TO_SHOT = 4
+                
+            
+
+        
+
+def sendDroneOut(ip, latitude, longitude, angle, droneF):
+    
+    drone = droneF 
+    assert drone(TakeOff()
+                 >> FlyingStateChanged(state="hovering",_timeout=5)
+                 ).wait().success()
+    
+    #drone(olympe.messages.ardrone3.PilotingSettings.MaxAltitude(current=100,_timeout=20)).wait()
+    
+    assert drone(moveBy(0,0,2,0)
+                 >> FlyingStateChanged(state="hovering",_timeout=5)
+                 ).wait().success()
+    
+    assert drone(moveBy(latitude,longitude,0,angle)
+                 >> FlyingStateChanged(state="hovering",_timeout=5)
+                 ).wait().success()
+
+    drone(olympe.messages.gimbal.set_target(
+        gimbal_id=0,
+        control_mode="position",
+        yaw_frame_of_reference="none",
+        yaw=10.0,
+        pitch_frame_of_reference="absolute",
+        pitch=-30.0,
+        roll_frame_of_reference="none",
+        roll=10.0,)).wait()
+    time.sleep(3)
+    
+    task_1 = drone(olympe.messages.ardrone3.GPSSettingsState.GPSFixStateChanged(_policy='wait'))
+    print(task_1.explain())
+    gps_location = drone.get_state(olympe.messages.ardrone3.PilotingState.GpsLocationChanged)
+
+    newLatitude = gps_location['latitude']
+    newLongitude = gps_location['longitude']
+    newAltitude = gps_location['altitude']
+
+
+    print("=======================================================")
+    print("Shot Lat: {}".format(newLatitude))
+    print("Shot Long: {}".format(newLongitude))
+    print("Shot Altitude: {}".format(newAltitude))
+    print("=======================================================")
+    
+    #TODO send lat, long, and altitude with requests
+
+...
+
     
 if __name__ == "__main__":
     app.run(debug=True)
