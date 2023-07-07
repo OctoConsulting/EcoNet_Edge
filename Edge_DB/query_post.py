@@ -42,7 +42,8 @@ def post_shot_raw(preprocessed_audio_hash: str):
         RETURNING id;
         '''
 
-        current.execute(sql_code, "UNIMPLEMENTED")
+        current.execute(sql_code, ("UNIMPLEMENTED",))
         connection.commit()
 
         return current.fetchone()[0] # fetchone returns a tuple
+    
