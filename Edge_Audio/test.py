@@ -36,6 +36,8 @@ try:
     while True:
         data = stream.read(52920)
         ws.send(data)
+
+        
     
 except KeyboardInterrupt:
     pass
