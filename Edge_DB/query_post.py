@@ -38,11 +38,11 @@ def post_shot_raw(preprocessed_audio_hash: str):
     with psycopg.connect(db_info) as connection, connection.cursor() as current:
         sql_code= f'''
         INSERT INTO shots (shot_time, preprocessed_audio_hash)
-        VALUES (now(), '%s')
+        VALUES (now(), (%s))
         RETURNING id;
         '''
 
-        current.execute(sql_code, ("UNIMPLEMENTED",))
+        current.execute(sql_code, ("UNIMPLEMENTED",)) # hash mgmt system l8r
         connection.commit()
 
         return current.fetchone()[0] # fetchone returns a tuple
