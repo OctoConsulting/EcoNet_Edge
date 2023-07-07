@@ -9,7 +9,7 @@ COPY ./requirements.txt .
 RUN apt-get update 
 RUN apt-get upgrade -y
 
-RUN apt-get install -y python3-pip
+RUN apt-get update && apt-get install -y python3-pip
 
 # Install Gunicorn
 RUN pip install gunicorn
@@ -29,6 +29,7 @@ RUN apt-get install ssh -y
 # Copy the entire project to the container
 COPY . .
 
+CMD cd ../TotoCV/toto/bh_runner/kvldata-master
 # Expose the port that Flask will run on
 EXPOSE 5000
 

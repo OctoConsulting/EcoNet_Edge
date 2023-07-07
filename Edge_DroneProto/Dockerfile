@@ -1,3 +1,4 @@
+
 FROM debian:bullseye
 
 WORKDIR /app
@@ -7,10 +8,10 @@ WORKDIR /app
 RUN apt-get update
 RUN apt-get upgrade -y
 # dev basics
-RUN apt-get install -y git emacs-nox ssh iputils-ping ssh
+#RUN apt-get install -y git emacs-nox ssh iputils-ping ssh
 
 # python
-RUN apt-get install -y python3 python3-pip
+RUN apt-get update && apt-get install -y python3 python3-pip
 
 # build helpers :)
 RUN apt-get install -y build-essential clinfo curl debconf-utils
