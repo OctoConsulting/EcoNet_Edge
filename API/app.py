@@ -115,6 +115,7 @@ def get_location():
     response = requests.post('http://model:5000/model', json=body, headers=headers)
 
     if response.status_code == 200:
+        print(response.json(), flush=True)
         return response.json()
     
     else:

@@ -19,16 +19,18 @@ def point():
     with open('myfile.wav', mode='wb') as f:
         f.write(my_bytes)
 
-    subprocess_cmd = ['python', 'Edge_Model_Main.py', 'myfile.wav']
+    subprocess_cmd = ['python', 'acoustic_inference_tf.py', 'myfile.wav']
     subprocess_output = subprocess.run(subprocess_cmd, capture_output=True, text=True)
 
     # Check if the subprocess succeeded
     if subprocess_output.returncode != 0:
+        print(subprocess_output.stderr.strip(), flush=True)
         return jsonify({'Subprocess failed': subprocess_output.stderr.strip()}), 501
     
     # storing stdout of the subprocess to output
     output = subprocess_output.stdout.strip()
     #loading output data into json format into data
     data = json.loads(output)
+    print(data, flush=True)
     # return json of data
     return jsonify(data)

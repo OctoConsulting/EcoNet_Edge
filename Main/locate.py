@@ -6,11 +6,7 @@ import json
 import subprocess
 
 def main():
-    print('locate', flush=True)
-
     audio = sys.stdin.read().strip()
-
-    print(audio[1:20], flush=True)
 
     url = 'api:5000/api'
 
@@ -20,14 +16,11 @@ def main():
     resp_preprossessing = requests.post(f'http://{url}/preporessing', json=body)
     preprossessed = resp_preprossessing.json()
 
-    print(preprossessed, flush=True)
+    response = requests.post(f'http://{url}/getLocation', json=preprossessed)
+    location = response.json()
+    location = json.dumps(location)
 
-    time.sleep(500)
-
-    # response = requests.post(f'http://{url}/detection/getLocation', json=preprossessed)
-    # location = response.json()
-    # location_json = json.dumps(location)
-    location = json.dumps({'hi':1})
+    print(location, flush=True)
 
     # analyze the location data -> make sure it is resonalble
     resonable = True
