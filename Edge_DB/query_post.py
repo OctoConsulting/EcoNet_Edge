@@ -47,3 +47,17 @@ def post_shot_raw(preprocessed_audio_hash: str):
 
         return current.fetchone()[0] # fetchone returns a tuple
     
+# function to add a new shot
+def post_target_marker(info: dict):
+    info_tup= (info['latitude'], info['longitude'], info['altitude'])
+    with psycopg.connect(db_info) as connection, connection.cursor() as current:
+        sql_code= f'''
+        INSERT INTO shots (_Lat, _Lon, _Alt, _Timestamp, _Type, _isActive)
+        VALUES ((%s), (%s), (%s), now(), 1, true)
+        RETURNING id;
+        '''
+
+        current.execute(sql_code, info_tup)
+        connection.commit()
+
+        return current.fetchone()[0] # fetchone returns a tuple

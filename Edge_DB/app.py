@@ -131,5 +131,12 @@ def put_shot_acoustic_model():
 def put_shot_drone_mission():
     return jsonify("UNIMPLEMENTED")
 
+@app.route('/db/post_target_marker', methods=['POST'])
+def post_target_marker():
+    info= {'latitude': request.args.get('latitude'),
+           'longitude': request.args.get('longitude'),
+           'altitude':request.args.get('altitude')}
+    return jsonify(query_post.post_target_marker(info))
+
 if __name__ == '__main__':
     app.run()

@@ -60,7 +60,7 @@ CREATE TABLE shot_stats (
     pistol_lower double precision
 );
 
-CREATE TABLE events (
+CREATE TABLE events ( -- aka missions
     id serial primary key,
     start_time timestamp,
     end_time timestamp,

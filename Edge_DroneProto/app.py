@@ -80,8 +80,15 @@ def worker(data):
         print("Shot Altitude: {}".format(newAltitude))
         print("=======================================================")
         
-          
-        #TODO send the coordinates to surge
+        # if the code is broken, it's here, bc we didn't test this code
+        shot_data= {'latitude': newLatitude,
+                    'longitude': newLongitude,
+                    'altitude': newAltitude}
+        json_headers= {'Content-Type': 'application/json'}
+        db_index= requests.post(f'http://localhost:80/db/put_coords',\
+                                data= shot_data,
+                                headers= json_headers)
+
         ###############################################################################
         #set gimbal to a default angle of 30 degrees to see the target
         drone(olympe.messages.gimbal.set_target(
