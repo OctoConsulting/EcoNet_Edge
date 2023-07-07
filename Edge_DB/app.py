@@ -113,6 +113,12 @@ def delete_marker_db(id):
         error_message = f"An error occurred while inserting the marker: {str(e)}"
         return jsonify({'error': error_message}), 500
 
+@app.route('/db/post_shot_raw', methods=['POST'])
+def post_shot_raw():
+    preprocessed_audio_hash= request.args.get('preprocessed_audio_hash')
+    return jsonify(query_post.post_shot_raw(preprocessed_audio_hash))
+
+
 @app.route('/db/put_shot_detector_model', methods=['PUT'])
 def put_shot_detector_model():
     return jsonify("UNIMPLEMENTED")

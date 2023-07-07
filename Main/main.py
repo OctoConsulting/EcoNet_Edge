@@ -1,3 +1,5 @@
+# runs the whole program
+
 import simple_websocket
 import os
 import sys
@@ -5,7 +7,6 @@ import requests
 import base64
 import subprocess
 import json
-
 
 def main():
     PARENT_PID = os.getpid()
@@ -28,8 +29,15 @@ def main():
             shot = resp_json.get('shot')
 
             if shot:
+                shot_data= {'preprocessed_audio_hash': "UNIMPLEMENTED"}
+                json_headers= {'Content-Type': 'application/json'}
+                #db_index= requests.post(f'http://localhost:80/db/post_shot_raw',\
+                #                        data= shot_data,
+                #                        headers= json_headers)
+                db_index= 0 # so it'll run
+
                 # Define the command and arguments
-                command = ["python", "locate.py"]
+                command = ["python", "locate.py", db_index]
 
                 # Launch the subprocess and redirect stdout to a pipe
                 process = subprocess.Popen(command, stdin=subprocess.PIPE)

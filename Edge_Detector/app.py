@@ -10,6 +10,7 @@ import pyaudio
 
 app = Flask(__name__)
 
+# run in /Main/main.py
 @app.route('/api/detectShot', methods=['POST'])
 def detect_shot():
 
