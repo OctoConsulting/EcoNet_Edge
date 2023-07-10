@@ -19,12 +19,12 @@ RUN pip install flask flask_sock flask_sqlalchemy flask-cors requests psycopg
 # USER courier
 # WORKDIR /home/courier
 
-COPY ../app.py .
-COPY ../query_get.py .
-COPY ../query_put.py .
-COPY ../query_post.py .
-COPY ../query_delete.py .
-COPY ../test_init.py .
-COPY ../test_post.py .
+COPY ./app.py .
+COPY ./query_get.py .
+COPY ./query_put.py .
+COPY ./query_post.py .
+COPY ./query_delete.py .
+COPY ./test_init.py .
+COPY ./test_post.py .
 
 CMD [ "waitress-serve", "--host", "0.0.0.0", "--port=5000", "app:app" ]
