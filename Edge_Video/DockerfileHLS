@@ -23,4 +23,5 @@ COPY ./app.py .
 
 RUN mkdir /srv/feed1/
 
-CMD [ "/bin/bash", "./container_startup.sh" ]
+#CMD [ "/bin/bash", "./container_startup.sh" ]
+CMD [ "waitress-serve", "--host", "0.0.0.0", "--port=5000", "app:app" ]

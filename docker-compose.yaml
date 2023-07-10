@@ -48,7 +48,7 @@ services:
       - "5000"
 
     devices:
-      - /dev/snd:/dev/snd
+    - /dev/snd:/dev/snd
     privileged: true
 
 #################################
@@ -177,6 +177,7 @@ services:
 #######################
   db:
     hostname: db
+    container_name: db
     build:
       context: ./Edge_DB
       dockerfile: DockerfileDatabase
@@ -200,6 +201,7 @@ services:
 #######################
   feed1:
     hostname: feed1
+    container_name: feed1
     build:
       context: ./Edge_Video
       dockerfile: DockerfileHTML
@@ -237,6 +239,7 @@ services:
 #######################
   reverse_proxy:
     hostname: reverse_proxy
+    container_name: reverse_proxy
     build:
       context: ./Edge_RP
       dockerfile: DockerfileRP
