@@ -15,17 +15,19 @@ RUN pip install tensorflow
 RUN pip install soundfile
 RUN pip install numpy
 RUN pip install librosa
+RUN pip install gunicorn
 
 # Copy the entire project to the container
 COPY . .
 
 # Set the environment variable
-ENV FLASK_APP=client.py
+# ENV FLASK_APP=client.py
+
 
 # Expose the port that Flask will run on
 EXPOSE 5000
 
-# Run the Flask application
-# CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
+# Run the Flask application (working)
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
 # CMD ["flask", "run", "--host=0.0.0.0"]
-CMD ["flask", "run", "--host=0.0.0.0"]
+# CMD ["flask", "run", "--host=0.0.0.0"]

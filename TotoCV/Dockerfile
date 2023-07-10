@@ -25,16 +25,20 @@ RUN apt-get install libgl1-mesa-glx -y
 RUN apt-get install libglib2.0-0 -y
 RUN pip install --upgrade flask_sock
 RUN apt-get install ssh -y
+RUN pip install gunicorn
 
 # Copy the entire project to the container
 COPY . .
 
-CMD cd ../TotoCV/toto/bh_runner/kvldata-master
+# CMD cd ../TotoCV/toto/bh_runner/kvldata-master
+WORKDIR /app/toto/bh_runner/kvldata-master
+CMD ["python3", "setup.py", "install"]
 # Expose the port that Flask will run on
 EXPOSE 5000
 
+WORKDIR /app
 # Run the Flask application using Gunicorn
 # CMD ["gunicorn" "-b" ":5000" "--threads" "100" "module:app"]
-# CMD ["gunicorn", "--bind", "0.0.0.0:8000", "app:app"]
-CMD ["flask", "run", "--host=0.0.0.0"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
+# CMD ["flask", "run", "--host=0.0.0.0"]
 

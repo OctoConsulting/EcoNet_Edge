@@ -12,6 +12,7 @@ RUN pip install --upgrade pip setuptools wheel
 
 # Install the Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install gunicorn
 
 # Copy the entire project to the container
 COPY . .
@@ -22,7 +23,8 @@ ENV FLASK_APP=app.py
 # Expose the port that Flask will run on
 EXPOSE 5000
 
-# Run the Flask application
+# Run the Flask application (working)
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
 # CMD ["python3", "main.py"]
-CMD ["flask", "run", "--host=0.0.0.0"]
+# CMD ["flask", "run", "--host=0.0.0.0"]
 

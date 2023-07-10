@@ -15,6 +15,7 @@ RUN apt-get update && apt-get upgrade -y
 COPY . . 
 
 RUN pip install flask
+RUN pip install gunicorn
 RUN pip install requests
 RUN pip install simple-websocket
 # RUN cat /etc/debian_version && sleep 15
@@ -26,7 +27,7 @@ RUN pip install simple-websocket
 # Expose the port that Flask will run on
 EXPOSE 5000
 
-# Run the Flask application
-# CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
+# Run the Flask application (working)
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
 # CMD ["flask", "run", "--host=0.0.0.0"]
-CMD ["flask", "run", "--host=0.0.0.0"]
+# CMD ["flask", "run", "--host=0.0.0.0"]
