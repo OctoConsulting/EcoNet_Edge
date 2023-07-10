@@ -30,9 +30,9 @@ def worker(data):
     drone = data['DroneType']
     ip_address = data['DRONE_IP']
     print(ip_address,flush=True)
-    lon = data['LONG']
-    lat = data['LAT']
-    angle = 0 #add models real angle when we get it
+    ang = data['ANG'] # x 
+    X = data['X']
+    #angle = 0 #add models real angle when we get it
     print("=========================================================")
     print("before if",flush=True)
     
@@ -58,8 +58,8 @@ def worker(data):
         assert drone(moveBy(0,0,-5,0)
                             >> FlyingStateChanged(state="hovering",_timeout=5)
                             ).wait().success()
-        
-        assert drone(moveBy(lat,lon,0,angle)
+        #lat would be X and Long would be Y, angle is asamith
+        assert drone(moveBy(X,0,0,ang)
                      >> FlyingStateChanged(state="hovering",_timeout=5)
                      ).wait().success()
         
@@ -129,7 +129,7 @@ def worker(data):
         
             #if elapsed_time >= 10:
         time.sleep(60)
-        assert drone(moveBy(-lat,-lon,0,-angle)
+        assert drone(moveBy(-X,0,0,-ang)
                         >> FlyingStateChanged(state="hovering",_timeout=5)
                         ).wait().success()
         ######################################################################
@@ -146,7 +146,7 @@ def worker(data):
             
         ########################################################################
         #return home
-        assert drone(moveBy(-lat,-lon,0,-angle)
+        assert drone(moveBy(-X,0,0,-ang)
                      >> FlyingStateChanged(state="hovering",_timeout=5)
                      ).wait().success()
         ######################################################################

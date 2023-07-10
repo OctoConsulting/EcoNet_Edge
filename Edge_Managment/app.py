@@ -37,7 +37,11 @@ def receive_coordinates():
     data = request.get_json()
     longitude = data["longitude"]
     latitude = data["latitude"]
-    coordinates = (longitude, latitude)
+    angle =  data['Angle']
+    x = data['Distance']  
+    #data['Weapon'] = "pistol"
+    #data['Azimuth'] = "225" # angle of gun being shot 
+    coordinates = (x, angle)
 
     # searching for avalible drine
     for drone_profile in DRONE_PROFILES.values():
@@ -52,7 +56,7 @@ def receive_coordinates():
     
     return jsonify({"message": "no drones avalible"})
 
-def launch(longitude, latitude, drone_profile):
+def launch(angle, x, drone_profile):
 
         DTYPE = drone_profile["drone_type"]
         DADDR = drone_profile["ip_address"]
@@ -60,8 +64,8 @@ def launch(longitude, latitude, drone_profile):
         params = {
             "DroneType": DTYPE,
             "DRONE_IP": DADDR,
-            "LONG": longitude,
-            "LAT": latitude,
+            "ANG": angle,
+            "X": x,
         }
 
         url = 'http://proto1:5000/protocal'
