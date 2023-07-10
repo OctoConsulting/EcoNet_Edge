@@ -48,7 +48,7 @@ services:
       - "5000"
 
     devices:
-      - /dev/snd:/dev/snd
+    - /dev/snd:/dev/snd
     privileged: true
 
 #################################
@@ -175,21 +175,22 @@ services:
 #|_ /  |___/
 #
 #######################
-  #db:
-    #hostname: db
-    #build:
-      #context: ./Edge_DB
-      #dockerfile: DockerfileDatabase
-    #expose:
-    #- "5432"
-  #courier:
-    #hostname: db_courier
-    #build:
-      #context: ./Edge_DB
-      #dockerfile: DockerfileCourier
-    #expose:
-     #- "5000"
-     #- "80"
+  db:
+    hostname: db
+    container_name: db
+    build:
+      context: ./Edge_DB
+      dockerfile: DockerfileDatabase
+    expose:
+    - "5432"
+  courier:
+    hostname: db_courier
+    build:
+      context: ./Edge_DB
+      dockerfile: DockerfileCourier
+    expose:
+     - "5000"
+     - "80"
 
 #######################
 #_    _ __ ____
@@ -200,6 +201,7 @@ services:
 #######################
   feed1:
     hostname: feed1
+    container_name: feed1
     build:
       context: ./Edge_Video
       dockerfile: DockerfileHTML
@@ -237,6 +239,7 @@ services:
 #######################
   reverse_proxy:
     hostname: reverse_proxy
+    container_name: reverse_proxy
     build:
       context: ./Edge_RP
       dockerfile: DockerfileRP

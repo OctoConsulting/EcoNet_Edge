@@ -1,0 +1,260 @@
+version: '3.3'
+services:
+
+#################################
+
+# MAIN CONTAINER
+
+################################
+  # main:
+  #   build:
+  #     context: ./Main # this is the absolute path to the app directory
+  #     dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
+      
+  #   image: mainimg # this is the name of the image that will be used by the app service
+  #   networks:
+  #     - appnet # connect to appnet network
+  #   depends_on:
+  #     - api
+  #     # - totocv
+  #     - noise
+  #     - shot_detect
+  #     - model
+  #   devices:
+  #     - /dev/bus/usb:/dev/bus/usb
+  #   container_name: main
+  #   ports:
+  #     - "5000:5000"
+  #   expose:
+  #     - "5000"
+
+#################################
+
+# API CONTAINER
+
+################################
+  # api:
+  #   build:
+  #     context: ./API # this is the absolute path to the app directory
+  #     dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
+
+  #   image: imgapi # this is the name of the image that will be used by the app service
+  #   networks:
+  #     - appnet # connect to appnet network
+  #   container_name: api
+  #   ports:
+  #     - "8000:5000"
+  #   expose:
+  #     - "5000"
+
+  #   devices:
+  #   - /dev/snd:/dev/snd
+  #   privileged: true
+
+#################################
+
+# TOTOCV CONTAINER
+
+################################
+  # totocv:
+  #   build:
+  #     context: ./TotoCV # this is the absolute path to the app directory
+  #     dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
+
+  #   image: totocv-img #the name of the image that will be used by the app service
+  #   networks:
+  #     - appnet # connect to appnet network
+  #   container_name: toto
+  #   ports:
+  #     - "8001:5000"
+  #   expose:
+  #     - "5000"
+
+#################################
+
+# NOISE(PREPROSS) CONTAINER
+
+################################
+  # noise:
+  #   build:
+  #     context: ./Edge_Noise # this is the absolute path to the app directory
+  #     dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
+
+  #   image: noise-img # this is the name of the image that will be used by the app service
+  #   networks:
+  #     - appnet # connect to appnet network
+  #   container_name: noise
+  #   ports:
+  #     - "8002:5000"
+  #   expose:
+  #     - "5000"
+
+#################################
+
+# MODLE(Shot detect) CONTAINER
+
+################################
+  # shot_detect:
+  #   build:
+  #     context: ./Edge_Detector # this is the absolute path to the app directory
+  #     dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
+
+  #   image: shot_detect-img # this is the name of the image that will be used by the app service
+  #   networks:
+  #     - appnet # connect to appnet network
+  #   container_name: shot_detect
+  #   ports:
+  #     - "8003:5000"
+  #   expose:
+  #     - "5000"
+  #   devices:
+  #     - /dev/snd:/dev/snd
+
+#################################
+
+# Model CONTAINER
+
+################################
+  # model:
+  #   build:
+  #     context: ./Edge_Model # this is the absolute path to the app directory
+  #     dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
+
+  #   image: model-img # this is the name of the image that will be used by the app service
+  #   networks:
+  #     - appnet # connect to appnet network
+  #   container_name: model
+  #   ports:
+  #     - "8004:5000"
+  #   expose:
+  #     - "5000"
+
+#################################
+
+# Model CONTAINER
+
+################################
+  # prot:
+  #   build:
+  #     context: ./Edge_DroneProto # this is the absolute path to the app directory
+  #     dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
+
+  #   image: proto-img # this is the name of the image that will be used by the app service
+  #   networks:
+  #     - appnet # connect to appnet network
+  #   container_name: proto1
+  #   ports:
+  #     - "8005:5000"
+  #   expose:
+  #     - "5000"
+#################################
+
+# Model CONTAINER
+
+################################
+  # manger:
+  #   build:
+  #     context: ./Edge_Managment # the absolute path to the app directory
+  #     dockerfile: Dockerfile # the name of the Dockerfile in the app directory
+
+  #   image: manner-img # the name of the image to be used by the app service
+  #   networks:
+  #     - appnet # connect to appnet network
+  #   container_name: Manager
+  #   ports:
+  #     - "8006:5000"
+  #   expose:
+  #     - "5000"
+  #   depends_on:
+  #     - prot
+
+#######################
+#____   ___
+#|   \ |   \
+#|   | | __/
+#|_ /  |___/
+#
+#######################
+  db:
+    hostname: db
+    container_name: db
+    build:
+      context: ./Edge_DB
+      dockerfile: DockerfileDatabase
+    expose:
+    - "5432"
+  courier:
+    hostname: db_courier
+    container_name: db_courier
+    build:
+      context: ./Edge_DB
+      dockerfile: DockerfileCourier
+    expose:
+     - "5000"
+     - "80"
+
+#######################
+#_    _ __ ____
+#\    / | |   \
+# \  /  | |   |
+#  \/   | |_ /
+#
+#######################
+  feed1:
+    hostname: feed1
+    container_name: feed1
+    build:
+      context: ./Edge_Video
+      dockerfile: DockerfileHTML
+    expose: # will be published w/ reverse proxy
+     - "8080"
+     - "80"
+    volumes:
+    - type: volume
+      source: feed1
+      target: /usr/share/nginx/html/feed1
+  encode:
+    hostname: encode
+    container_name: encode
+    build:
+      context: ./Edge_Video
+      dockerfile: DockerfileHLS
+    expose: # will be published w/ reverse proxy
+     - "5000"
+    volumes:
+    - type: volume
+      source: feed1
+      target: /srv/feed1
+    - type: volume
+      source: feed2
+      target: /srv/feed2
+    - type: volume
+      source: feed3
+      target: /srv/feed3
+  
+#######################
+#
+#
+#  Reverse Proxy
+#
+#
+#######################
+  reverse_proxy:
+    hostname: reverse_proxy
+    container_name: reverse_proxy
+    build:
+      context: ./Edge_RP
+      dockerfile: DockerfileRP
+    expose:
+     - "80"
+    ports:
+     - "80:80"
+     
+volumes:
+  feed1:
+  feed2:
+  feed3:
+
+networks:
+  appnet: # define appnet network
+    driver: bridge
