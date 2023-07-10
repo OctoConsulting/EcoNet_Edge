@@ -118,6 +118,29 @@ def post_shot_raw():
     preprocessed_audio_hash= request.args.get('preprocessed_audio_hash')
     return jsonify(query_post.post_shot_raw(preprocessed_audio_hash))
 
+@app.route('/db/post_shot', methods = ['POST'])
+def post_shot():
+    try:
+        # Retrieve the data from the request body
+        id = query_post.post_shot(request.json)
+        
+        # Return a response indicating the success of the operation
+        return jsonify({'message': f'Shot inserted successfully', 'id':id})
+    except Exception as e:
+        error_message = f"An error occurred while inserting the shot: {str(e)}"
+        return jsonify({'error': error_message}), 500
+
+@app.route('/db/update_shot/<integer:id>', methods=['PUT'])
+def put_shot():
+    try:
+        # Retrieve the data from the request body
+        query_put.put_shot(request.json, id)
+        
+        # Return a response indicating the success of the operation
+        return jsonify({'message': f'Shot with ID {id} updated successfully'})
+    except Exception as e:
+        error_message = f"An error occurred while inserting the shot: {str(e)}"
+        return jsonify({'error': error_message}), 500
 
 @app.route('/db/put_shot_detector_model', methods=['PUT'])
 def put_shot_detector_model():
