@@ -198,14 +198,14 @@ services:
 #  \/   | |_ /
 #
 #######################
-  web:
-    hostname: web
+  feed1:
+    hostname: feed1
     build:
       context: ./Edge_Video
       dockerfile: DockerfileHTML
-#    expose: # will be published w/ reverse proxy
-#       - "8080:8080/tcp"
-#       - "80:80/tcp"
+    expose: # will be published w/ reverse proxy
+     - "8080"
+     - "80"
     volumes:
     - type: volume
       source: feed1
@@ -215,8 +215,8 @@ services:
     build:
       context: ./Edge_Video
       dockerfile: DockerfileHLS
-#    expose: # will be published w/ reverse proxy
-#      - "5000:5000"
+    expose: # will be published w/ reverse proxy
+     - "5000"
     volumes:
     - type: volume
       source: feed1
@@ -228,6 +228,23 @@ services:
       source: feed3
       target: /srv/feed3
   
+#######################
+#
+#
+#  Reverse Proxy
+#
+#
+#######################
+  reverse_proxy:
+    hostname: reverse_proxy
+    build:
+      context: ./Edge_RP
+      dockerfile: DockerfileRP
+    expose:
+     - "80"
+    ports:
+     - "80:80"
+
 volumes:
   feed1:
   feed2:
