@@ -183,7 +183,7 @@ services:
       dockerfile: DockerfileDatabase
     expose:
     - "5432"
-  courier:
+  db_courier:
     hostname: db_courier
     build:
       context: ./Edge_DB
