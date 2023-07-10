@@ -26,7 +26,7 @@ def detect_shot():
         with wave.open('myfile.wav', 'wb') as f:
             f.setnchannels(channels)
             f.setsampwidth(audio.get_sample_size(pyaudio.paInt16))
-            f.setframerate(44100)
+            f.setframerate(22050)
             f.writeframes(my_bytes)
 
         subprocess_cmd = ['python', 'modelPredict.py', 'myfile.wav']

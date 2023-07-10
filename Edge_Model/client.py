@@ -22,7 +22,7 @@ def point():
     with wave.open('myfile.wav', 'wb') as f:
         f.setnchannels(4)
         f.setsampwidth(2)
-        f.setframerate(44100)
+        f.setframerate(96000)
         f.writeframes(my_bytes)
 
     audio, sr = librosa.load('myfile.wav')
