@@ -14,6 +14,11 @@ def get_all_shots() -> dict:
     with psycopg.connect(db_info) as connection, connection.cursor(row_factory= dict_row) as current:
         current.execute("SELECT * FROM shots")
         return current.fetchall()
+    
+def get_all_markers() -> dict:
+    with psycopg.connect(db_info) as connection, connection.cursor(row_factory= dict_row) as current:
+        current.execute("SELECT * FROM target_markers")
+        return current.fetchall()
 
 def get_all_shot_stats() -> dict:
     with psycopg.connect(db_info) as connection, connection.cursor(row_factory= dict_row) as current:

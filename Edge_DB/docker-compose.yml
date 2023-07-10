@@ -17,10 +17,10 @@ services:
     hostname: db_dev
     build:
       context: .
-      dockerfile: ./dev_env_setup/Dockerfile # change to a non-dev file later...
+      dockerfile: DockerfileDev
     ports:
-      - "5000:5000" # flask
-      - "80:80" # waitress
+     - "5000:5000" # flask
+     - "80:80" # waitress
     volumes:
       - type: bind # outside source repo
         source: ../

@@ -35,16 +35,20 @@ def mark_drone_home(profile):
 @app.route("/api/coordinates", methods=["POST"])
 def receive_coordinates():
     data = request.get_json()
-    longitude = data["longitude"]
-    latitude = data["latitude"]
-    coordinates = (longitude, latitude)
+    #longitude = data["longitude"]
+    #latitude = data["latitude"]
+    angle =  data['Angle']
+    x = data['Distance']  
+    #data['Weapon'] = "pistol"
+    #data['Azimuth'] = "225" # angle of gun being shot 
+    coordinates = (x, angle)
 
     # searching for avalible drine
     for drone_profile in DRONE_PROFILES.values():
         if drone_profile["available"]:
             drone_profile["available"] = False
             print(drone_profile["drone_type"])
-            m = launch(longitude, latitude, drone_profile)
+            m = launch(angle, x, drone_profile)
             return m
     
     # if there are no avalible drones
@@ -52,7 +56,7 @@ def receive_coordinates():
     
     return jsonify({"message": "no drones avalible"})
 
-def launch(longitude, latitude, drone_profile):
+def launch(angle, x, drone_profile):
 
         DTYPE = drone_profile["drone_type"]
         DADDR = drone_profile["ip_address"]
@@ -60,8 +64,8 @@ def launch(longitude, latitude, drone_profile):
         params = {
             "DroneType": DTYPE,
             "DRONE_IP": DADDR,
-            "LONG": longitude,
-            "LAT": latitude,
+            "ANG": angle,
+            "X": x,
         }
 
         url = 'http://proto1:5000/protocal'

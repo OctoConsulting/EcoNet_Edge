@@ -113,6 +113,35 @@ def delete_marker_db(id):
         error_message = f"An error occurred while inserting the marker: {str(e)}"
         return jsonify({'error': error_message}), 500
 
+@app.route('/db/post_shot_raw', methods=['POST'])
+def post_shot_raw():
+    preprocessed_audio_hash= request.args.get('preprocessed_audio_hash')
+    return jsonify(query_post.post_shot_raw(preprocessed_audio_hash))
+
+@app.route('/db/post_shot', methods = ['POST'])
+def post_shot():
+    try:
+        # Retrieve the data from the request body
+        id = query_post.post_shot(request.json)
+        
+        # Return a response indicating the success of the operation
+        return jsonify({'message': f'Shot inserted successfully', 'id':id})
+    except Exception as e:
+        error_message = f"An error occurred while inserting the shot: {str(e)}"
+        return jsonify({'error': error_message}), 500
+
+#@app.route('/db/update_shot/<integer:id>', methods=['PUT'])
+#def update_shot(id):
+#    try:
+#        # Retrieve the data from the request body
+#        query_put.put_shot(request.json, id)
+#        
+#        # Return a response indicating the success of the operation
+#        return jsonify({'message': f'Shot with ID {id} updated successfully'})
+#    except Exception as e:
+#        error_message = f"An error occurred while inserting the shot: {str(e)}"
+#        return jsonify({'error': error_message}), 500
+
 @app.route('/db/put_shot_detector_model', methods=['PUT'])
 def put_shot_detector_model():
     return jsonify("UNIMPLEMENTED")
@@ -124,6 +153,13 @@ def put_shot_acoustic_model():
 @app.route('/db/put_shot_drone_mission', methods=['PUT'])
 def put_shot_drone_mission():
     return jsonify("UNIMPLEMENTED")
+
+@app.route('/db/post_target_marker', methods=['POST'])
+def post_target_marker():
+    info= {'latitude': request.args.get('latitude'),
+           'longitude': request.args.get('longitude'),
+           'altitude': request.args.get('altitude')}
+    return jsonify(query_post.post_target_marker(info))
 
 if __name__ == '__main__':
     app.run()

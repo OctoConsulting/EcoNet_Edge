@@ -51,18 +51,26 @@ def point():
     # make .wav file
 
 
-    subprocess_cmd = ['python', 'acoustic_inference_tf.py', 'myfile.wav']
-    subprocess_output = subprocess.run(subprocess_cmd, capture_output=True, text=True)
+    # subprocess_cmd = ['python', 'acoustic_inference_tf.py', 'myfile.wav']
+    # subprocess_output = subprocess.run(subprocess_cmd, capture_output=True, text=True)
 
-    # Check if the subprocess succeeded
-    if subprocess_output.returncode != 0:
-        print(subprocess_output.stderr.strip(), flush=True)
-        return jsonify({'Subprocess failed': subprocess_output.stderr.strip()}), 501
+    # # Check if the subprocess succeeded
+    # if subprocess_output.returncode != 0:
+    #     print(subprocess_output.stderr.strip(), flush=True)
+    #     return jsonify({'Subprocess failed': subprocess_output.stderr.strip()}), 501
     
-    # storing stdout of the subprocess to output
-    output = subprocess_output.stdout.strip()
-    #loading output data into json format into data
-    data = json.loads(output)
-    print(data, flush=True)
+    # # storing stdout of the subprocess to output
+    # output = subprocess_output.stdout.strip()
+    # #loading output data into json format into data
+    # data = json.loads(output)
+    # print(data, flush=True)
     # return json of data
+
+    data = {}
+
+    data['Angle'] = "30"
+    data['Distance'] = "50" 
+    data['Weapon'] = "pistol"
+    data['Azimuth'] = "225"
+
     return jsonify(data)

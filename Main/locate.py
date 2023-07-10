@@ -4,8 +4,11 @@ import time
 import os
 import json
 import subprocess
+import requests
 
 def main():
+    db_index= sys.argv[1]
+
     audio = sys.stdin.read().strip()
 
     url = 'api:5000/api'
