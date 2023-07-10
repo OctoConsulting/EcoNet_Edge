@@ -15,9 +15,11 @@ RUN apt-get install -y python3 python3-pip
 # build helpers :)
 RUN apt-get install -y build-essential clinfo curl debconf-utils
 
+# python depends
+RUN apt-get update && apt-get install python3-opencv python3-opengl -y
+
 # olympe depends
-RUN apt-get install -y libgl1 libgl1-mesa-glx lsb-release \
-    python3-opencv python3-opengl
+RUN apt-get update && apt-get install -y libgl1 libgl1-mesa-glx lsb-release
 RUN pip install opencv-python pysdl2 pysdl2-dll
 
 # olympe
