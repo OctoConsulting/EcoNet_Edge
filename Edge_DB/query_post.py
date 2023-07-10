@@ -2,7 +2,7 @@
 # Functions to put data into the database
 
 import psycopg
-
+import datetime
 db_info= "host= db \
     dbname=echonet \
     user= postgres \
@@ -32,6 +32,35 @@ def post_marker(data):
         connection.commit()
         connection.close()
         cursor.close()
+
+def post_shot(data):
+    with psycopg.connect(db_info) as connection, connection.cursor() as cursor:
+        # Example update query
+        insert_query = """
+        INSERT INTO shots ("shot_time", "process_time", "event_id", "preprocessed_audio_hash", "postprocessed_audio_hash", "distance", "microphone_angle", "shooter_angle", "latitude", "longitude", "gun_type")
+        VALUES (%s::timestamp, %s::timestamp, %s::integer, %s, %s, %s::double precision, %s::double precision, %s::double precision, %s::double precision, %s::double precision, %s::gun)
+        RETURNING "id"
+        """
+        values = (
+            data.get('shot_time', datetime.datetime.now()),
+            data.get('process_time', datetime.datetime.now()),
+            data.get('event_id', -1),
+            data.get('preprocessed_audio_hash', "x"),
+            data.get('postprocessed_audio_hash', "x"),
+            data.get('distance', 0.0),
+            data.get('microphone_angle', 0.0),
+            data.get('shooter_angle', 0.0),
+            data.get('latitude', 0.0),
+            data.get('longitude', 0.0),
+            data.get('gun_type', 'pistol')
+        )
+        cursor.execute(insert_query, values)
+        id = cursor.fetchone()[0]
+        # Commit the changes
+        connection.commit()
+        connection.close()
+        cursor.close()
+        return id
 
 # function to add a new shot
 def post_shot_raw(preprocessed_audio_hash: str):

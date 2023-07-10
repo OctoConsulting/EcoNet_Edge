@@ -2,6 +2,7 @@
 # Functions to put data into the database
 
 import psycopg
+import datetime
 
 db_info= "host= db \
     dbname=echonet \
@@ -44,22 +45,50 @@ def put_marker(data, id):
         # Example update query
         update_query = """
         UPDATE target_markers
-        SET "_Alt" = %s::double precision, "_Direction" = %s::double precision, "_Distance" = %s::double precision, "_Lat" = %s::double precision, "_Lon" = %s::double precision, "_Timestamp" = %s::integer, "_Type" = %s::integer, "_isActive" = %s::boolean
+        SET "_Alt" = COALESCE(%s::double precision, "_Alt"), "_Direction" = COALESCE(%s::double precision, "_Direction"), "_Distance" = COALESCE(%s::double precision, "_Distance"), "_Lat" = COALESCE(%s::double precision, "_Lat"), "_Lon" = COALESCE(%s::double precision, "_Lon"), "_Timestamp" = COALESCE(%s::integer, "_Timestamp"), "_Type" = COALESCE(%s::integer, "_Type"), "_isActive" = COALESCE(%s::boolean, "_isActive")
         WHERE "_ID" = %s
         """
         values = (
-            data.get('_Alt', 0.0),
-            data.get('_Direction', 0.0),
-            data.get('_Distance', 0.0),
-            data.get('_Lat', 0.0),
-            data.get('_Lon', 0.0),
-            data.get('_Timestamp', 0.0),
-            data.get('_Type', 0),
-            data.get('_isActive', True),
+            data.get('_Alt'),
+            data.get('_Direction'),
+            data.get('_Distance'),
+            data.get('_Lat'),
+            data.get('_Lon'),
+            data.get('_Timestamp'),
+            data.get('_Type'),
+            data.get('_isActive'),
             id
         )
-        values = (data.get('_Alt', 0.0), data['_Direction'], data['_Distance'], data['_Lat'], data['_Lon'], data['_Timestamp'], data['_Type'], data['_isActive'], id)
         cursor.execute(update_query, values)
+        
+        # Commit the changes
+        connection.commit()
+        connection.close()
+        cursor.close()
+
+def put_shot(data):
+    with psycopg.connect(db_info) as connection, connection.cursor() as cursor:
+        # Example update query
+        insert_query = """
+            UPDATE shots
+            SET "shot_time" = (COALESCE(%s::timestamp, "shot_time"), "process_time" = COALESCE(%s::timestamp, "process_time"), "event_id" = COALESCE(%s::integer, "event_id"), "preprocessed_audio_hash" = COALESCE(%s, "preprocessed_audio_hash"), "postprocessed_audio_hash" = COALESCE(%s, "postprocessed_audio_hash"), "distance" = COALESCE(%s::double precision, "distance"), "microphone_angle" = COALESCE(%s::double precision, "microphone_angle"), "shooter_angle" = COALESCE(%s::double precision, "shooter_angle"), "latitude" = COALESCE(%s::double precision, "latitude"), "longitude" = COALESCE(%s::double precision, "longitude"), "gun_type" = COALESCE(%s::gun, "gun_type"))
+            WHERE "id" = %s
+        """
+        values = (
+            data.get('shot_time'),
+            data.get('process_time'),
+            data.get('event_id'),
+            data.get('preprocessed_audio_hash'),
+            data.get('postprocessed_audio_hash'),
+            data.get('distance'),
+            data.get('microphone_angle'),
+            data.get('shooter_angle'),
+            data.get('latitude'),
+            data.get('longitude'),
+            data.get('gun_type'),
+            id
+        )
+        cursor.execute(insert_query, values)
         
         # Commit the changes
         connection.commit()
