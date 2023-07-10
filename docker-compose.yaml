@@ -180,16 +180,16 @@ services:
     build:
       context: ./Edge_DB
       dockerfile: DockerfileDatabase
-      expose:
-       - "5432"
+    expose:
+    - "5432"
   courier:
     hostname: db_courier
     build:
       context: ./Edge_DB
       dockerfile: DockerfileCourier
-      expose:
-       - "5000"
-       - "80"
+    expose:
+     - "5000"
+     - "80"
 
 #######################
 #_    _ __ ____
