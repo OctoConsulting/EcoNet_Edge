@@ -38,9 +38,9 @@ def receive_coordinates():
     #longitude = data["longitude"]
     #latitude = data["latitude"]
     angle =  data['Angle']
-    x = data['Distance']  
+    x = data['Distance']
     #data['Weapon'] = "pistol"
-    #data['Azimuth'] = "225" # angle of gun being shot 
+    #data['Azimuth'] = "225" # angle of gun being shot
     coordinates = (x, angle)
 
     # searching for avalible drine

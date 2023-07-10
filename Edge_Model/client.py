@@ -43,8 +43,8 @@ def point():
 
     data = {}
 
-    data['Angle'] = "30"
-    data['Distance'] = "50" 
+    data['Angle'] = "0"
+    data['Distance'] = "7" 
     data['Weapon'] = "pistol"
     data['Azimuth'] = "225"
 

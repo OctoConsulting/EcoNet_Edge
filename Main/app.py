@@ -27,7 +27,7 @@ def get_audio(ws):
             response = requests.post(f'http://{url}/detection/detectShot', json=a)
 
             resp_json = response.json()
-            shot = resp_json.get('shot')
+            shot = True
 
             if shot:
                 # Define the command and arguments
@@ -39,7 +39,8 @@ def get_audio(ws):
                 # Send data to the subprocess
                 data = json.dumps(a['audio']).encode("utf-8")  # Encode the string as bytes
                 process.stdin.write(data)
-                process.stdin.close() 
+                process.stdin.close()
+                shot = False
                     
 
                         
