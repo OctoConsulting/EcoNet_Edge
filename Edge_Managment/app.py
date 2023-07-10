@@ -35,8 +35,8 @@ def mark_drone_home(profile):
 @app.route("/api/coordinates", methods=["POST"])
 def receive_coordinates():
     data = request.get_json()
-    longitude = data["longitude"]
-    latitude = data["latitude"]
+    #longitude = data["longitude"]
+    #latitude = data["latitude"]
     angle =  data['Angle']
     x = data['Distance']  
     #data['Weapon'] = "pistol"
@@ -48,7 +48,7 @@ def receive_coordinates():
         if drone_profile["available"]:
             drone_profile["available"] = False
             print(drone_profile["drone_type"])
-            m = launch(longitude, latitude, drone_profile)
+            m = launch(angle, x, drone_profile)
             return m
     
     # if there are no avalible drones
