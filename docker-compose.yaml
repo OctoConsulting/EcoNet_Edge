@@ -58,7 +58,7 @@ services:
 ################################
   totocv:
     build:
-      context: ../TotoCV # this is the absolute path to the app directory
+      context: ./TotoCV # this is the absolute path to the app directory
       dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
 
     image: totocv-img #the name of the image that will be used by the app service
