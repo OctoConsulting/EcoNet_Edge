@@ -16,10 +16,10 @@ def main():
     body = {}
     body['audio'] = audio
 
-    resp_preprossessing = requests.post(f'http://{url}/preporessing', json=body)
-    preprossessed = resp_preprossessing.json()
+    # resp_preprossessing = requests.post(f'http://{url}/preporessing', json=body)
+    # preprossessed = resp_preprossessing.json()
 
-    response = requests.post(f'http://{url}/getLocation', json=preprossessed)
+    response = requests.post(f'http://{url}/getLocation', json=body)
     location = response.json()
     location = json.dumps(location)
 

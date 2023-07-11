@@ -15,6 +15,7 @@ RUN pip install tensorflow
 RUN pip install soundfile
 RUN pip install numpy
 RUN pip install librosa
+RUN pip install pydub
 
 # Copy the entire project to the container
 COPY . .

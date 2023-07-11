@@ -17,7 +17,7 @@ services:
     depends_on:
       - api
       # - totocv
-      - noise
+      #- noise
       - shot_detect
       - model
     devices:
@@ -48,8 +48,10 @@ services:
       - "5000"
 
     devices:
-      - /dev/snd:/dev/snd
+    - /dev/snd:/dev/snd
     privileged: true
+    #volumes:
+      #- ./API:/app/
 
 #################################
 
@@ -75,19 +77,19 @@ services:
 # NOISE(PREPROSS) CONTAINER
 
 ################################
-  noise:
-    build:
-      context: ./Edge_Noise # this is the absolute path to the app directory
-      dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
+  #noise:
+    #build:
+      #context: ./Edge_Noise # this is the absolute path to the app directory
+      #dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
 
-    image: noise-img # this is the name of the image that will be used by the app service
-    networks:
-      - appnet # connect to appnet network
-    container_name: noise
-    ports:
-      - "8002:5000"
-    expose:
-      - "5000"
+    #image: noise-img # this is the name of the image that will be used by the app service
+    #networks:
+      #- appnet # connect to appnet network
+    #container_name: noise
+    #ports:
+      #- "8002:5000"
+    #expose:
+      #- "5000"
 
 #################################
 
@@ -177,12 +179,13 @@ services:
 #######################
   db:
     hostname: db
+    container_name: db
     build:
       context: ./Edge_DB
       dockerfile: DockerfileDatabase
     expose:
     - "5432"
-  courier:
+  db_courier:
     hostname: db_courier
     build:
       context: ./Edge_DB
@@ -198,14 +201,15 @@ services:
 #  \/   | |_ /
 #
 #######################
-  web:
-    hostname: web
+  feed1:
+    hostname: feed1
+    container_name: feed1
     build:
       context: ./Edge_Video
       dockerfile: DockerfileHTML
-#    expose: # will be published w/ reverse proxy
-#       - "8080:8080/tcp"
-#       - "80:80/tcp"
+    expose: # will be published w/ reverse proxy
+     - "8080"
+     - "80"
     volumes:
     - type: volume
       source: feed1
@@ -215,8 +219,9 @@ services:
     build:
       context: ./Edge_Video
       dockerfile: DockerfileHLS
-#    expose: # will be published w/ reverse proxy
-#      - "5000:5000"
+    expose: # will be published w/ reverse proxy
+     - "5000"
+    
     volumes:
     - type: volume
       source: feed1
@@ -228,6 +233,24 @@ services:
       source: feed3
       target: /srv/feed3
   
+#######################
+#
+#
+#  Reverse Proxy
+#
+#
+#######################
+  reverse_proxy:
+    hostname: reverse_proxy
+    container_name: reverse_proxy
+    build:
+      context: ./Edge_RP
+      dockerfile: DockerfileRP
+    expose:
+     - "80"
+    ports:
+     - "80:80"
+
 volumes:
   feed1:
   feed2:
