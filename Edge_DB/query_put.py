@@ -87,7 +87,7 @@ def put_shot(data, id):
             "latitude" = COALESCE(%s::double precision, "latitude"), 
             "longitude" = COALESCE(%s::double precision, "longitude"), 
             "gun_type" = COALESCE(%s::gun, "gun_type")
-            WHERE "id" = %s::integer
+            WHERE "id" = %s::integer    
         """
         values = (
             data.get('shot_time'),
