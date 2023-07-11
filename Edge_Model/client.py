@@ -25,31 +25,6 @@ def point():
         f.setframerate(96000)
         f.writeframes(my_bytes)
 
-    audio, sr = librosa.load('myfile.wav')
-    # this gives the onset as a timestamp in seconds
-    # onsets = onset.onset_detect(y=y, sr=sr)
-
-    print(sr, flush=True)
-    
-    # a = AudioSegment.from_file('myfile.wav', format='wav')
-
-    # a = a[0:len(a)+6]
-
-
-    # if onsets[0] >= 0.6:
-        # trim from 0.6 to end
-    # else:
-    #     # trimp from onset[0] tplus 0.6 seconds
-    #     a = a[onsets[0]*1000:onsets[0]*1000+0.6*1000]
-
-    print('done', flush=True)
-    # a.export('in.wav', format='wav')
-
-    # print(librosa.get_duration(audio, sr))
-
-
-    # make .wav file
-
 
     subprocess_cmd = ['python', 'acoustic_inference_tf.py', 'myfile.wav']
     subprocess_output = subprocess.run(subprocess_cmd, capture_output=True, text=True)
