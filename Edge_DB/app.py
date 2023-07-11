@@ -130,18 +130,18 @@ def post_shot():
         error_message = f"An error occurred while inserting the shot: {str(e)}"
         return jsonify({'error': error_message}), 500
 
-#@app.route('/db/update_shot/<integer:id>', methods=['PUT'])
-#def update_shot(id):
-#    try:
-#        # Retrieve the data from the request body
-#        query_put.put_shot(request.json, id)
-#        
-#        # Return a response indicating the success of the operation
-#        return jsonify({'message': f'Shot with ID {id} updated successfully'})
-#    except Exception as e:
-#        error_message = f"An error occurred while inserting the shot: {str(e)}"
-#        return jsonify({'error': error_message}), 500
-
+@app.route('/db/update_shot/<string:id>', methods=['PUT'])
+def update_shot(id):
+   try:
+       # Retrieve the data from the request body
+       query_put.put_shot(request.json, id)
+       
+       # Return a response indicating the success of the operation
+       return jsonify({'message': f'Shot with ID {id} updated successfully'})
+   except Exception as e:
+       error_message = f"An error occurred while inserting the shot: {str(e)}"
+       return jsonify({'error': error_message}), 500
+    
 @app.route('/db/put_shot_detector_model', methods=['PUT'])
 def put_shot_detector_model():
     return jsonify("UNIMPLEMENTED")
