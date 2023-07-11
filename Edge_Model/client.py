@@ -5,6 +5,7 @@ import base64
 import librosa
 from librosa import onset
 import wave
+from pydub import AudioSegment
 
 app = Flask(__name__)
 
@@ -17,12 +18,11 @@ def point():
 
     # convert from base64 to bytes
     my_bytes = base64.b64decode(base64_bytes)
-
-    # make .wav file
+    
     with wave.open('myfile.wav', 'wb') as f:
         f.setnchannels(4)
         f.setsampwidth(2)
-        f.setframerate(44100)
+        f.setframerate(96000)
         f.writeframes(my_bytes)
 
 

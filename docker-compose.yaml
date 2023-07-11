@@ -17,7 +17,7 @@ services:
     depends_on:
       - api
       # - totocv
-      - noise
+      #- noise
       - shot_detect
       - model
     devices:
@@ -50,6 +50,8 @@ services:
     devices:
     - /dev/snd:/dev/snd
     privileged: true
+    #volumes:
+      #- ./API:/app/
 
 #################################
 
@@ -75,19 +77,19 @@ services:
 # NOISE(PREPROSS) CONTAINER
 
 ################################
-  noise:
-    build:
-      context: ./Edge_Noise # this is the absolute path to the app directory
-      dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
+  #noise:
+    #build:
+      #context: ./Edge_Noise # this is the absolute path to the app directory
+      #dockerfile: Dockerfile # this is the name of the Dockerfile in the app directory
 
-    image: noise-img # this is the name of the image that will be used by the app service
-    networks:
-      - appnet # connect to appnet network
-    container_name: noise
-    ports:
-      - "8002:5000"
-    expose:
-      - "5000"
+    #image: noise-img # this is the name of the image that will be used by the app service
+    #networks:
+      #- appnet # connect to appnet network
+    #container_name: noise
+    #ports:
+      #- "8002:5000"
+    #expose:
+      #- "5000"
 
 #################################
 
