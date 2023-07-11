@@ -16,7 +16,7 @@ services:
       - appnet # connect to appnet network
     depends_on:
       - api
-      # - totocv
+      - totocv
       - noise
       - shot_detect
       - model

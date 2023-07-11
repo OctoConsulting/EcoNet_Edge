@@ -12,14 +12,14 @@ RUN apt-get update && apt-get upgrade -y
 
 
 
-COPY . . 
+#COPY . . 
 
 RUN pip install flask
 RUN pip install requests
 RUN pip install simple-websocket
 # RUN cat /etc/debian_version && sleep 15
 
-# COPY . .
+COPY . .
 #RUN apt-get install python3-waitress -y
 
 #ENV FLASK_APP = app.py
