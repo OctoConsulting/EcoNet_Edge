@@ -219,6 +219,7 @@ services:
       dockerfile: DockerfileHLS
     expose: # will be published w/ reverse proxy
      - "5000"
+    
     volumes:
     - type: volume
       source: feed1
