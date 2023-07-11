@@ -55,7 +55,7 @@ def worker(data):
                      ).wait().success()
             #drone(olympe.messages.ardrone3.PilotingSettings.MaxAltitude(current=100,_timeout=20)).wait()
 
-        assert drone(moveBy(0,0,-5,0)
+        assert drone(moveBy(0,0,-25,0)
                             >> FlyingStateChanged(state="hovering",_timeout=5)
                             ).wait().success()
         #lat would be X and Long would be Y, angle is asamith
@@ -85,10 +85,12 @@ def worker(data):
                     'longitude': newLongitude,
                     'altitude': newAltitude}
         json_headers= {'Content-Type': 'application/json'}
-        db_index= requests.post(f'http://localhost:80/db/put_coords',\
-                                data= shot_data,
-                                headers= json_headers)
-
+        #db_index= requests.post(f'http://localhost:80/db/put_coords',\
+                                #data= shot_data,\
+                                #headers= json_headers)
+        assert drone(moveBy(0,0,15,0)
+                            >> FlyingStateChanged(state="hovering",_timeout=5)
+                            ).wait().success()
         ###############################################################################
         #set gimbal to a default angle of 30 degrees to see the target
         drone(olympe.messages.gimbal.set_target(
@@ -128,24 +130,28 @@ def worker(data):
         #print("before close")
         
             #if elapsed_time >= 10:
-        time.sleep(60)
-        assert drone(moveBy(-X,0,0,-ang)
-                        >> FlyingStateChanged(state="hovering",_timeout=5)
-                        ).wait().success()
-        ######################################################################
+        #time.sleep(60)
+        #assert drone(moveBy(-X,0,0,-ang)
+                        #>> FlyingStateChanged(state="hovering",_timeout=5)
+                        #).wait().success()
+        ###############################################################
         #reset the gimbal
-        drone(olympe.messages.gimbal.reset_orientation(gimbal_id=0)).wait()
-        time.sleep(1)
-        ######################################################################
+        #drone(olympe.messages.gimbal.reset_orientation(gimbal_id=0)).wait()
+        #time.sleep(1)
+        ###############################################################
         #land the drone
-        assert drone(Landing()).wait().success()
+        #assert drone(Landing()).wait().success()
         
                 #break
         print("close complete")
+
         #ws.close()
             
         ########################################################################
         #return home
+        assert drone(moveBy(0,0,-15,0)
+                            >> FlyingStateChanged(state="hovering",_timeout=5)
+                            ).wait().success()
         assert drone(moveBy(-X,0,0,-ang)
                      >> FlyingStateChanged(state="hovering",_timeout=5)
                      ).wait().success()
@@ -162,10 +168,10 @@ def worker(data):
         batteryPercent = drone.get_state(olympe.messages.common.CommonState.BatteryStateChanged)["percent"]
         print("Battery percentage: ", batteryPercent)
         #TODO send the battery percentage after the flight to surge
-        
+        #drone.disconnect()
+
         #########################################################################
         #disconnect the drone
-        drone.disconnect()
         
         #tell managmnet that drone came home
         url = 'Manager:5000/api'

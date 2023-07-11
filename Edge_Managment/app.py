@@ -14,12 +14,12 @@ DRONE_PROFILES = {
         "drone_type": "parrot",
         "ip_address": "192.168.53.1",
         "available": True,
-    },
-    "skydio": {
-        "drone_type": "skydio",
-        "ip_address": "192.168.53.2",
-        "available": True,
-    },
+    }
+    #"parrot_anafi": {
+        #"drone_type": "parrot",
+        #"ip_address": "192.168.53.1",
+        #"available": True,
+    #},
 }
 
 # Create a Flask app
