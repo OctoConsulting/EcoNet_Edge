@@ -23,7 +23,7 @@ def main():
     location = response.json()
 
     # For database shot
-    
+
     response = requests.put(f'db_courier/update_shot/{str(db_index)}', json=location)
 
     location = json.dumps(location)
@@ -32,10 +32,10 @@ def main():
     print(location, flush=True)
 
     # analyze the location data -> make sure it is resonalble
-    resonable = True
+    reasonable = True
 
     
-    if resonable:
+    if reasonable:
         # drone deployment operations
         command = ["python", "deploy.py", f'{location}']
         process = subprocess.Popen(command, stdin=subprocess.PIPE)
