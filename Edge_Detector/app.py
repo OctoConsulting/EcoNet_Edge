@@ -7,6 +7,8 @@ import json
 import base64
 import wave
 import pyaudio
+import torchaudio
+
 
 app = Flask(__name__)
 
@@ -27,8 +29,15 @@ def detect_shot():
         with wave.open('myfile.wav', 'wb') as f:
             f.setnchannels(channels)
             f.setsampwidth(audio.get_sample_size(pyaudio.paInt16))
-            f.setframerate(44100)
+            f.setframerate(96000)
             f.writeframes(my_bytes)
+        
+        waveform, sr = torchaudio.load("myfile.wav")
+        resample_transform = torchaudio.transforms.Resample(96000, 22050)
+        waveform = resample_transform(waveform)
+
+        torchaudio.save("myfile.wav", waveform, 22050)
+        
 
         subprocess_cmd = ['python', 'modelPredict.py', 'myfile.wav']
         subprocess_output = subprocess.run(subprocess_cmd, capture_output=True, text=True)
