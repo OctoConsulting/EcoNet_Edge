@@ -17,9 +17,9 @@ RUN pip install gunicorn
 # Install the Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-RUN pip install klvdata \
-    && pip install psutil \
-    && pip install ultralytics
+RUN pip install psutil \
+    && pip install ultralytics\
+    && pip install klvdata
 
 RUN apt-get install libgl1-mesa-glx -y
 RUN apt-get install libglib2.0-0 -y
@@ -31,14 +31,14 @@ RUN pip install gunicorn
 COPY . .
 
 # CMD cd ../TotoCV/toto/bh_runner/kvldata-master
-WORKDIR /app/toto/bh_runner/kvldata-master
-CMD ["python3", "setup.py", "install"]
+WORKDIR /app/toto/bh_runner/klvdata-master
+# CMD ["python3", "setup.py", "install"]
 # Expose the port that Flask will run on
-EXPOSE 5000
-
-WORKDIR /app
 # Run the Flask application using Gunicorn
 # CMD ["gunicorn" "-b" ":5000" "--threads" "100" "module:app"]
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
+
+# CMD ["python3", "setup.py", "install" ,&&, "gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
+CMD /bin/sh -c "python3 setup.py install && cd .. && cd .. && cd .. && gunicorn --bind 0.0.0.0:5000 app:app"
+
 # CMD ["flask", "run", "--host=0.0.0.0"]
 
