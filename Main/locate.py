@@ -21,13 +21,20 @@ def main():
 
     response = requests.post(f'http://{url}/getLocation', json=body)
     location = response.json()
+
+    # For database shot
+    
+    response = requests.put(f'db_courier/update_shot/{str(db_index)}', json=location)
+
     location = json.dumps(location)
+    
 
     print(location, flush=True)
 
     # analyze the location data -> make sure it is resonalble
     resonable = True
 
+    
     if resonable:
         # drone deployment operations
         command = ["python", "deploy.py", f'{location}']

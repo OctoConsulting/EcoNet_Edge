@@ -30,8 +30,13 @@ def get_audio(ws):
             shot = resp_json.get('shot')
 
             if shot:
+                shot_data= {'preprocessed_audio_hash': "UNIMPLEMENTED"}
+                json_headers= {'Content-Type': 'application/json'}
+                db_index= requests.post(f'http://localhost:80/db/post_shot_raw',\
+                    data = shot_data,
+                    headers = json_headers)
                 # Define the command and arguments
-                command = ["python", "locate.py"]
+                command = ["python", "locate.py", str(db_index)]
 
                 # Launch the subprocess and redirect stdout to a pipe
                 process = subprocess.Popen(command, stdin=subprocess.PIPE)
