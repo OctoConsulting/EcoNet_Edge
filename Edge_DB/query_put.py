@@ -4,15 +4,17 @@
 import psycopg
 import datetime
 
-db_info= "host= db \
+db_info = "host= db \
     dbname=echonet \
     user= postgres \
     password= changemeoctobby"
 
 # function to add a new shot
+
+
 def put_shot_raw(shot_time: str, preprocessed_audio_hash: str):
     with psycopg.connect(db_info) as connection, connection.cursor() as current:
-        sql_code= f'''
+        sql_code = f'''
         INSERT INTO shots (shot_time, preprocessed_audio_hash)
         VALUES ('%s', '%s');
         '''
@@ -22,11 +24,12 @@ def put_shot_raw(shot_time: str, preprocessed_audio_hash: str):
 # function to add detector model processed data into the relevant row.
 # The primary key here is the hash of the preprocessed audio
 
-def put_shot_detector_model(jason):
-    connection= psycopg.connect(db_info)
-    current= connection.cursor()
 
-    sql_code= '''
+def put_shot_detector_model(jason):
+    connection = psycopg.connect(db_info)
+    current = connection.cursor()
+
+    sql_code = '''
         INSERT INTO shots (shot_time, preprocessed_audio_hash)
         VALUES (\'{shot_time}\', \'{preprocessed_audio_hash}\');
     '''
@@ -39,6 +42,7 @@ def put_shot_detector_model(jason):
     current.close()
 
     print("UNIMPLEMENTED")
+
 
 def put_marker(data, id):
     with psycopg.connect(db_info) as connection, connection.cursor() as cursor:
@@ -60,19 +64,30 @@ def put_marker(data, id):
             id
         )
         cursor.execute(update_query, values)
-        
+
         # Commit the changes
         connection.commit()
         connection.close()
         cursor.close()
 
-def put_shot(data):
+
+def put_shot(data, id):
     with psycopg.connect(db_info) as connection, connection.cursor() as cursor:
         # Example update query
-        insert_query = """
+        update_query = """
             UPDATE shots
-            SET "shot_time" = (COALESCE(%s::timestamp, "shot_time"), "process_time" = COALESCE(%s::timestamp, "process_time"), "event_id" = COALESCE(%s::integer, "event_id"), "preprocessed_audio_hash" = COALESCE(%s, "preprocessed_audio_hash"), "postprocessed_audio_hash" = COALESCE(%s, "postprocessed_audio_hash"), "distance" = COALESCE(%s::double precision, "distance"), "microphone_angle" = COALESCE(%s::double precision, "microphone_angle"), "shooter_angle" = COALESCE(%s::double precision, "shooter_angle"), "latitude" = COALESCE(%s::double precision, "latitude"), "longitude" = COALESCE(%s::double precision, "longitude"), "gun_type" = COALESCE(%s::gun, "gun_type"))
-            WHERE "id" = %s
+            SET "shot_time" = COALESCE(%s::timestamp, "shot_time"), 
+            "process_time" = COALESCE(%s::timestamp, "process_time"), 
+            "event_id" = COALESCE(%s::integer, "event_id"), 
+            "preprocessed_audio_hash" = COALESCE(%s, "preprocessed_audio_hash"), 
+            "postprocessed_audio_hash" = COALESCE(%s, "postprocessed_audio_hash"), 
+            "distance" = COALESCE(%s::double precision, "distance"), 
+            "microphone_angle" = COALESCE(%s::double precision, "microphone_angle"), 
+            "shooter_angle" = COALESCE(%s::double precision, "shooter_angle"), 
+            "latitude" = COALESCE(%s::double precision, "latitude"), 
+            "longitude" = COALESCE(%s::double precision, "longitude"), 
+            "gun_type" = COALESCE(%s::gun, "gun_type")
+            WHERE "id" = %s::integer
         """
         values = (
             data.get('shot_time'),
@@ -88,12 +103,14 @@ def put_shot(data):
             data.get('gun_type'),
             id
         )
-        cursor.execute(insert_query, values)
-        
+        cursor.execute(update_query, values)
+
         # Commit the changes
         connection.commit()
         connection.close()
         cursor.close()
+
+
 '''
 
 def put_shot_acoustic_model():
