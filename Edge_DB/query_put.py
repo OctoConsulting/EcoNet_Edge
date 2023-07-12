@@ -66,13 +66,23 @@ def put_marker(data, id):
         connection.close()
         cursor.close()
 
-def put_shot(data):
+def put_shot(data, id):
     with psycopg.connect(db_info) as connection, connection.cursor() as cursor:
         # Example update query
-        insert_query = """
+        update_query = """
             UPDATE shots
-            SET "shot_time" = (COALESCE(%s::timestamp, "shot_time"), "process_time" = COALESCE(%s::timestamp, "process_time"), "event_id" = COALESCE(%s::integer, "event_id"), "preprocessed_audio_hash" = COALESCE(%s, "preprocessed_audio_hash"), "postprocessed_audio_hash" = COALESCE(%s, "postprocessed_audio_hash"), "distance" = COALESCE(%s::double precision, "distance"), "microphone_angle" = COALESCE(%s::double precision, "microphone_angle"), "shooter_angle" = COALESCE(%s::double precision, "shooter_angle"), "latitude" = COALESCE(%s::double precision, "latitude"), "longitude" = COALESCE(%s::double precision, "longitude"), "gun_type" = COALESCE(%s::gun, "gun_type"))
-            WHERE "id" = %s
+            SET "shot_time" = COALESCE(%s::timestamp, "shot_time"), 
+            "process_time" = COALESCE(%s::timestamp, "process_time"), 
+            "event_id" = COALESCE(%s::integer, "event_id"), 
+            "preprocessed_audio_hash" = COALESCE(%s, "preprocessed_audio_hash"), 
+            "postprocessed_audio_hash" = COALESCE(%s, "postprocessed_audio_hash"), 
+            "distance" = COALESCE(%s::double precision, "distance"), 
+            "microphone_angle" = COALESCE(%s::double precision, "microphone_angle"), 
+            "shooter_angle" = COALESCE(%s::double precision, "shooter_angle"), 
+            "latitude" = COALESCE(%s::double precision, "latitude"), 
+            "longitude" = COALESCE(%s::double precision, "longitude"), 
+            "gun_type" = COALESCE(%s::gun, "gun_type")
+            WHERE "id" = %s::integer
         """
         values = (
             data.get('shot_time'),
@@ -88,12 +98,11 @@ def put_shot(data):
             data.get('gun_type'),
             id
         )
-        cursor.execute(insert_query, values)
-        
+        cursor.execute(update_query, values)
+
         # Commit the changes
         connection.commit()
-        connection.close()
-        cursor.close()
+
 '''
 
 def put_shot_acoustic_model():

@@ -187,14 +187,19 @@ services:
       dockerfile: DockerfileDatabase
     expose:
     - "5432"
+    networks:
+    - appnet # connect to appnet network
   db_courier:
     hostname: db_courier
+    container_name: db_courier
     build:
       context: ./Edge_DB
       dockerfile: DockerfileCourier
     expose:
      - "5000"
      - "80"
+    networks:
+     - appnet # connect to appnet network
 
 #######################
 #_    _ __ ____
@@ -212,18 +217,22 @@ services:
     expose: # will be published w/ reverse proxy
      - "8080"
      - "80"
+    networks:
+     - appnet # connect to appnet network
     volumes:
     - type: volume
       source: feed1
       target: /usr/share/nginx/html/feed1
   encode:
     hostname: encode
+    container_name: encode
     build:
       context: ./Edge_Video
       dockerfile: DockerfileHLS
     expose: # will be published w/ reverse proxy
      - "5000"
-    
+    networks:
+     - appnet # connect to appnet network
     volumes:
     - type: volume
       source: feed1
@@ -252,6 +261,8 @@ services:
      - "80"
     ports:
      - "80:80"
+    networks:
+     - appnet # connect to appnet network
 
 volumes:
   feed1:

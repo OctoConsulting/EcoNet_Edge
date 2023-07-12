@@ -35,11 +35,25 @@ def get_audio(ws):
             response = requests.post(f'http://{url}/detection/detectShot', json=a)
 
             resp_json = response.json()
-            print(f'[{time}] {resp_json} (shot detector)', flush=True)
+
+            current_time= datetime.now(timezone('America/New_York')).strftime("%H-%M-%S")
+            print(f'shot time: [{time}] eval time: [{current_time}] {resp_json} (shot detector)', flush=True)
             
             if resp_json["shot"]:
+                # db and video stuff
+                shot_data= {'preprocessed_audio_hash': "UNIMPLEMENTED"}
+                json_headers= {'Content-Type': 'application/json'}
+                db_return= requests.post(f'http://db_courier:5000/post_shot_raw',
+                          data = shot_data,
+                          headers = json_headers)
+                db_index= db_return.json()['index']
+                print("The index of the inputted shot is: ", db_index)
+                # video
+                status= requests.get('http://encode:5000/start_drone1')
+                print("The Drone Status is...", status.json(), flush= True)
+
                 # Define the command and arguments
-                command = ["python", "locate.py", "db_index", str(time)]
+                command = ["python", "locate.py", str(db_index), str(time)]
 
                 # Launch the subprocess and redirect stdout to a pipe
                 process = subprocess.Popen(command, stdin=subprocess.PIPE)

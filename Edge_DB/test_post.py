@@ -44,12 +44,12 @@ data = {
     "event_id": -1,
     "preprocessed_audio_hash" : "1234",
     "postprocessed_audio_hash" : "5678",
-    "distance" : 150,
-    "microphone_angle" :30,
-    "shooter_angle" :25,
-    "latitude" :85,
-    "longitude" :60,
-    "gun_type" :'rifle',
+    "Distance" : 150,
+    "Angle" :30,
+    "Azimuth" :25,
+    "Latitude" :85,
+    "Longitude" :60,
+    "Weapon" :'rifle',
 }
 
 class DateTimeEncoder(json.JSONEncoder):

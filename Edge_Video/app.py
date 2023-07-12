@@ -16,7 +16,7 @@ def default():
 
 @app.route('/start_test', methods=['GET'])
 def start_test():
-    return jsonify(controls.start_test().name)
+    return jsonify({'status': controls.start_test().name})
 
 @app.route('/stop_test', methods=['GET'])
 def stop_test():
@@ -24,7 +24,8 @@ def stop_test():
 
 @app.route('/start_drone1', methods=['GET'])
 def start_drone1():
-    return jsonify(controls.start_drone(1).name)
+    print("Starting drone 1's video feed", flush= True)
+    return jsonify({'status': controls.start_drone(1).name})
 
 @app.route('/stop_drone1', methods=['GET'])
 def stop_drone1():

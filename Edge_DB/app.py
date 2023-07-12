@@ -119,7 +119,7 @@ def post_shot_raw():
     db_index= query_post.post_shot_raw(preprocessed_audio_hash)
 
     print("DB Courier thinks the index is", db_index, flush= True)
-    return jsonify(str(db_index))
+    return jsonify({'index': str(db_index)})
 
 @app.route('/post_shot', methods = ['POST'])
 def post_shot():
@@ -133,17 +133,18 @@ def post_shot():
         error_message = f"An error occurred while inserting the shot: {str(e)}"
         return jsonify({'error': error_message}), 500
 
-#@app.route('/db/update_shot/<integer:id>', methods=['PUT'])
-#def update_shot(id):
-#    try:
-#        # Retrieve the data from the request body
-#        query_put.put_shot(request.json, id)
-#        
-#        # Return a response indicating the success of the operation
-#        return jsonify({'message': f'Shot with ID {id} updated successfully'})
-#    except Exception as e:
-#        error_message = f"An error occurred while inserting the shot: {str(e)}"
-#        return jsonify({'error': error_message}), 500
+@app.route('/update_shot/<string:id>', methods=['PUT'])
+def update_shot(id):
+   print("Updating relative coords for:", id)
+   try:
+       # Retrieve the data from the request body
+       query_put.put_shot(request.json, id)
+       
+       # Return a response indicating the success of the operation
+       return jsonify({'message': f'Shot with ID {id} updated successfully'})
+   except Exception as e:
+       error_message = f"An error occurred while inserting the shot: {str(e)}"
+       return jsonify({'error': error_message}), 500
 
 @app.route('/put_shot_detector_model', methods=['PUT'])
 def put_shot_detector_model():

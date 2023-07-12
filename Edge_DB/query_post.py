@@ -47,12 +47,12 @@ def post_shot(data):
             data.get('event_id', -1),
             data.get('preprocessed_audio_hash', "x"),
             data.get('postprocessed_audio_hash', "x"),
-            data.get('distance', 0.0),
-            data.get('microphone_angle', 0.0),
-            data.get('shooter_angle', 0.0),
-            data.get('latitude', 0.0),
-            data.get('longitude', 0.0),
-            data.get('gun_type', 'pistol')
+            data.get('Distance', 0.0),
+            data.get('Angle', 0.0),
+            data.get('Azimuth', 0.0),
+            data.get('Latitude', 0.0),
+            data.get('Longitude', 0.0),
+            data.get('Weapon', 'pistol')
         )
         cursor.execute(insert_query, values)
         id = cursor.fetchone()[0]
