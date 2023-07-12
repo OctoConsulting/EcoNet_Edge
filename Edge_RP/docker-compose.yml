@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 version: '3.2'
 services:
   reverse_proxy:
@@ -19,4 +20,27 @@ services:
       dockerfile: DockerfileTest
     expose:
      - "8080"
+=======
+version: '3.2'
+services:
+  reverse_proxy:
+    hostname: reverse_proxy
+    build:
+      context: .
+      dockerfile: DockerfileRP
+    expose:
+     - "8080"
+     - "80"
+    ports:
+     - "8080:8080"
+     - "80:80"
+  # do not include test in production
+  test:
+    hostname: test
+    build:
+      context: .
+      dockerfile: DockerfileTest
+    expose:
+     - "8080"
+>>>>>>> 74131a5c74812233304b3da5696f5795aeaf14f1
      - "80"

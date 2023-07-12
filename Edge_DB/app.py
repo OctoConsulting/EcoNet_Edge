@@ -24,22 +24,22 @@ sock = Sock(app)
 def default():
     return jsonify("heyy :)")
 # gets all shots
-@app.route('/db/get_all_shots', methods=['GET'])
+@app.route('/get_all_shots', methods=['GET'])
 def get_all_shots():
     return jsonify(query_get.get_all_shots())
 
 # gets all shot_stats
-@app.route('/db/get_all_shot_stats', methods=['GET'])
+@app.route('/get_all_shot_stats', methods=['GET'])
 def get_all_shot_stats():
     return jsonify(query_get.get_all_shot_stats())
 
 # gets all events
-@app.route('/db/get_all_events', methods=['GET'])
+@app.route('/get_all_events', methods=['GET'])
 def get_all_events():
     return jsonify(query_get.get_all_events())
 
 # gets all markers
-@app.route('/db/get_all_markers', methods=['GET'])
+@app.route('/get_all_markers', methods=['GET'])
 def get_all_markers():
     return jsonify(query_get.get_all_markers())
 
@@ -50,33 +50,33 @@ def get_all_markers():
 #    return jsonify(query_get.get_all_events())
 
 # gets a shot by the preprocessed hash
-@app.route('/db/get_shot_by_pre', methods=['GET'])
+@app.route('/get_shot_by_pre', methods=['GET'])
 def get_shot_by_pre():
     hash= request.args.get('hash')
     hash= "\'" + hash + "\'"
     return jsonify(query_get.get_all_where("shots", "preprocessed_audio_hash", "ILIKE", hash)[0])
 
 # gets a shot by the id
-@app.route('/db/get_shot_by_id', methods=['GET'])
+@app.route('/get_shot_by_id', methods=['GET'])
 def get_shot_by_id():
     id= request.args.get('id')
     return jsonify(query_get.get_all_where("shots", "id", "=", id)[0])
 
 # gets a shot's statistics by id
-@app.route('/db/get_shot_stats_by_id', methods=['GET'])
+@app.route('/get_shot_stats_by_id', methods=['GET'])
 def get_shot_stats_by_id():
     id= request.args.get('id')
     return jsonify(query_get.get_all_where("shot_stats", "id", "=", id)[0])
 
 
-@app.route('/db/put_shot_raw', methods=['POST'])
+@app.route('/put_shot_raw', methods=['POST'])
 def put_shot_raw():
 #    shot_time= request.args.get('shot_time')
 #    preprocessed_audio_hash= request.args.get('preprocessed_audio_hash')
 #    return jsonify(query_get.put_shot_raw(shot_time, preprocessed_audio_hash))
     return jsonify("UNIMPLEMENTED")
 
-@app.route('/db/update_marker_db/<string:id>', methods=['PUT'])
+@app.route('/update_marker_db/<string:id>', methods=['PUT'])
 def update_marker_db(id):
     try:
         # Retrieve the data from the request body
@@ -89,7 +89,7 @@ def update_marker_db(id):
         return jsonify({'error': error_message}), 500
 
 
-@app.route('/db/post_marker_db', methods=['POST'])
+@app.route('/post_marker_db', methods=['POST'])
 def post_marker_db():
     try:
         # Retrieve the data from the request body
@@ -101,7 +101,7 @@ def post_marker_db():
         error_message = f"An error occurred while inserting the marker: {str(e)}"
         return jsonify({'error': error_message}), 500
 
-@app.route('/db/delete_marker_db/<string:id>', methods=['DELETE'])
+@app.route('/delete_marker_db/<string:id>', methods=['DELETE'])
 def delete_marker_db(id):
     try:
         # Retrieve the data from the request body
@@ -113,7 +113,7 @@ def delete_marker_db(id):
         error_message = f"An error occurred while inserting the marker: {str(e)}"
         return jsonify({'error': error_message}), 500
 
-@app.route('/db/post_shot_raw', methods=['POST'])
+@app.route('/post_shot_raw', methods=['POST'])
 def post_shot_raw():
     preprocessed_audio_hash= request.args.get('preprocessed_audio_hash')
     db_index= query_post.post_shot_raw(preprocessed_audio_hash)
@@ -121,7 +121,7 @@ def post_shot_raw():
     print("DB Courier thinks the index is", db_index, flush= True)
     return jsonify(str(db_index))
 
-@app.route('/db/post_shot', methods = ['POST'])
+@app.route('/post_shot', methods = ['POST'])
 def post_shot():
     try:
         # Retrieve the data from the request body
@@ -145,19 +145,19 @@ def post_shot():
 #        error_message = f"An error occurred while inserting the shot: {str(e)}"
 #        return jsonify({'error': error_message}), 500
 
-@app.route('/db/put_shot_detector_model', methods=['PUT'])
+@app.route('/put_shot_detector_model', methods=['PUT'])
 def put_shot_detector_model():
     return jsonify("UNIMPLEMENTED")
 
-@app.route('/db/put_shot_acoustic_model', methods=['PUT'])
+@app.route('/put_shot_acoustic_model', methods=['PUT'])
 def put_shot_acoustic_model():
     return jsonify("UNIMPLEMENTED")
 
-@app.route('/db/put_shot_drone_mission', methods=['PUT'])
+@app.route('/put_shot_drone_mission', methods=['PUT'])
 def put_shot_drone_mission():
     return jsonify("UNIMPLEMENTED")
 
-@app.route('/db/post_target_marker', methods=['POST'])
+@app.route('/post_target_marker', methods=['POST'])
 def post_target_marker():
     info= {'latitude': request.args.get('latitude'),
            'longitude': request.args.get('longitude'),
