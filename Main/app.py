@@ -17,7 +17,7 @@ def get_audio(ws):
     url = 'api:5000/api'
     
     try:
-        while True:
+        if True:
             byte_array = ws.receive()
             base64_bytes = base64.b64encode(byte_array)
             
@@ -27,9 +27,8 @@ def get_audio(ws):
             response = requests.post(f'http://{url}/detection/detectShot', json=a)
 
             resp_json = response.json()
-            shot = True
 
-            if shot:
+            if True:
                 # Define the command and arguments
                 command = ["python", "locate.py"]
 
@@ -39,9 +38,7 @@ def get_audio(ws):
                 # Send data to the subprocess
                 data = json.dumps(a['audio']).encode("utf-8")  # Encode the string as bytes
                 process.stdin.write(data)
-                process.stdin.close()
-                shot = False
-                    
+                process.stdin.close()                    
 
                         
     except (KeyboardInterrupt, EOFError, simple_websocket.ConnectionClosed):
