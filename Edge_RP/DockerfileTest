@@ -1,8 +1,3 @@
-<<<<<<< HEAD
 FROM nginx
 
-=======
-FROM nginx
-
->>>>>>> 74131a5c74812233304b3da5696f5795aeaf14f1
 COPY ./test_index.html /usr/share/nginx/html/index.html
