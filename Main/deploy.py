@@ -9,7 +9,7 @@ def main():
 
     print(str(location), flush=True)
 
-    url ='http://Manager:5000'
+    url ='Manager:5000'
 
     # drone manager
     response = requests.post(f'http://{url}/api/coordinates', json=location)

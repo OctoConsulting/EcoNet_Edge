@@ -12,14 +12,14 @@ import argparse
 from flask import Flask, jsonify, request
 import json
 import concurrent.futures
-import os 
+import os
 import time
 import math
 from enum import Enum
 from time import sleep
 import simple_websocket
 
-num_of_drones = 3 
+num_of_drones = 3
 pool = concurrent.futures.ThreadPoolExecutor(max_workers=num_of_drones)
 
 app = Flask(__name__)
@@ -30,7 +30,7 @@ def worker(data):
     drone = data['DroneType']
     ip_address = data['DRONE_IP']
     print(ip_address,flush=True)
-    ang = data['ANG'] # x 
+    ang = data['ANG'] # x
     X = data['X']
     #angle = 0 #add models real angle when we get it
     print("=========================================================")
@@ -45,12 +45,32 @@ def worker(data):
         DRONE_IP = os.environ.get("DRONE_IP", ip_address)
 
         drone = olympe.Drone(DRONE_IP)
+<<<<<<< HEAD
         drone.connect()  
                                                                                                                                         #drone.__init__(ip_address)
         #drone(olympe.messages.ardrone3.PilotingSettings.MaxAltitude(current=200,_timeout=20)).wait()
         #time.sleep(5)
         #drone.disconnect()
         #sendDroneOut(ip_address, lat, lon, angle, drone)
+=======
+        drone.connect()
+        #drone.__init__(ip_address)
+        drone(olympe.messages.ardrone3.PilotingSettings.MaxAltitude(current=20,_timeout=20)).wait()
+
+        #sendDroneOut(ip_address, lat, lon, angle, drone)
+        assert drone(TakeOff()
+                     >> FlyingStateChanged(state="hovering",_timeout=5)
+                     ).wait().success()
+            #drone(olympe.messages.ardrone3.PilotingSettings.MaxAltitude(current=100,_timeout=20)).wait()
+
+        assert drone(moveBy(0,0,-25,0)
+                            >> FlyingStateChanged(state="hovering",_timeout=5)
+                            ).wait().success()
+        #lat would be X and Long would be Y, angle is asamith
+        assert drone(moveBy(float(X),0,0,0)
+                     >> FlyingStateChanged(state="hovering",_timeout=5)
+                     ).wait().success()
+>>>>>>> 07c92516cf02547d0a01bdabc945ee71d22adf45
         
         
         #assert drone(TakeOff()
@@ -158,8 +178,14 @@ def worker(data):
         #
         #start_time = time.time()
         #ws = simple_websocket.Client(f'ws://toto:5000/toto/{ip_address}')
+<<<<<<< HEAD
         #ws = simple_websocket.Client(f'ws://toto:5000/toto/{ip_address}')
         #drone(olympe.messages.follow_me.start(1)).wait()
+=======
+        #ws = simple_websocket.Client(f'ws://toto:5000/toto/192.168.53.1')
+        print("==============================================================")
+	#drone(olympe.messages.follow_me.start(1)).wait()
+>>>>>>> 07c92516cf02547d0a01bdabc945ee71d22adf45
 
         #current_time = time.time()
         #elapsed_time = current_time - start_time
