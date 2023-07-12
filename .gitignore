@@ -22,4 +22,4 @@ Edge_Video/test_vid/video.mp4
 Edge_Video/test_vid.mp4
 Edge_Video/test_vid.mkv
 Edge_Model/gryphon_group_data/
-
+*.log

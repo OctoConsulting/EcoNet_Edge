@@ -26,18 +26,19 @@ def denoise(input_file, output_file):
     dec_audio, sr = soundfile.read(input_file, always_2d=1)
     dec_audio = dec_audio.T
 
-    #wavelet denoising only active for 1 channel audio
-    if dec_audio.shape[0] == 1:
-        f=.5
-        dec_audio = wavelet_denoise(dec_audio, [0*f, 0*f, 0*f, 10*f, 15.8*f, 22*f, 44.65*f], "hard", "rbio6.8")
+
+    f=1.1
+    dec_audio = retain_low_denoise(dec_audio, 
+                                   [0*f, 0*f, 0*f, 10*f, 15.8*f, 22*f, 44.65*f], 
+                                   [0.7, 0.59, 0.1, 0.1, 0.18, 0.48, 0.19], "hard", "rbio6.8")
     
     #Note must include sample rate for the audio data.
-    cleaned_array = spectral_subtraction(np.array(dec_audio))
+    #cleaned_array = spectral_subtraction(np.array(dec_audio))
 
 #    recomposed = recompose(cleaned_array, audio.frame_rate * 2, audio.sample_width)
-    print(cleaned_array.shape)
+    #print(cleaned_array.shape)
     #AudioSegment.export(recomposed, output_file, format="wav")
-    soundfile.write(output_file, cleaned_array.T, sr)
+    soundfile.write(output_file, dec_audio.T, sr)
     
     logging.info("Denoised audio written to {}".format(output_file))
 
@@ -80,7 +81,7 @@ import numpy as np
 def decompose_wav_to_array(input_file):
     # Load the multichannel audio using soundfile into audio and sample_rate
     audio, sample_rate = sf.read(input_file)
-    print(sample_rate)
+    # print(sample_rate)
 
     # Transpose the audio to have shape [channel][time]
     audio = np.transpose(audio)
@@ -162,6 +163,34 @@ def wavelet_denoise(dec_audio, thresh_mult, type="hard", fam="db1"):
 
     return dec_filtered_audio
 
+def retain_low_denoise(dec_audio, thresh_high_mult, thresh_low_mult, type="hard", fam="db1"):    
+    """denoises audio using custom method
+
+    Args:
+        dec_audio (arraylike): audio of form [channel][time]
+        thresh_mult (arraylike): multiplies sigma by this value to find cutoff values
+        type (str, optional): type of thresholding. Defaults to "hard".
+        fam (str, optional): faimly of wavelets used. Defaults to "db1".
+
+    Returns:
+        arraylike: denoised dec_audio
+    """
+    
+    assert len(thresh_high_mult) == len(thresh_low_mult), "thresh_high_mult and thresh_low_mult must be the same length"
+        
+    trans_audio = transform(dec_audio, len(thresh_high_mult)-1, fam)
+    
+    sigma = find_sigma(trans_audio)
+    
+    thresh_values_high = compute_thresh(sigma, thresh_high_mult)
+    thresh_values_low = compute_thresh(sigma, thresh_low_mult)
+    
+    filtered = _fast_denoise_retain_low(trans_audio, thresh_values_high, thresh_values_low, type)    
+    
+    dec_filtered_audio = untransform(filtered, fam)
+    
+    return dec_filtered_audio
+
 def _fast_denoise(trans_audio, thresh_values, type="hard"):
     """ \"Fast\" version of denoiser method works mainly by having precomputed sigma, trans_audio values
         this method should only be directly accessed if the same audio needs to be denoised multiple times
@@ -186,6 +215,31 @@ def _fast_denoise(trans_audio, thresh_values, type="hard"):
 
     return denoised_pass_C
 
+def _fast_denoise_retain_low(trans_audio, thresh_values_high, thresh_values_low, type="hard"):
+    
+    def thresh_high(trans_audio, thresh_values):
+        # thresholds the higher values
+        # pywt doesn't have an inbuilt option for this might wanna try to add it to the official pywt repo
+        channels = len(trans_audio)
+        denoised_pass_C = [None]*channels
+        
+        for channels in range(len(trans_audio)):
+            # pass 1 -> lowest C | pass N -> highest C
+            #thresholds all passes in each channel
+            denoised_pass_C[channels] = [np.where(np.greater(np.abs(trans_audio[channels][passes]), thresh_values[channels][passes]), 0, trans_audio[channels][passes]) 
+                                        for passes in range(len(trans_audio[channels]))]
+        return denoised_pass_C
+    
+    trans_filtered_high = _fast_denoise(trans_audio, thresh_values_high, type)
+    
+    trans_filtered_low = thresh_high(trans_audio, thresh_values_low)
+    
+    trans_filtered_merged = [[((trans_filtered_high[channel_index][passes] == 0) * trans_filtered_low[channel_index][passes]) + trans_filtered_high[channel_index][passes]
+                             for passes in range(len(trans_filtered_high[channel_index]))]
+                             for channel_index in range(len(trans_filtered_high))]
+    
+    return trans_filtered_merged
+
 def find_sigma(trans_audio):
     """Finds sigma of an array of type [channel][passes]
 
@@ -209,44 +263,6 @@ def compute_thresh(sigmoid, thresh_mult):
         thresh_values[channel_index] = [sigmoid[channel_index][passes] * thresh_mult[passes] for passes in range(len(thresh_mult))]
 
     return thresh_values
-
-def decompose(audio):
-    """decomposes audiosegmant into raw audio
-
-    Args:
-        audio (AudioSegmant): audio file
-
-    Returns:
-        arraylike: raw audio of form [channel][time]
-    """
-    return [np.array(audio.split_to_mono()[channel].get_array_of_samples()) for channel in range(audio.channels)]
-
-def recompose(audio, framerate, sample_width):
-    """recomposes raw audio to Audiosegmant
-
-    Args:
-        audio (arraylike): decomposed audio of form [channel][time]
-        framerate (float): framerate of audio
-        sample_width (float): samplewidth of audio
-
-    Returns:
-        AudioSegment: returns the audiosegmant object
-    """
-    channels = len(audio)
-    mono_channel_audio = [AudioSegment(array.array('i', np.array(channel).astype(int)), 
-                              sample_width=sample_width, frame_rate=framerate,channels=1) 
-                              for channel in audio]
-
-
-    reconstucted_audio = mono_channel_audio[0]
-
-    if (channels==2):
-        reconstucted_audio = AudioSegment.from_mono_audiosegments(mono_channel_audio[0], mono_channel_audio[1])
-
-    elif( channels == 4):
-        reconstucted_audio = AudioSegment.from_mono_audiosegments(mono_channel_audio[0], mono_channel_audio[1], mono_channel_audio[2], mono_channel_audio[3]) 
-
-    return reconstucted_audio
 
 def untransform(trans_audio, fam="db1"):
     """Takes a wavelet array of the type [channel][passes][time] and reconstructs raw audio

@@ -34,6 +34,7 @@ def process_wav():
     
     # Check if the subprocess succeeded
     if subprocess_output.returncode != 0:
+        print(subprocess_output.stderr.strip(), flush= True)
         return jsonify({'Subprocess failed': subprocess_output.stderr.strip()}), 501
     
     # # Extract the processed WAV filename  and directory from the stdout of the subprocess

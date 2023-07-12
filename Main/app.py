@@ -9,6 +9,11 @@ import wave
 import pyaudio
 from datetime import datetime, timedelta
 from pytz import timezone
+import logging
+
+# lots of unnecessary stuff to console
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
 
 app = Flask(__name__)
 sock = Sock(app)

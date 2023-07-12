@@ -8,7 +8,11 @@ import base64
 import wave
 import pyaudio
 import torchaudio
+import logging
 
+# lots of unnecessary stuff to console
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
 
 app = Flask(__name__)
 

@@ -19,6 +19,12 @@ from enum import Enum
 from time import sleep
 import simple_websocket
 
+import logging
+
+# lots of unnecessary stuff to console
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
+
 num_of_drones = 3
 pool = concurrent.futures.ThreadPoolExecutor(max_workers=num_of_drones)
 
