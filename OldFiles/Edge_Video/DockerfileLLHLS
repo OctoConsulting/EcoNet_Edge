@@ -1,0 +1,5 @@
+# currently unused. Used to create an rtsp/rtmp/llhls server
+FROM bluenviron/mediamtx:latest-ffmpeg
+
+RUN apt-get update
+RUN apt-get upgrade -y

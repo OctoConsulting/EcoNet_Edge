@@ -1,3 +1,4 @@
+# builds feed X, with X being the feed number
 FROM nginx
 
 COPY ./index.html /usr/share/nginx/html/
