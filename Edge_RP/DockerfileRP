@@ -1,0 +1,5 @@
+# Reverse Proxy
+FROM nginx
+
+# replace default.conf with our conf
+COPY ./reverse_proxy.conf /etc/nginx/conf.d/default.conf

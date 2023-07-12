@@ -36,15 +36,15 @@ def stop_drone1():
 def start_drone2():
     return jsonify("UNIMPLEMENTED")
 
-@app.route('/video/stop_drone2', methods=['GET'])
+@app.route('/stop_drone2', methods=['GET'])
 def stop_drone2():
     return jsonify("UNIMPLEMENTED")
 
-@app.route('/video/start_drone3', methods=['GET'])
+@app.route('/start_drone3', methods=['GET'])
 def start_drone3():
     return jsonify("UNIMPLEMENTED")
 
-@app.route('/video/stop_drone3', methods=['GET'])
+@app.route('/stop_drone3', methods=['GET'])
 def stop_drone3():
     return jsonify("UNIMPLEMENTED")
 
