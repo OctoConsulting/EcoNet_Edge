@@ -4,15 +4,19 @@ import simple_websocket
 
 import pyaudio
 import wave
+import os
+import sys
+from datetime import datetime
 
-CHUNK = 52920*10
+CHUNK = 115200*10
 FORMAT = pyaudio.paInt16
 CHANNELS = 4
-RATE = 44100
-RECORD_SECONDS = 1.2
-OUTPUT_FILENAME = "output.wav"
+RATE = 96000
+audios = []
 
-ws = simple_websocket.Client('ws://192.168.50.203:5000/api/detection/audio')
+start_time = datetime.now().strftime("%H-%M-%S")
+
+# ws = simple_websocket.Client('ws://192.168.50.203:5000/api/detection/audio')
 
 p = pyaudio.PyAudio()
 
@@ -34,13 +38,55 @@ print("Recording started...")
 try:
     i = 0
     while True:
-        data = stream.read(52920)
-        ws.send(data)
+        data = stream.read(115200)
+
+        timestamp = datetime.now().strftime("%H-%M-%S")
+
+        output = f'{str(timestamp)}_audio.wav'
+
+        file_path = os.path.join("./audio_archive/clips", output)
+
+        f = open(file_path, "x")
+        f.close()
+        
+        with wave.open(file_path, 'wb') as f:
+            f.setnchannels(4)
+            f.setsampwidth(p.get_sample_size(FORMAT))
+            f.setframerate(96000)
+            f.writeframes(data)
+
+        audios.append(data)
+
+        # ws.send(data)
 
         
     
 except KeyboardInterrupt:
-    pass
-stream.stop_stream()
-stream.close()
-p.terminate()
+    # end_time = datetime.now().strftime("%H-%M-%S")
+
+    # output = f'{start_time}_to_{end_time}_audio.wav'
+
+    # file_path = os.path.join("./audio_archive/full_audio", output)
+
+    # full = b''.join(audios)
+
+    # f = open(file_path, "x")
+    # f.close()
+
+    # with wave.open(file_path) as f:
+    #     f.setnchannels(4)
+    #     f.setsampwidth(p.get_sample_size(FORMAT))
+    #     f.setframerate(96000)
+    #     f.writeframes(b''.join(audios))
+    
+    # stream.stop_stream()
+    # stream.close()
+    # p.terminate()
+
+    sys.exit()
+
+
+
+
+
+
