@@ -44,6 +44,5 @@ def get_audio(ws):
     except (KeyboardInterrupt, EOFError, simple_websocket.ConnectionClosed):
         ws.close()
 
-
 if __name__ == '__main__':
     app.run()

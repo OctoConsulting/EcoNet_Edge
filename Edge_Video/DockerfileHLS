@@ -20,7 +20,10 @@ COPY ./encode_stop.sh .
 COPY ./container_startup.sh .
 COPY ./controls.py .
 COPY ./app.py .
+COPY ./index.html .
 
 RUN mkdir /srv/feed1/
+RUN chmod 777 /srv/feed1/
+#CMD [ "/bin/bash", "./container_startup.sh" ]
 
-CMD [ "/bin/bash", "./container_startup.sh" ]
+CMD [ "waitress-serve", "--host", "0.0.0.0", "--port=5000", "app:app" ]
