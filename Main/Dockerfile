@@ -22,6 +22,10 @@ ENV FLASK_APP=app.py
 # Expose the port that Flask will run on
 EXPOSE 5000
 
+RUN pip install pytz
+#ENV TZ=America/New_York
+#RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 # Run the Flask application
 # CMD ["python3", "main.py"]
 CMD ["flask", "run", "--host=0.0.0.0"]

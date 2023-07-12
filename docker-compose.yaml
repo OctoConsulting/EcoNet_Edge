@@ -27,10 +27,10 @@ services:
       - "5000:5000"
     expose:
       - "5000"
-    volumes:
-      - type: bind
-        source: ./logs
-        target: logs
+#    volumes:
+#      - type: bind
+#        source: ./logs
+#        target: /var/logs
 
 #################################
 

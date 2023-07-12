@@ -11,5 +11,4 @@
 #  -hls_time 3 -hls_wrap 10 "/srv/feed1/streaming.m3u8"
 
 #cp ./index.html /srv/feed1/index.html
-ffmpeg -i "rtsp://192.168.53.1/live" \
-  -hls_time 3 -hls_wrap 10 "/srv/feed1/streaming.m3u8"
+ffmpeg -i "rtsp://192.168.53.1/live" -hls_time 3 -hls_wrap 10 -c copy "/srv/feed1/streaming.m3u8" &

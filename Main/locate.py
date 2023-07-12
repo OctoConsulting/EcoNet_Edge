@@ -8,6 +8,7 @@ import requests
 
 def main():
     # db_index= sys.argv[1]
+    time= sys.argv[2]
 
     audio = sys.stdin.read().strip()
 
@@ -35,8 +36,7 @@ def main():
 
     location = json.dumps(location)
 
-    print(f'{location} (acustic model)', flush=True)
-
+    print(f'[{time}] {location} (acoustic model)', flush=True)
     # analyze the location data -> make sure it is resonalble
     resonable = True
 
@@ -44,6 +44,9 @@ def main():
         # drone deployment operations
         command = ["python", "deploy.py", f'{location}']
         process = subprocess.Popen(command, stdin=subprocess.PIPE)
+
+        # start the feed
+        requests.get('http://reverse_proxy:80/video/start_drone1')
 
 
 

@@ -7,8 +7,8 @@ import subprocess
 import base64
 import wave
 import pyaudio
-from datetime import datetime
-
+from datetime import datetime, timedelta
+from pytz import timezone
 
 app = Flask(__name__)
 sock = Sock(app)
@@ -17,14 +17,17 @@ sock = Sock(app)
 def get_audio(ws):
     url = 'api:5000/api'
 
-    time = datetime.now().strftime("%H-%M-%S")
-    f = open(f"../logs/start-{time}", "x")
+    start_time = datetime.now(timezone('America/New_York')).strftime("%H-%M-%S")
+    #f = open(f"../logs/start-{start_time}", "x")
     
     try:
-        if True:
+        while True:
             byte_array = ws.receive()
+            time= ws.receive()
             base64_bytes = base64.b64encode(byte_array)
-            time = datetime.now().strftime("%H-%M-%S")
+            #now = datetime.now(timezone('America/New_York'))
+            #offset= now + timedelta(seconds= -4)
+            #time= offset.strftime("%H-%M-%S")
             
             a = {}
             a['audio'] = base64_bytes.decode('utf-8')
@@ -33,10 +36,10 @@ def get_audio(ws):
 
             resp_json = response.json()
             print(f'[{time}] {resp_json} (shot detector)', flush=True)
-
-            if True:
+            
+            if resp_json["shot"]:
                 # Define the command and arguments
-                command = ["python", "locate.py"]
+                command = ["python", "locate.py", "db_index", str(time)]
 
                 # Launch the subprocess and redirect stdout to a pipe
                 process = subprocess.Popen(command, stdin=subprocess.PIPE)
@@ -48,7 +51,7 @@ def get_audio(ws):
 
                         
     except (KeyboardInterrupt, EOFError, simple_websocket.ConnectionClosed):
-        f.close()
+        #f.close()
         ws.close()
 
 if __name__ == '__main__':
