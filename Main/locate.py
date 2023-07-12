@@ -16,6 +16,7 @@ def main():
     body = {}
     body['audio'] = audio
 
+    # noice code  
     # resp_preprossessing = requests.post(f'http://{url}/preporessing', json=body)
     # preprossessed = resp_preprossessing.json()
 
@@ -34,7 +35,7 @@ def main():
 
     location = json.dumps(location)
 
-    # print(preprossessed, flush=True)
+    print(f'{location} (acustic model)', flush=True)
 
     # analyze the location data -> make sure it is resonalble
     resonable = True
