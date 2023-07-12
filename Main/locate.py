@@ -23,9 +23,12 @@ def main():
     location = response.json()
 
     # location into db :)
-    #shot_data= {'preprocessed_audio_hash': "UNIMPLEMENTED"}
-    #json_headers= {'Content-Type': 'application/json'}
-    #db_index= requests.post(f'http://db_courier:5000/put_shot_acoustic_model',
+    # shot_data= {'microphone_angle': location['Angle'],
+    #             'shooter_angle': location['Azimuth'],
+    #             'distance': location['Distance'],
+    #             'id': db_index}
+    # json_headers= {'Content-Type': 'application/json'}
+    # db_index= requests.post(f'http://db_courier:5000/put_shot_acoustic_model',
     #                        data= shot_data,
     #                        headers= json_headers)
 

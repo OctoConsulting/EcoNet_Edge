@@ -45,12 +45,9 @@ def get_audio(ws):
                 data = json.dumps(a['audio']).encode("utf-8")  # Encode the string as bytes
                 process.stdin.write(data)
                 process.stdin.close() 
-                    
-
-                        
+ 
     except (KeyboardInterrupt, EOFError, simple_websocket.ConnectionClosed):
         ws.close()
-
 
 if __name__ == '__main__':
     app.run()

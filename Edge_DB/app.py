@@ -116,7 +116,10 @@ def delete_marker_db(id):
 @app.route('/post_shot_raw', methods=['POST'])
 def post_shot_raw():
     preprocessed_audio_hash= request.args.get('preprocessed_audio_hash')
-    return jsonify(query_post.post_shot_raw(preprocessed_audio_hash))
+    db_index= query_post.post_shot_raw(preprocessed_audio_hash)
+
+    print("DB Courier thinks the index is", db_index, flush= True)
+    return jsonify(str(db_index))
 
 @app.route('/post_shot', methods = ['POST'])
 def post_shot():

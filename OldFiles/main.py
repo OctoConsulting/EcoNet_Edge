@@ -1,4 +1,5 @@
-# runs the whole program
+# runs the whole program. Not currently in use.
+# was originally in Main/main.py
 
 import simple_websocket
 import os
