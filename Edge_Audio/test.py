@@ -16,7 +16,7 @@ audios = []
 
 start_time = datetime.now().strftime("%H-%M-%S")
 
-# ws = simple_websocket.Client('ws://192.168.50.203:5000/api/detection/audio')
+ws = simple_websocket.Client('ws://192.168.50.203:5000/api/detection/audio')
 
 p = pyaudio.PyAudio()
 
@@ -57,7 +57,8 @@ try:
 
         audios.append(data)
 
-        # ws.send(data)
+        ws.send(data)
+        ws.send(str(timestamp))
 
         
     
