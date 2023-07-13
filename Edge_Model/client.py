@@ -38,7 +38,7 @@ def point():
     output = subprocess_output.stdout.strip()
     #loading output data into json format into data
     data = json.loads(output)
-    print(data, flush=True)
+    # print(data, flush=True)
     # return json of data
 
     # data = {}

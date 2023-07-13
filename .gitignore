@@ -21,5 +21,10 @@ Edge_Video/test_vid/manifest.m3u8
 Edge_Video/test_vid/video.mp4
 Edge_Video/test_vid.mp4
 Edge_Video/test_vid.mkv
+Edge_Video/lib/hls.min.js
+Edge_Video/lib/hls.min.js.map
+Edge_Video/lib/stream_workers.js
+Edge_Video/lib/video-js.css
+Edge_Video/lib/video.js
 Edge_Model/gryphon_group_data/
 *.log
