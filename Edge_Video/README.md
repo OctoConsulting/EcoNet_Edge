@@ -32,7 +32,7 @@ curl http://localhost:5000/video/start_test
 
 **encode_stream.sh**
 
-encodes the rtsp stream into hls (m3u8)
+encodes the rtsp stream into hls (streaming.m3u8)
 
 **encode_vid.sh**
 

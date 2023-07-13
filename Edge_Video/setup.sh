@@ -1,9 +1,12 @@
 #!/bin/bash
-#$ErrorActionPreference = "Stop"
+# sets up containers for video
+set -u
+set -x
+set -e
+
 docker-compose down
-#echo "y" | docker container prune
-#echo "y" | docker image prune
-#docker image remove edge_video-web
-docker-compose up --build -d
-#Start-Sleep -Seconds 5
-#docker exec -it $(docker ps -aqf "name=edge_video-web") bash container_startup.sh
+
+# clear cached videos from the previous run
+echo "y" | docker container prune 
+
+docker-compose up --build

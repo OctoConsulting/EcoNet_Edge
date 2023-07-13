@@ -6,10 +6,12 @@ from enum import Enum
 
 Status= Enum('Status', ['STARTED', 'STOPPED', 'FAILED'])
 
+# starts encoding test_vid.mp4 into an HLS stream
 def start_test() -> Status:
   os.system('/bin/bash ./encode_vid.sh')
   return Status.STARTED
 
+# stops encoding test_vid.mp4
 def stop_test() -> Status:
   os.system('/bin/bash ./encode_stop.sh')
   return Status.STOPPED
