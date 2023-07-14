@@ -1,5 +1,5 @@
 # sets up containers for video
-$ErrorActionPreference = "Stop"
+$ErrorActionPreference= "Stop"
 
 docker-compose down
 

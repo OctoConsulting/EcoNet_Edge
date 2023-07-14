@@ -225,13 +225,12 @@ services:
 # (drone live feed)
 
   feed1:
-    hostname: feed1
-    container_name: feed1
+    hostname: video
+    container_name: video
     build:
       context: ./Edge_Video
       dockerfile: DockerfileHTML
     expose: # will be published w/ reverse proxy
-     - "8080"
      - "80"
     networks:
      - appnet # connect to appnet network

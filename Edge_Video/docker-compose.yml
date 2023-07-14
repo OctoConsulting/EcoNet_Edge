@@ -1,15 +1,14 @@
 version: '3.2'
 services:
-  web:
-    hostname: web
+  video:
+    hostname: video
+    container_name: video
     build:
       context: .
       dockerfile: DockerfileHTML
     expose:
-     - "8080"
      - "80"
     ports:
-     - "8080:8080"
      - "80:80"
     volumes:
     - type: volume
@@ -17,6 +16,7 @@ services:
       target: /usr/share/nginx/html/feed1
   encode:
     hostname: encode
+    container_name: encode
     build:
       context: .
       dockerfile: DockerfileHLS

@@ -22,7 +22,7 @@ sock = Sock(app)
 # hello
 @app.route('/', methods=['GET'])
 def default():
-    return jsonify("heyy :)")
+    return jsonify("heyy, ur in db_courier rn :)")
 # gets all shots
 @app.route('/get_all_shots', methods=['GET'])
 def get_all_shots():

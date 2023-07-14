@@ -25,5 +25,6 @@ Edge_Video/lib/hls.min.js.map
 Edge_Video/lib/stream_workers.js
 Edge_Video/lib/video-js.css
 Edge_Video/lib/video.js
+Edge_Video/lib/hls.js
 Edge_Model/gryphon_group_data/
 *.log
