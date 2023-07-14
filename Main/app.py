@@ -23,16 +23,12 @@ def get_audio(ws):
     url = 'api:5000/api'
 
     start_time = datetime.now(timezone('America/New_York')).strftime("%H-%M-%S")
-    #f = open(f"../logs/start-{start_time}", "x")
     
     try:
         while True:
             byte_array = ws.receive()
             time= ws.receive()
             base64_bytes = base64.b64encode(byte_array)
-            #now = datetime.now(timezone('America/New_York'))
-            #offset= now + timedelta(seconds= -4)
-            #time= offset.strftime("%H-%M-%S")
             
             a = {}
             a['audio'] = base64_bytes.decode('utf-8')
@@ -70,7 +66,6 @@ def get_audio(ws):
 
                         
     except (KeyboardInterrupt, EOFError, simple_websocket.ConnectionClosed):
-        #f.close()
         ws.close()
 
 if __name__ == '__main__':

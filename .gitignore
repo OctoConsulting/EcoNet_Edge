@@ -28,3 +28,4 @@ Edge_Video/lib/video.js
 Edge_Video/lib/hls.js
 Edge_Model/gryphon_group_data/
 *.log
+Surge_DesktopUI/web

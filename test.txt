@@ -1,2102 +1,0 @@
-Step 1/12 : FROM python:3.9
- ---> 618db5c0a924
-Step 2/12 : WORKDIR /app
- ---> Using cache
- ---> c721cf838192
-Step 3/12 : COPY requirements.txt .
- ---> Using cache
- ---> 997a092495f5
-Step 4/12 : RUN apt-get update
- ---> Using cache
- ---> db6d76cb000f
-Step 5/12 : RUN apt-get install libasound-dev libportaudio2 libportaudiocpp0 portaudio19-dev -y
- ---> Using cache
- ---> 775aa3835d75
-Step 6/12 : RUN pip install --upgrade pip setuptools wheel
- ---> Using cache
- ---> a10fc1765fa5
-Step 7/12 : RUN pip install --no-cache-dir -r requirements.txt
- ---> Using cache
- ---> 3418ebfde326
-Step 8/12 : RUN pip install pyaudio
- ---> Using cache
- ---> b7b4cd721882
-Step 9/12 : COPY . .
- ---> Using cache
- ---> e5f1ba49574a
-Step 10/12 : ENV FLASK_APP=app.py
- ---> Using cache
- ---> f21084dab2fe
-Step 11/12 : EXPOSE 5000
- ---> Using cache
- ---> 0d9f47e9e2b7
-Step 12/12 : CMD ["flask", "run", "--host=0.0.0.0"]
- ---> Using cache
- ---> 55f48e4cbf25
-
-Successfully built 55f48e4cbf25
-Successfully tagged imgapi:latest
-Step 1/19 : FROM debian:bullseye
- ---> 7df9c1a77ca2
-Step 2/19 : WORKDIR /app
- ---> Using cache
- ---> d521997de060
-Step 3/19 : COPY ./requirements.txt .
- ---> Using cache
- ---> 3cf5090f2bc7
-Step 4/19 : RUN apt-get update
- ---> Using cache
- ---> 93a9ca18bd33
-Step 5/19 : RUN apt-get upgrade -y
- ---> Using cache
- ---> 69a7fe3375f0
-Step 6/19 : RUN apt-get update && apt-get install -y python3-pip
- ---> Using cache
- ---> 5e2a5191f17e
-Step 7/19 : RUN pip install gunicorn
- ---> Using cache
- ---> 42f305d7fd24
-Step 8/19 : RUN pip install --no-cache-dir -r requirements.txt
- ---> Using cache
- ---> 496b447c8cf5
-Step 9/19 : RUN pip install klvdata     && pip install psutil     && pip install ultralytics
- ---> Using cache
- ---> 3809a4adb074
-Step 10/19 : RUN apt-get install libgl1-mesa-glx -y
- ---> Using cache
- ---> 6692d5f87548
-Step 11/19 : RUN apt-get install libglib2.0-0 -y
- ---> Using cache
- ---> 15f33d998df1
-Step 12/19 : RUN pip install --upgrade flask_sock
- ---> Using cache
- ---> ca24183a50c3
-Step 13/19 : RUN apt-get install ssh -y
- ---> Using cache
- ---> 5e0b81c89203
-Step 14/19 : COPY . .
- ---> Using cache
- ---> 7ee52e78f06a
-Step 15/19 : WORKDIR /app/toto/bh_runner/kvldata-master
- ---> Using cache
- ---> 87eb391009f1
-Step 16/19 : CMD ["python3","setup.py","install"]
- ---> Using cache
- ---> 0738bdce3d38
-Step 17/19 : EXPOSE 5000
- ---> Using cache
- ---> 7afc8bf24a4e
-Step 18/19 : WORKDIR /app
- ---> Using cache
- ---> 1fbbc020f6eb
-Step 19/19 : CMD ["flask", "run", "--host=0.0.0.0"]
- ---> Using cache
- ---> 6ccdd7563253
-
-Successfully built 6ccdd7563253
-Successfully tagged totocv-img:latest
-Step 1/9 : FROM python:3.10
- ---> 23e11cf6844c
-Step 2/9 : WORKDIR /app
- ---> Using cache
- ---> 8950c70f67b8
-Step 3/9 : RUN pip install PyWavelets
- ---> Using cache
- ---> 82005e5f11e7
-Step 4/9 : RUN pip install numpy
- ---> Using cache
- ---> 745f3bed9a45
-Step 5/9 : RUN pip install librosa
- ---> Using cache
- ---> 1d42fab52dea
-Step 6/9 : RUN pip install flask
- ---> Using cache
- ---> a1f7cbe9d4dc
-Step 7/9 : COPY . .
- ---> Using cache
- ---> ea47208007e3
-Step 8/9 : ENV FLASK_APP=client.py
- ---> Using cache
- ---> fe3a4038f87f
-Step 9/9 : CMD ["flask", "run", "--host=0.0.0.0"]
- ---> Using cache
- ---> cd8a9086ed63
-
-Successfully built cd8a9086ed63
-Successfully tagged noise-img:latest
-Step 1/12 : FROM python:3.10
- ---> 23e11cf6844c
-Step 2/12 : WORKDIR /app
- ---> Using cache
- ---> 8950c70f67b8
-Step 3/12 : COPY requirements.txt .
- ---> Using cache
- ---> e0b540266704
-Step 4/12 : RUN pip install flask-sock
- ---> Using cache
- ---> cee174e697e4
-Step 5/12 : RUN pip install --no-cache-dir -r requirements.txt
- ---> Using cache
- ---> 56449f7891de
-Step 6/12 : RUN apt-get update && apt-get install libasound-dev libportaudio2 libportaudiocpp0 portaudio19-dev -y
- ---> Using cache
- ---> 43aaed1d3ea8
-Step 7/12 : RUN pip install --upgrade pip setuptools wheel
- ---> Using cache
- ---> a55d5faa453a
-Step 8/12 : RUN pip install pyaudio
- ---> Using cache
- ---> f6e513e4c8aa
-Step 9/12 : COPY . .
- ---> Using cache
- ---> 769b519e112e
-Step 10/12 : ENV FLASK_APP=app.py
- ---> Using cache
- ---> e9099fa2238e
-Step 11/12 : EXPOSE 5000
- ---> Using cache
- ---> f3f5c1b264d2
-Step 12/12 : CMD ["flask", "run", "--host=0.0.0.0"]
- ---> Using cache
- ---> aa8c0dd38425
-
-Successfully built aa8c0dd38425
-Successfully tagged shot_detect-img:latest
-Step 1/15 : FROM python:3.9
- ---> 618db5c0a924
-Step 2/15 : WORKDIR /app
- ---> Using cache
- ---> c721cf838192
-Step 3/15 : COPY requirements.txt .
- ---> Using cache
- ---> 997a092495f5
-Step 4/15 : RUN apt-get update
- ---> Using cache
- ---> db6d76cb000f
-Step 5/15 : RUN apt-get install libasound-dev libportaudio2 libportaudiocpp0 portaudio19-dev -y
- ---> Using cache
- ---> 775aa3835d75
-Step 6/15 : RUN pip install --upgrade pip setuptools wheel
- ---> Using cache
- ---> a10fc1765fa5
-Step 7/15 : RUN pip install --no-cache-dir -r requirements.txt
- ---> Using cache
- ---> 3418ebfde326
-Step 8/15 : RUN pip install tensorflow
- ---> Using cache
- ---> 7f73db90b95b
-Step 9/15 : RUN pip install soundfile
- ---> Using cache
- ---> 506f72ea0c87
-Step 10/15 : RUN pip install numpy
- ---> Using cache
- ---> 11fc6c397e22
-Step 11/15 : RUN pip install librosa
- ---> Using cache
- ---> c753e4041b1c
-Step 12/15 : COPY . .
- ---> Using cache
- ---> 8b2d025ccec3
-Step 13/15 : ENV FLASK_APP=client.py
- ---> Using cache
- ---> 02a149ee8f44
-Step 14/15 : EXPOSE 5000
- ---> Using cache
- ---> 633b20280b94
-Step 15/15 : CMD ["flask", "run", "--host=0.0.0.0"]
- ---> Using cache
- ---> 07231224702b
-
-Successfully built 07231224702b
-Successfully tagged model-img:latest
-Step 1/12 : FROM python:3.9
- ---> 618db5c0a924
-Step 2/12 : WORKDIR /app
- ---> Using cache
- ---> c721cf838192
-Step 3/12 : COPY requirements.txt .
- ---> Using cache
- ---> 997a092495f5
-Step 4/12 : RUN apt-get update
- ---> Using cache
- ---> db6d76cb000f
-Step 5/12 : RUN apt-get install libasound-dev libportaudio2 libportaudiocpp0 portaudio19-dev -y
- ---> Using cache
- ---> 775aa3835d75
-Step 6/12 : RUN pip install --upgrade pip setuptools wheel
- ---> Using cache
- ---> a10fc1765fa5
-Step 7/12 : RUN pip install --no-cache-dir -r requirements.txt
- ---> Using cache
- ---> 3418ebfde326
-Step 8/12 : COPY . .
- ---> 842fb9be429b
-Step 9/12 : ENV FLASK_APP=app.py
- ---> Running in f9b9e7ab0cd8
-Removing intermediate container f9b9e7ab0cd8
- ---> e12a0c49d8e0
-Step 10/12 : EXPOSE 5000
- ---> Running in 149de5eb4069
-Removing intermediate container 149de5eb4069
- ---> 6fecfdf60327
-Step 11/12 : RUN pip install pytz
- ---> Running in c93bdd3d4634
-Collecting pytz
-  Downloading pytz-2023.3-py2.py3-none-any.whl (502 kB)
-     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 502.3/502.3 kB 4.5 MB/s eta 0:00:00
-Installing collected packages: pytz
-Successfully installed pytz-2023.3
-[91mWARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
-[0mRemoving intermediate container c93bdd3d4634
- ---> 660b80a9913c
-Step 12/12 : CMD ["flask", "run", "--host=0.0.0.0"]
- ---> Running in f20f31ac25ca
-Removing intermediate container f20f31ac25ca
- ---> 32daba844f05
-
-Successfully built 32daba844f05
-Successfully tagged mainimg:latest
-Step 1/12 : FROM debian:bullseye
- ---> 7df9c1a77ca2
-Step 2/12 : WORKDIR /app
- ---> Using cache
- ---> d521997de060
-Step 3/12 : RUN apt-get update
- ---> Using cache
- ---> 5a1a94cd8fbf
-Step 4/12 : RUN apt-get upgrade -y
- ---> Using cache
- ---> 0ab2faaa2eae
-Step 5/12 : RUN apt-get update && apt-get install -y python3 python3-pip
- ---> Using cache
- ---> f7da18883fe7
-Step 6/12 : RUN apt-get update && apt-get install libgl1 -y
- ---> Using cache
- ---> ad104c9f5a11
-Step 7/12 : RUN pip install flask
- ---> Using cache
- ---> ed8c770f0dac
-Step 8/12 : RUN pip install simple-websocket
- ---> Using cache
- ---> 9572cd2c7a88
-Step 9/12 : RUN pip install parrot-olympe
- ---> Using cache
- ---> 80affa487fce
-Step 10/12 : COPY . .
- ---> Using cache
- ---> 4b32a59a7681
-Step 11/12 : ENV FLASK_APP=app.py
- ---> Using cache
- ---> 33032f667eb3
-Step 12/12 : CMD ["flask", "run", "--host=0.0.0.0"]
- ---> Using cache
- ---> 6343e02a7c12
-
-Successfully built 6343e02a7c12
-Successfully tagged proto-img:latest
-Step 1/9 : FROM python:3.8.17-slim-bullseye
- ---> 278e8bc1c6f3
-Step 2/9 : WORKDIR /app
- ---> Using cache
- ---> 165c3eb40ebd
-Step 3/9 : RUN apt-get update && apt-get upgrade -y
- ---> Using cache
- ---> 28f9432d077a
-Step 4/9 : RUN pip install flask
- ---> Using cache
- ---> b98a523d3c4b
-Step 5/9 : RUN pip install requests
- ---> Using cache
- ---> 87fbe5bff09b
-Step 6/9 : RUN pip install simple-websocket
- ---> Using cache
- ---> 2857fa057a56
-Step 7/9 : COPY . .
- ---> Using cache
- ---> e7ddb837834d
-Step 8/9 : EXPOSE 5000
- ---> Using cache
- ---> 8e479713475d
-Step 9/9 : CMD ["flask", "run", "--host=0.0.0.0"]
- ---> Using cache
- ---> 050f63c4742b
-
-Successfully built 050f63c4742b
-Successfully tagged manner-img:latest
-Step 1/4 : FROM postgres:latest
- ---> f0ff6ef79497
-Step 2/4 : ENV POSTGRES_PASSWORD=changemeoctobby
- ---> Using cache
- ---> b405e65be061
-Step 3/4 : COPY ./init.sql /docker-entrypoint-initdb.d/
- ---> Using cache
- ---> 3f2f6831f305
-Step 4/4 : RUN mkdir /mnt/store/
- ---> Using cache
- ---> 07f075443042
-
-Successfully built 07f075443042
-Successfully tagged econet_edge_db:latest
-Step 1/13 : FROM debian:bullseye
- ---> 7df9c1a77ca2
-Step 2/13 : RUN apt-get update && apt-get upgrade -y
- ---> Using cache
- ---> de984d5add80
-Step 3/13 : RUN apt-get update && apt-get install python3 python3-pip python3-waitress -y
- ---> Using cache
- ---> 8b81e7e13a39
-Step 4/13 : RUN apt-get update && apt-get install libpq5 -y
- ---> Using cache
- ---> bd6ca95956df
-Step 5/13 : RUN pip install flask flask_sock flask_sqlalchemy flask-cors requests psycopg
- ---> Using cache
- ---> 70e58e541d23
-Step 6/13 : COPY ./app.py .
- ---> Using cache
- ---> b0c2b894a94a
-Step 7/13 : COPY ./query_get.py .
- ---> Using cache
- ---> 6e3a9a03eaa2
-Step 8/13 : COPY ./query_put.py .
- ---> Using cache
- ---> adf4050dbb6a
-Step 9/13 : COPY ./query_post.py .
- ---> Using cache
- ---> 83b27b09a974
-Step 10/13 : COPY ./query_delete.py .
- ---> Using cache
- ---> a26c8136eb61
-Step 11/13 : COPY ./test_init.py .
- ---> Using cache
- ---> dfb6fabc6efa
-Step 12/13 : COPY ./test_post.py .
- ---> Using cache
- ---> 345351575aec
-Step 13/13 : CMD [ "waitress-serve", "--host", "0.0.0.0", "--port=5000", "app:app" ]
- ---> Using cache
- ---> 22f68251ec3f
-
-Successfully built 22f68251ec3f
-Successfully tagged econet_edge_db_courier:latest
-Step 1/6 : FROM nginx
- ---> eb4a57159180
-Step 2/6 : COPY ./index.html /usr/share/nginx/html/
- ---> Using cache
- ---> 45278d00cdfa
-Step 3/6 : COPY ./nginx.conf /etc/nginx/nginx.conf
- ---> Using cache
- ---> 4266d30437ce
-Step 4/6 : RUN mkdir /usr/share/nginx/html/feed1/
- ---> Using cache
- ---> 1fdea05d3c73
-Step 5/6 : RUN mkdir /usr/share/nginx/html/lib/
- ---> Using cache
- ---> c07a1665a6e3
-Step 6/6 : COPY ./lib /usr/share/nginx/html/lib
- ---> Using cache
- ---> fadd2c82e651
-
-Successfully built fadd2c82e651
-Successfully tagged econet_edge_feed1:latest
-Step 1/20 : FROM debian:bullseye
- ---> 7df9c1a77ca2
-Step 2/20 : RUN apt-get update && apt-get upgrade -y
- ---> Using cache
- ---> de984d5add80
-Step 3/20 : RUN apt-get update && apt-get install ffmpeg -y
- ---> Using cache
- ---> be8424c861c8
-Step 4/20 : RUN apt-get update && apt-get install procps -y
- ---> Using cache
- ---> cbedf559d109
-Step 5/20 : RUN apt-get update && apt-get install python3 python3-pip -y
- ---> Using cache
- ---> 44262274cd7c
-Step 6/20 : RUN apt-get update && apt-get install python3-waitress -y
- ---> Using cache
- ---> a1b3bbbff030
-Step 7/20 : RUN pip install flask flask_sock flask_sqlalchemy flask_cors
- ---> Using cache
- ---> 2c14b0026908
-Step 8/20 : RUN pip install requests
- ---> Using cache
- ---> 87829c9fc938
-Step 9/20 : COPY ./index.html /usr/share/nginx/html/
- ---> Using cache
- ---> af01a1086e1f
-Step 10/20 : COPY ./test_vid.mp4 ./
- ---> Using cache
- ---> 1a1cd70c1141
-Step 11/20 : COPY ./encode_vid.sh .
- ---> Using cache
- ---> ddcfb2093385
-Step 12/20 : COPY ./encode_stream.sh .
- ---> Using cache
- ---> 649af514a67d
-Step 13/20 : COPY ./encode_stop.sh .
- ---> Using cache
- ---> a699b6f676f0
-Step 14/20 : COPY ./container_startup.sh .
- ---> Using cache
- ---> 73abf0edd3ec
-Step 15/20 : COPY ./controls.py .
- ---> Using cache
- ---> 2e31d237dabb
-Step 16/20 : COPY ./app.py .
- ---> Using cache
- ---> 0f2373a80f62
-Step 17/20 : COPY ./index.html .
- ---> Using cache
- ---> 7addc815c842
-Step 18/20 : RUN mkdir /srv/feed1/
- ---> Using cache
- ---> 3960e03d9c10
-Step 19/20 : RUN chmod 777 /srv/feed1/
- ---> Using cache
- ---> 3061133939dc
-Step 20/20 : CMD [ "waitress-serve", "--host", "0.0.0.0", "--port=5000", "app:app" ]
- ---> Using cache
- ---> 80ed505263cd
-
-Successfully built 80ed505263cd
-Successfully tagged econet_edge_encode:latest
-Step 1/2 : FROM nginx
- ---> eb4a57159180
-Step 2/2 : COPY ./reverse_proxy.conf /etc/nginx/conf.d/default.conf
- ---> Using cache
- ---> ec852de4ba09
-
-Successfully built ec852de4ba09
-Successfully tagged econet_edge_reverse_proxy:latest
-Attaching to db, proto1, api, noise, model, shot_detect, db_courier, reverse_proxy, encode, feed1, toto, Manager, main
-[32mdb               |[0m The files belonging to this database system will be owned by user "postgres".
-[32mdb               |[0m This user must also own the server process.
-[32mdb               |[0m 
-[36mManager          |[0m  * Debug mode: off
-[36mManager          |[0m [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
-[36mManager          |[0m  * Running on all addresses (0.0.0.0)
-[36mManager          |[0m  * Running on http://127.0.0.1:5000
-[36mManager          |[0m  * Running on http://172.19.0.13:5000
-[36mManager          |[0m [33mPress CTRL+C to quit[0m
-[32mdb               |[0m The database cluster will be initialized with locale "en_US.utf8".
-[32mdb               |[0m The default database encoding has accordingly been set to "UTF8".
-[32mdb               |[0m The default text search configuration will be set to "english".
-[32mdb               |[0m 
-[32mdb               |[0m Data page checksums are disabled.
-[33mapi              |[0m  * Serving Flask app 'app.py'
-[33mapi              |[0m  * Debug mode: off
-[32mdb               |[0m 
-[33mapi              |[0m WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
-[33mapi              |[0m  * Running on all addresses (0.0.0.0)
-[33mapi              |[0m  * Running on http://127.0.0.1:5000
-[33mapi              |[0m  * Running on http://172.19.0.5:5000
-[33mapi              |[0m Press CTRL+C to quit
-[32mdb               |[0m fixing permissions on existing directory /var/lib/postgresql/data ... ok
-[32mdb               |[0m creating subdirectories ... ok
-[32mdb               |[0m selecting dynamic shared memory implementation ... posix
-[32mdb               |[0m selecting default max_connections ... 100
-[32mdb               |[0m selecting default shared_buffers ... 128MB
-[32mdb               |[0m selecting default time zone ... Etc/UTC
-[32mdb               |[0m creating configuration files ... ok
-[32mdb               |[0m running bootstrap script ... ok
-[32mdb               |[0m performing post-bootstrap initialization ... ok
-[32mdb               |[0m syncing data to disk ... initdb: warning: enabling "trust" authentication for local connections
-[32mdb               |[0m initdb: hint: You can change this by editing pg_hba.conf or using the option -A, or --auth-local and --auth-host, the next time you run initdb.
-[32mdb               |[0m ok
-[32mdb               |[0m 
-[32mdb               |[0m 
-[32mdb               |[0m Success. You can now start the database server using:
-[32mdb               |[0m 
-[32mdb               |[0m     pg_ctl -D /var/lib/postgresql/data -l logfile start
-[32mdb               |[0m 
-[36;1mfeed1            |[0m /docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
-[36;1mfeed1            |[0m /docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
-[36;1mfeed1            |[0m /docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
-[36;1mfeed1            |[0m 10-listen-on-ipv6-by-default.sh: info: Getting the checksum of /etc/nginx/conf.d/default.conf
-[36;1mfeed1            |[0m 10-listen-on-ipv6-by-default.sh: info: Enabled listen on IPv6 in /etc/nginx/conf.d/default.conf
-[36;1mfeed1            |[0m /docker-entrypoint.sh: Sourcing /docker-entrypoint.d/15-local-resolvers.envsh
-[36;1mfeed1            |[0m /docker-entrypoint.sh: Launching /docker-entrypoint.d/20-envsubst-on-templates.sh
-[36;1mfeed1            |[0m /docker-entrypoint.sh: Launching /docker-entrypoint.d/30-tune-worker-processes.sh
-[36;1mfeed1            |[0m /docker-entrypoint.sh: Configuration complete; ready for start up
-[36;1mfeed1            |[0m 2023/07/12 06:28:17 [notice] 1#1: using the "epoll" event method
-[36;1mfeed1            |[0m 2023/07/12 06:28:17 [notice] 1#1: nginx/1.25.1
-[36;1mfeed1            |[0m 2023/07/12 06:28:17 [notice] 1#1: built by gcc 12.2.0 (Debian 12.2.0-14) 
-[36;1mfeed1            |[0m 2023/07/12 06:28:17 [notice] 1#1: OS: Linux 6.1.0-0.deb11.7-amd64
-[36;1mfeed1            |[0m 2023/07/12 06:28:17 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
-[36;1mfeed1            |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker processes
-[36;1mfeed1            |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 29
-[36;1mfeed1            |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 30
-[36;1mfeed1            |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 31
-[36;1mfeed1            |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 32
-[36;1mfeed1            |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 33
-[36;1mfeed1            |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 34
-[36;1mfeed1            |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 35
-[36;1mfeed1            |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 36
-[36;1mfeed1            |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 37
-[36;1mfeed1            |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 38
-[36;1mfeed1            |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 39
-[36;1mfeed1            |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 40
-[36;1mfeed1            |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 41
-[36;1mfeed1            |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 42
-[36;1mfeed1            |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 43
-[36;1mfeed1            |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 44
-[36;1mfeed1            |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 45
-[36;1mfeed1            |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 46
-[36;1mfeed1            |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 47
-[36;1mfeed1            |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 48
-[32mdb               |[0m waiting for server to start....2023-07-12 06:28:17.668 UTC [48] LOG:  starting PostgreSQL 15.3 (Debian 15.3-1.pgdg120+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14) 12.2.0, 64-bit
-[32mdb               |[0m 2023-07-12 06:28:17.672 UTC [48] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
-[32mdb               |[0m 2023-07-12 06:28:17.687 UTC [51] LOG:  database system was shut down at 2023-07-12 06:28:17 UTC
-[32mdb               |[0m 2023-07-12 06:28:17.695 UTC [48] LOG:  database system is ready to accept connections
-[32mdb               |[0m  done
-[32mdb               |[0m server started
-[32mdb               |[0m 
-[32mdb               |[0m /usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/init.sql
-[32mdb               |[0m CREATE DATABASE
-[32mdb               |[0m You are now connected to database "echonet" as user "postgres".
-[32mdb               |[0m 2023-07-12 06:28:17.847 UTC [49] LOG:  checkpoint starting: immediate force wait
-[32mdb               |[0m 2023-07-12 06:28:18.041 UTC [49] LOG:  checkpoint complete: wrote 919 buffers (5.6%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.032 s, sync=0.137 s, total=0.195 s; sync files=251, longest=0.005 s, average=0.001 s; distance=4224 kB, estimate=4224 kB
-[32mdb               |[0m DROP DATABASE
-[32mdb               |[0m CREATE TYPE
-[32mdb               |[0m CREATE TABLE
-[32mdb               |[0m CREATE TABLE
-[32mdb               |[0m CREATE TABLE
-[32mdb               |[0m CREATE TABLE
-[32mdb               |[0m CREATE TABLE
-[32mdb               |[0m CREATE TABLE
-[32mdb               |[0m SELECT 0
-[32mdb               |[0m SELECT 0
-[32mdb               |[0m SELECT 0
-[32mdb               |[0m 
-[32mdb               |[0m 
-[32mdb               |[0m waiting for server to shut down....2023-07-12 06:28:18.083 UTC [48] LOG:  received fast shutdown request
-[35;1mnoise            |[0m  * Serving Flask app 'client.py'
-[35;1mnoise            |[0m  * Debug mode: off
-[35;1mnoise            |[0m [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
-[35;1mnoise            |[0m  * Running on all addresses (0.0.0.0)
-[35;1mnoise            |[0m  * Running on http://127.0.0.1:5000
-[35;1mnoise            |[0m  * Running on http://172.19.0.4:5000
-[35;1mnoise            |[0m [33mPress CTRL+C to quit[0m
-[32mdb               |[0m 2023-07-12 06:28:18.087 UTC [48] LOG:  aborting any active transactions
-[32mdb               |[0m 2023-07-12 06:28:18.089 UTC [48] LOG:  background worker "logical replication launcher" (PID 54) exited with exit code 1
-[32mdb               |[0m 2023-07-12 06:28:18.089 UTC [49] LOG:  shutting down
-[32mdb               |[0m 2023-07-12 06:28:18.094 UTC [49] LOG:  checkpoint starting: shutdown immediate
-[32mdb               |[0m 2023-07-12 06:28:18.147 UTC [49] LOG:  checkpoint complete: wrote 66 buffers (0.4%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.006 s, sync=0.029 s, total=0.058 s; sync files=43, longest=0.005 s, average=0.001 s; distance=236 kB, estimate=3825 kB
-[34;1mproto1           |[0m  * Serving Flask app 'app.py'
-[34;1mproto1           |[0m  * Debug mode: off
-[36mreverse_proxy    |[0m /docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
-[36mreverse_proxy    |[0m /docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
-[36mreverse_proxy    |[0m /docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
-[36mreverse_proxy    |[0m 10-listen-on-ipv6-by-default.sh: info: IPv6 listen already enabled
-[32mdb               |[0m 2023-07-12 06:28:18.153 UTC [48] LOG:  database system is shut down
-[34;1mproto1           |[0m [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
-[34;1mproto1           |[0m  * Running on all addresses (0.0.0.0)
-[34;1mproto1           |[0m  * Running on http://127.0.0.1:5000
-[34;1mproto1           |[0m  * Running on http://172.19.0.3:5000
-[34;1mproto1           |[0m [33mPress CTRL+C to quit[0m
-[36mreverse_proxy    |[0m /docker-entrypoint.sh: Sourcing /docker-entrypoint.d/15-local-resolvers.envsh
-[36mreverse_proxy    |[0m /docker-entrypoint.sh: Launching /docker-entrypoint.d/20-envsubst-on-templates.sh
-[32mdb               |[0m  done
-[32mdb               |[0m server stopped
-[32mdb               |[0m 
-[32mdb               |[0m PostgreSQL init process complete; ready for start up.
-[32mdb               |[0m 
-[36mreverse_proxy    |[0m /docker-entrypoint.sh: Launching /docker-entrypoint.d/30-tune-worker-processes.sh
-[32mdb               |[0m 2023-07-12 06:28:18.207 UTC [1] LOG:  starting PostgreSQL 15.3 (Debian 15.3-1.pgdg120+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14) 12.2.0, 64-bit
-[32mdb               |[0m 2023-07-12 06:28:18.211 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
-[32mdb               |[0m 2023-07-12 06:28:18.211 UTC [1] LOG:  listening on IPv6 address "::", port 5432
-[36mreverse_proxy    |[0m /docker-entrypoint.sh: Configuration complete; ready for start up
-[32mdb               |[0m 2023-07-12 06:28:18.220 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
-[32mdb               |[0m 2023-07-12 06:28:18.230 UTC [65] LOG:  database system was shut down at 2023-07-12 06:28:18 UTC
-[36mreverse_proxy    |[0m 2023/07/12 06:28:17 [notice] 1#1: using the "epoll" event method
-[36mreverse_proxy    |[0m 2023/07/12 06:28:17 [notice] 1#1: nginx/1.25.1
-[36mreverse_proxy    |[0m 2023/07/12 06:28:17 [notice] 1#1: built by gcc 12.2.0 (Debian 12.2.0-14) 
-[36mreverse_proxy    |[0m 2023/07/12 06:28:17 [notice] 1#1: OS: Linux 6.1.0-0.deb11.7-amd64
-[36mreverse_proxy    |[0m 2023/07/12 06:28:17 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
-[32mdb               |[0m 2023-07-12 06:28:18.237 UTC [1] LOG:  database system is ready to accept connections
-[36mreverse_proxy    |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker processes
-[36mreverse_proxy    |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 22
-[36mreverse_proxy    |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 23
-[36mreverse_proxy    |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 24
-[36mreverse_proxy    |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 25
-[36mreverse_proxy    |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 26
-[36mreverse_proxy    |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 27
-[36mreverse_proxy    |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 28
-[36mreverse_proxy    |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 29
-[36mreverse_proxy    |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 30
-[36mreverse_proxy    |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 31
-[36mreverse_proxy    |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 32
-[36mreverse_proxy    |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 33
-[36mreverse_proxy    |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 34
-[36mreverse_proxy    |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 35
-[36mreverse_proxy    |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 36
-[36mreverse_proxy    |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 37
-[36mreverse_proxy    |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 38
-[36mreverse_proxy    |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 39
-[36mreverse_proxy    |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 40
-[36mreverse_proxy    |[0m 2023/07/12 06:28:17 [notice] 1#1: start worker process 41
-[33;1mmain             |[0m  * Serving Flask app 'app.py'
-[33;1mmain             |[0m  * Debug mode: off
-[33;1mmain             |[0m WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
-[33;1mmain             |[0m  * Running on all addresses (0.0.0.0)
-[33;1mmain             |[0m  * Running on http://127.0.0.1:5000
-[33;1mmain             |[0m  * Running on http://172.19.0.14:5000
-[33;1mmain             |[0m Press CTRL+C to quit
-[33mshot_detect      |[0m  * Serving Flask app 'app.py'
-[33mshot_detect      |[0m  * Debug mode: off
-[33mshot_detect      |[0m WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
-[33mshot_detect      |[0m  * Running on all addresses (0.0.0.0)
-[33mshot_detect      |[0m  * Running on http://127.0.0.1:5000
-[33mshot_detect      |[0m  * Running on http://172.19.0.6:5000
-[33mshot_detect      |[0m Press CTRL+C to quit
-[32mtoto             |[0m  * Debug mode: off
-[32mtoto             |[0m [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
-[32mtoto             |[0m  * Running on all addresses (0.0.0.0)
-[32mtoto             |[0m  * Running on http://127.0.0.1:5000
-[32mtoto             |[0m  * Running on http://172.19.0.11:5000
-[32mtoto             |[0m [33mPress CTRL+C to quit[0m
-[32;1mmodel            |[0m  * Serving Flask app 'client.py'
-[32;1mmodel            |[0m  * Debug mode: off
-[32;1mmodel            |[0m WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
-[32;1mmodel            |[0m  * Running on all addresses (0.0.0.0)
-[32;1mmodel            |[0m  * Running on http://127.0.0.1:5000
-[32;1mmodel            |[0m  * Running on http://172.19.0.7:5000
-[32;1mmodel            |[0m Press CTRL+C to quit
-[33mshot_detect      |[0m ALSA lib pcm.c:2666:(snd_pcm_open_noupdate) Unknown PCM cards.pcm.rear
-[33mshot_detect      |[0m ALSA lib pcm.c:2666:(snd_pcm_open_noupdate) Unknown PCM cards.pcm.center_lfe
-[33mshot_detect      |[0m ALSA lib pcm.c:2666:(snd_pcm_open_noupdate) Unknown PCM cards.pcm.side
-[33mshot_detect      |[0m ALSA lib pcm_route.c:877:(find_matching_chmap) Found no matching channel map
-[33mshot_detect      |[0m ALSA lib pcm_route.c:877:(find_matching_chmap) Found no matching channel map
-[33mshot_detect      |[0m ALSA lib pcm_route.c:877:(find_matching_chmap) Found no matching channel map
-[33mshot_detect      |[0m ALSA lib pcm_route.c:877:(find_matching_chmap) Found no matching channel map
-[33mshot_detect      |[0m Cannot connect to server socket err = No such file or directory
-[33mshot_detect      |[0m Cannot connect to server request channel
-[33mshot_detect      |[0m jack server is not running or cannot be started
-[33mshot_detect      |[0m JackShmReadWritePtr::~JackShmReadWritePtr - Init not done for -1, skipping unlock
-[33mshot_detect      |[0m JackShmReadWritePtr::~JackShmReadWritePtr - Init not done for -1, skipping unlock
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:28:30] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:28:30] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-28-30] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:28:31] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:28:31] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-28-31] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:28:32] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:28:32] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-28-32] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:28:34] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:28:34] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-28-33] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:28:35] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:28:35] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-28-34] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:28:36] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:28:36] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-28-36] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:28:37] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:28:37] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-28-37] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:28:38] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:28:38] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-28-38] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:28:40] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:28:40] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-28-39] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:28:41] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:28:41] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-28-40] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:28:42] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:28:42] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-28-42] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:28:43] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:28:43] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-28-43] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:28:44] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:28:44] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-28-44] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:28:46] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:28:46] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-28-45] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:28:47] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:28:47] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-28-46] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:28:48] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:28:48] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-28-48] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:28:49] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:28:49] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-28-49] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:28:51] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:28:51] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-28-50] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:28:52] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:28:52] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-28-51] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:28:53] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:28:53] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-28-52] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:28:54] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:28:54] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-28-54] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:28:55] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:28:55] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-28-55] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:28:56] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:28:56] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-28-56] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:28:58] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:28:58] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-28-57] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:28:59] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:28:59] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-28-58] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:00] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:00] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-00] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:01] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:01] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-01] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:02] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:02] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-02] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:04] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:04] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-03] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:05] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:05] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-04] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:06] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:06] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-06] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:07] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:07] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-07] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:08] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:08] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-08] {'shot': True} (shot detector)
-[34mencode           |[0m Serving on http://0.0.0.0:5000
-[34mencode           |[0m Starting drone 1's video feed
-[34mencode           |[0m ./encode_stream.sh: line 4: $'\r': command not found
-[34mencode           |[0m ./encode_stream.sh: line 6: $'\r': command not found
-[34mencode           |[0m ./encode_stream.sh: line 9: $'\r': command not found
-[34mencode           |[0m ./encode_stream.sh: line 12: $'\r': command not found
-[34mencode           |[0m ./encode_stream.sh: line 14: $'\r': command not found
-[33;1mmain             |[0m The Drone Status is... {'status': 'STARTED'}
-[34mencode           |[0m ffmpeg version 4.3.6-0+deb11u1 Copyright (c) 2000-2023 the FFmpeg developers
-[34mencode           |[0m   built with gcc 10 (Debian 10.2.1-6)
-[34mencode           |[0m   configuration: --prefix=/usr --extra-version=0+deb11u1 --toolchain=hardened --libdir=/usr/lib/x86_64-linux-gnu --incdir=/usr/include/x86_64-linux-gnu --arch=amd64 --enable-gpl --disable-stripping --enable-avresample --disable-filter=resample --enable-gnutls --enable-ladspa --enable-libaom --enable-libass --enable-libbluray --enable-libbs2b --enable-libcaca --enable-libcdio --enable-libcodec2 --enable-libdav1d --enable-libflite --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libgme --enable-libgsm --enable-libjack --enable-libmp3lame --enable-libmysofa --enable-libopenjpeg --enable-libopenmpt --enable-libopus --enable-libpulse --enable-librabbitmq --enable-librsvg --enable-librubberband --enable-libshine --enable-libsnappy --enable-libsoxr --enable-libspeex --enable-libsrt --enable-libssh --enable-libtheora --enable-libtwolame --enable-libvidstab --enable-libvorbis --enable-libvpx --enable-libwavpack --enable-libwebp --enable-libx265 --enable-libxml2 --enable-libxvid --enable-libzmq --enable-libzvbi --enable-lv2 --enable-omx --enable-openal --enable-opencl --enable-opengl --enable-sdl2 --enable-pocketsphinx --enable-libmfx --enable-libdc1394 --enable-libdrm --enable-libiec61883 --enable-chromaprint --enable-frei0r --enable-libx264 --enable-shared
-[34mencode           |[0m   libavutil      56. 51.100 / 56. 51.100
-[34mencode           |[0m   libavcodec     58. 91.100 / 58. 91.100
-[34mencode           |[0m   libavformat    58. 45.100 / 58. 45.100
-[34mencode           |[0m   libavdevice    58. 10.100 / 58. 10.100
-[34mencode           |[0m   libavfilter     7. 85.100 /  7. 85.100
-[34mencode           |[0m   libavresample   4.  0.  0 /  4.  0.  0
-[34mencode           |[0m   libswscale      5.  7.100 /  5.  7.100
-[34mencode           |[0m   libswresample   3.  7.100 /  3.  7.100
-[34mencode           |[0m   libpostproc    55.  7.100 / 55.  7.100
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m     Last message repeated 1 times
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] no frame!
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m     Last message repeated 1 times
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] no frame!
-[34mencode           |[0m [rtsp @ 0x562c14ff5340] max delay reached. need to consume packet
-[34mencode           |[0m [rtsp @ 0x562c14ff5340] RTP: missed 43 packets
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] error while decoding MB 73 16, bytestream -9
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] concealing 1816 DC, 1816 AC, 1816 MV errors in P frame
-[34mencode           |[0m [rtsp @ 0x562c14ff5340] max delay reached. need to consume packet
-[34mencode           |[0m [rtsp @ 0x562c14ff5340] RTP: missed 41 packets
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] concealing 1600 DC, 1600 AC, 1600 MV errors in P frame
-[34mencode           |[0m [rtsp @ 0x562c14ff5340] max delay reached. need to consume packet
-[34mencode           |[0m [rtsp @ 0x562c14ff5340] RTP: missed 47 packets
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] concealing 1280 DC, 1280 AC, 1280 MV errors in P frame
-[34mencode           |[0m [rtsp @ 0x562c14ff5340] max delay reached. need to consume packet
-[34mencode           |[0m [rtsp @ 0x562c14ff5340] RTP: missed 14 packets
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] concealing 800 DC, 800 AC, 800 MV errors in P frame
-[34mencode           |[0m [rtsp @ 0x562c14ff5340] max delay reached. need to consume packet
-[34mencode           |[0m [rtsp @ 0x562c14ff5340] RTP: missed 7 packets
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] error while decoding MB 73 21, bytestream -7
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] concealing 296 DC, 296 AC, 296 MV errors in P frame
-[34mencode           |[0m [rtsp @ 0x562c14ff5340] max delay reached. need to consume packet
-[34mencode           |[0m [rtsp @ 0x562c14ff5340] RTP: missed 51 packets
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] concealing 2080 DC, 2080 AC, 2080 MV errors in P frame
-[34mencode           |[0m [rtsp @ 0x562c14ff5340] max delay reached. need to consume packet
-[34mencode           |[0m [rtsp @ 0x562c14ff5340] RTP: missed 32 packets
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] top block unavailable for requested intra mode
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] error while decoding MB 69 18, bytestream -4
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] concealing 1020 DC, 1020 AC, 1020 MV errors in P frame
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:10] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:10] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-09] {'shot': False} (shot detector)
-[34mencode           |[0m [rtsp @ 0x562c14ff5340] max delay reached. need to consume packet
-[34mencode           |[0m [rtsp @ 0x562c14ff5340] RTP: missed 16 packets
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] concealing 1280 DC, 1280 AC, 1280 MV errors in P frame
-[34mencode           |[0m [rtsp @ 0x562c14ff5340] max delay reached. need to consume packet
-[34mencode           |[0m [rtsp @ 0x562c14ff5340] RTP: missed 36 packets
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] error while decoding MB 67 13, bytestream -9
-[34mencode           |[0m [h264 @ 0x562c14ff8cc0] concealing 2542 DC, 2542 AC, 2542 MV errors in P frame
-[34mencode           |[0m [rtsp @ 0x562c14ff5340] max delay reached. need to consume packet
-[34mencode           |[0m [rtsp @ 0x562c14ff5340] RTP: missed 31 packets
-[34mencode           |[0m Input #0, rtsp, from 'rtsp://192.168.53.1/live':
-[34mencode           |[0m   Metadata:
-[34mencode           |[0m     title           : live
-[34mencode           |[0m     comment         : ANAFI-A127359
-[34mencode           |[0m   Duration: N/A, start: 1.101100, bitrate: N/A
-[34mencode           |[0m     Stream #0:0: Video: h264 (Main), yuv420p(tv, bt709, progressive), 1280x720 [SAR 1:1 DAR 16:9], 29.97 fps, 29.97 tbr, 90k tbn, 59.94 tbc
-[34mencode           |[0m Output #0, hls, to '/srv/feed1/streaming.m3u8':
-[34mencode           |[0m   Metadata:
-[34mencode           |[0m     title           : live
-[34mencode           |[0m     comment         : ANAFI-A127359
-[34mencode           |[0m     encoder         : Lavf58.45.100
-[34mencode           |[0m     Stream #0:0: Video: h264 (Main), yuv420p(tv, bt709, progressive), 1280x720 [SAR 1:1 DAR 16:9], q=2-31, 29.97 fps, 29.97 tbr, 90k tbn, 29.97 tbc
-[34mencode           |[0m Stream mapping:
-[34mencode           |[0m   Stream #0:0 -> #0:0 (copy)
-[34mencode           |[0m Press [q] to stop, [?] for help
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:11] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:11] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-10] {'shot': False} (shot detector)
-[32;1mmodel            |[0m {'Angle': '30', 'Distance': '175', 'Weapon': 'rifle', 'Azimuth': '45'}
-[32;1mmodel            |[0m 172.19.0.5 - - [12/Jul/2023 06:29:12] "POST /model HTTP/1.1" 200 -
-[33mapi              |[0m {'Angle': '30', 'Azimuth': '45', 'Distance': '175', 'Weapon': 'rifle'}
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:12] "POST /api/getLocation HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-08] {"Angle": "30", "Azimuth": "45", "Distance": "175", "Weapon": "rifle"} (acoustic model)
-[33;1mmain             |[0m {'Angle': '30', 'Azimuth': '45', 'Distance': '175', 'Weapon': 'rifle'}
-[34;1mproto1           |[0m =========================================================
-[34;1mproto1           |[0m before int
-[34;1mproto1           |[0m 172.19.0.13 - - [12/Jul/2023 06:29:12] "POST /protocal HTTP/1.1" 200 -
-[34;1mproto1           |[0m 192.168.53.1
-[34;1mproto1           |[0m =========================================================
-[34;1mproto1           |[0m before if
-[36mManager          |[0m 172.19.0.14 - - [12/Jul/2023 06:29:12] "POST /api/coordinates HTTP/1.1" 200 -
-[34;1mproto1           |[0m 2023-07-12 06:29:12,423 [32m[INFO] [0m	olympe.backend - _create_pomp_loop - Creating pomp loop[0m
-[34;1mproto1           |[0m 2023-07-12 06:29:12,423 [32m[INFO] [0m	olympe.backend - _do_create - device callbacks have been added to arsdk_ctrl[0m
-[34;1mproto1           |[0m 2023-07-12 06:29:12,424 [32m[INFO] [0m	olympe.scheduler - _create_pomp_loop - Creating pomp loop[0m
-[34;1mproto1           |[0m 2023-07-12 06:29:12,427 [32m[INFO] [0m	olympe.media - _create_pomp_loop - Creating pomp loop[0m
-[34;1mproto1           |[0m 2023-07-12 06:29:12,430 [32m[INFO] [0m	olympe.backend - _device_added_cb - DiscoveryNet: New device has been detected: 'Skycontroller 3'[0m
-[34;1mproto1           |[0m 2023-07-12 06:29:12,434 [32m[INFO] [0m	olympe.drone - _connecting_cb - Connecting to device: Skycontroller 3[0m
-[34;1mproto1           |[0m 2023-07-12 06:29:12,434 [32m[INFO] [0m	olympe.drone - _connect_impl - Connection in progress...[0m
-[34;1mproto1           |[0m 2023-07-12 06:29:12,436 [32m[INFO] [0m	olympe.drone.Skycontroller 3 - _aconnected_cb - Connected to device: Skycontroller 3[0m
-[34;1mproto1           |[0m 2023-07-12 06:29:12,436 [32m[INFO] [0m	olympe.drone.Skycontroller 3 - _aconnected_cb - {'c2d_port': 2233,
-[34;1mproto1           |[0m  'c2d_update_port': 51,
-[34;1mproto1           |[0m  'c2d_user_port': 21,
-[34;1mproto1           |[0m  'proto_v': 3,
-[34;1mproto1           |[0m  'qos_mode': 0,
-[34;1mproto1           |[0m  'status': 0}[0m
-[34;1mproto1           |[0m 2023-07-12 06:29:12,436 [32m[INFO] [0m	olympe.drone.Skycontroller 3 - _create_command_interface - Command interface has been created[0m
-[34;1mproto1           |[0m 2023-07-12 06:29:12,437 [32m[INFO] [0m	olympe.drone.Skycontroller 3 - _send_command_impl - skyctrl.Common.CurrentDateTime(datetime='20230712T062912+0000') has been sent to the device[0m
-[34;1mproto1           |[0m 2023-07-12 06:29:12,437 [32m[INFO] [0m	olympe.drone.Skycontroller 3 - _send_command_impl - skyctrl.Common.AllStates() has been sent to the device[0m
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:12] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:12] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-12] {'shot': False} (shot detector)
-[34;1mproto1           |[0m 2023-07-12 06:29:12,949 [33m[WARNING] [0m	olympe.drone.Skycontroller 3 - _on_sync_done - Time synchronization failed for b'192.168.53.1'[0m
-[34mencode           |[0m frame=   68 fps=0.0 q=-1.0 size=N/A time=00:00:01.20 bitrate=N/A speed=2.38x    frame=   84 fps= 81 q=-1.0 size=N/A time=00:00:01.73 bitrate=N/A speed=1.68x    frame=   99 fps= 64 q=-1.0 size=N/A time=00:00:02.23 bitrate=N/A speed=1.46x    [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming0.ts' for writing
-[34mencode           |[0m [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:13] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:13] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-13] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:15] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:15] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-14] {'shot': False} (shot detector)
-[34mencode           |[0m frame=  114 fps= 56 q=-1.0 size=N/A time=00:00:02.73 bitrate=N/A speed=1.34x    frame=  130 fps= 50 q=-1.0 size=N/A time=00:00:03.26 bitrate=N/A speed=1.27x    frame=  146 fps= 47 q=-1.0 size=N/A time=00:00:03.80 bitrate=N/A speed=1.23x    frame=  162 fps= 44 q=-1.0 size=N/A time=00:00:04.33 bitrate=N/A speed=1.19x    frame=  177 fps= 43 q=-1.0 size=N/A time=00:00:04.83 bitrate=N/A speed=1.17x    [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming1.ts' for writing
-[34mencode           |[0m [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:16] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:16] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-15] {'shot': False} (shot detector)
-[34;1mproto1           |[0m 2023-07-12 06:29:17,436 [32m[INFO] [0m	olympe.drone.Skycontroller 3 - _link_quality_cb - Link quality: tx=0, rx=-1, rx_useful=-1[0m
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:17] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:17] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-16] {'shot': False} (shot detector)
-[34;1mproto1           |[0m 2023-07-12 06:29:18,428 [31m[ERROR] [0m	olympe.drone.Skycontroller 3 - connect - '192.168.53.1 connection timed out[0m
-[34;1mproto1           |[0m 2023-07-12 06:29:18,429 [32m[INFO] [0m	olympe.drone.Skycontroller 3 - disconnect - Disconnection with the device OK. IP: b'192.168.53.1'[0m
-[34;1mproto1           |[0m 2023-07-12 06:29:18,429 [32m[INFO] [0m	olympe.drone.Skycontroller 3 - _send_command_impl - ardrone3.PilotingSettings.MaxAltitude(current=20.0) has been sent to the device[0m
-[34mencode           |[0m frame=  193 fps= 41 q=-1.0 size=N/A time=00:00:05.37 bitrate=N/A speed=1.15x    frame=  209 fps= 40 q=-1.0 size=N/A time=00:00:05.90 bitrate=N/A speed=1.14x    frame=  224 fps= 39 q=-1.0 size=N/A time=00:00:06.40 bitrate=N/A speed=1.12x    frame=  239 fps= 38 q=-1.0 size=N/A time=00:00:06.90 bitrate=N/A speed=1.11x    frame=  254 fps= 38 q=-1.0 size=N/A time=00:00:07.40 bitrate=N/A speed= 1.1x    frame=  270 fps= 37 q=-1.0 size=N/A time=00:00:07.94 bitrate=N/A speed= 1.1x    [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming2.ts' for writing
-[34mencode           |[0m [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:19] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:19] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-18] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:20] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:20] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-19] {'shot': False} (shot detector)
-[34;1mproto1           |[0m 2023-07-12 06:29:20,428 [31m[ERROR] [0m	olympe.drone.Skycontroller 3 - _cmd_itf_cmd_send_status_cb - Command send status cancel/timeout: skyctrl.Common.CurrentDateTime ARSDK_CMD_ITF_CMD_SEND_STATUS_CANCELED, done: True[0m
-[34;1mproto1           |[0m 2023-07-12 06:29:20,429 [31m[ERROR] [0m	olympe.drone.Skycontroller 3 - _cmd_itf_cmd_send_status_cb - Command send status cancel/timeout: skyctrl.Common.AllStates ARSDK_CMD_ITF_CMD_SEND_STATUS_CANCELED, done: True[0m
-[34;1mproto1           |[0m 2023-07-12 06:29:20,429 [31m[ERROR] [0m	olympe.drone.Skycontroller 3 - _cmd_itf_cmd_send_status_cb - Command send status cancel/timeout: ardrone3.PilotingSettings.MaxAltitude ARSDK_CMD_ITF_CMD_SEND_STATUS_CANCELED, done: True[0m
-[34;1mproto1           |[0m 2023-07-12 06:29:20,429 [32m[INFO] [0m	olympe.drone.Skycontroller 3 - _disconnected_cb - Disconnected from device: Skycontroller 3[0m
-[34;1mproto1           |[0m 2023-07-12 06:29:20,429 [31m[ERROR] [0m	olympe.drone.Skycontroller 3 - _do_connect - '192.168.53.1 connection retries failed[0m
-[34;1mproto1           |[0m 2023-07-12 06:29:20,430 [32m[INFO] [0m	olympe.drone.Skycontroller 3 - _on_device_removed - <olympe.arsdkng.cmd_itf.DisconnectedEvent object at 0x7f4efd3fafa0>[0m
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:21] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:21] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-20] {'shot': False} (shot detector)
-[34mencode           |[0m frame=  285 fps= 37 q=-1.0 size=N/A time=00:00:08.44 bitrate=N/A speed=1.09x    frame=  300 fps= 36 q=-1.0 size=N/A time=00:00:08.94 bitrate=N/A speed=1.09x    frame=  316 fps= 36 q=-1.0 size=N/A time=00:00:09.47 bitrate=N/A speed=1.08x    frame=  331 fps= 36 q=-1.0 size=N/A time=00:00:09.97 bitrate=N/A speed=1.08x    frame=  347 fps= 35 q=-1.0 size=N/A time=00:00:10.51 bitrate=N/A speed=1.07x    frame=  362 fps= 35 q=-1.0 size=N/A time=00:00:11.01 bitrate=N/A speed=1.07x    frame=  377 fps= 35 q=-1.0 size=N/A time=00:00:11.51 bitrate=N/A speed=1.06x    [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming3.ts' for writing
-[34mencode           |[0m [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:22] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:22] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-21] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:23] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:23] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-22] {'shot': False} (shot detector)
-[34mencode           |[0m frame=  392 fps= 35 q=-1.0 size=N/A time=00:00:12.01 bitrate=N/A speed=1.06x    frame=  407 fps= 34 q=-1.0 size=N/A time=00:00:12.51 bitrate=N/A speed=1.06x    frame=  422 fps= 34 q=-1.0 size=N/A time=00:00:13.01 bitrate=N/A speed=1.06x    frame=  438 fps= 34 q=-1.0 size=N/A time=00:00:13.54 bitrate=N/A speed=1.06x    frame=  453 fps= 34 q=-1.0 size=N/A time=00:00:14.04 bitrate=N/A speed=1.05x    [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming4.ts' for writing
-[34mencode           |[0m [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:24] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:24] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-24] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:26] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:26] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-25] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:27] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:27] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-26] {'shot': False} (shot detector)
-[34mencode           |[0m frame=  469 fps= 34 q=-1.0 size=N/A time=00:00:14.58 bitrate=N/A speed=1.05x    frame=  484 fps= 34 q=-1.0 size=N/A time=00:00:15.08 bitrate=N/A speed=1.05x    frame=  500 fps= 34 q=-1.0 size=N/A time=00:00:15.61 bitrate=N/A speed=1.05x    frame=  516 fps= 33 q=-1.0 size=N/A time=00:00:16.14 bitrate=N/A speed=1.05x    frame=  531 fps= 33 q=-1.0 size=N/A time=00:00:16.64 bitrate=N/A speed=1.04x    [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming5.ts' for writing
-[34mencode           |[0m [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:28] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:28] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-27] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:29] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:29] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-28] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:30] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:30] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-30] {'shot': True} (shot detector)
-[34mencode           |[0m frame=  546 fps= 33 q=-1.0 size=N/A time=00:00:17.15 bitrate=N/A speed=1.04x    frame=  562 fps= 33 q=-1.0 size=N/A time=00:00:17.68 bitrate=N/A speed=1.04x    frame=  577 fps= 33 q=-1.0 size=N/A time=00:00:18.18 bitrate=N/A speed=1.04x    frame=  593 fps= 33 q=-1.0 size=N/A time=00:00:18.71 bitrate=N/A speed=1.04x    frame=  608 fps= 33 q=-1.0 size=N/A time=00:00:19.21 bitrate=N/A speed=1.04x    frame=  624 fps= 33 q=-1.0 size=N/A time=00:00:19.75 bitrate=N/A speed=1.04x    Starting drone 1's video feed
-[34mencode           |[0m ./encode_stream.sh: line 4: $'\r': command not found
-[34mencode           |[0m ./encode_stream.sh: line 6: $'\r': command not found
-[34mencode           |[0m ./encode_stream.sh: line 9: $'\r': command not found
-[34mencode           |[0m ./encode_stream.sh: line 12: $'\r': command not found
-[34mencode           |[0m ./encode_stream.sh: line 14: $'\r': command not found
-[33;1mmain             |[0m The Drone Status is... {'status': 'STARTED'}
-[34mencode           |[0m frame=  640 fps= 33 q=-1.0 size=N/A time=00:00:20.28 bitrate=N/A speed=1.04x    ffmpeg version 4.3.6-0+deb11u1 Copyright (c) 2000-2023 the FFmpeg developers
-[34mencode           |[0m   built with gcc 10 (Debian 10.2.1-6)
-[34mencode           |[0m   configuration: --prefix=/usr --extra-version=0+deb11u1 --toolchain=hardened --libdir=/usr/lib/x86_64-linux-gnu --incdir=/usr/include/x86_64-linux-gnu --arch=amd64 --enable-gpl --disable-stripping --enable-avresample --disable-filter=resample --enable-gnutls --enable-ladspa --enable-libaom --enable-libass --enable-libbluray --enable-libbs2b --enable-libcaca --enable-libcdio --enable-libcodec2 --enable-libdav1d --enable-libflite --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libgme --enable-libgsm --enable-libjack --enable-libmp3lame --enable-libmysofa --enable-libopenjpeg --enable-libopenmpt --enable-libopus --enable-libpulse --enable-librabbitmq --enable-librsvg --enable-librubberband --enable-libshine --enable-libsnappy --enable-libsoxr --enable-libspeex --enable-libsrt --enable-libssh --enable-libtheora --enable-libtwolame --enable-libvidstab --enable-libvorbis --enable-libvpx --enable-libwavpack --enable-libwebp --enable-libx265 --enable-libxml2 --enable-libxvid --enable-libzmq --enable-libzvbi --enable-lv2 --enable-omx --enable-openal --enable-opencl --enable-opengl --enable-sdl2 --enable-pocketsphinx --enable-libmfx --enable-libdc1394 --enable-libdrm --enable-libiec61883 --enable-chromaprint --enable-frei0r --enable-libx264 --enable-shared
-[34mencode           |[0m   libavutil      56. 51.100 / 56. 51.100
-[34mencode           |[0m   libavcodec     58. 91.100 / 58. 91.100
-[34mencode           |[0m   libavformat    58. 45.100 / 58. 45.100
-[34mencode           |[0m   libavdevice    58. 10.100 / 58. 10.100
-[34mencode           |[0m   libavfilter     7. 85.100 /  7. 85.100
-[34mencode           |[0m   libavresample   4.  0.  0 /  4.  0.  0
-[34mencode           |[0m   libswscale      5.  7.100 /  5.  7.100
-[34mencode           |[0m   libswresample   3.  7.100 /  3.  7.100
-[34mencode           |[0m   libpostproc    55.  7.100 / 55.  7.100
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m     Last message repeated 1 times
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] no frame!
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m     Last message repeated 1 times
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] no frame!
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m     Last message repeated 1 times
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] no frame!
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m     Last message repeated 1 times
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] no frame!
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m     Last message repeated 1 times
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] no frame!
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m     Last message repeated 1 times
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] no frame!
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m     Last message repeated 1 times
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] non-existing PPS 0 referenced
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] decode_slice_header error
-[34mencode           |[0m [h264 @ 0x55bc93e2fcc0] no frame!
-[34mencode           |[0m [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming6.ts' for writing
-[34mencode           |[0m [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:32] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:32] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-31] {'shot': False} (shot detector)
-[34mencode           |[0m frame=  656 fps= 33 q=-1.0 size=N/A time=00:00:20.82 bitrate=N/A speed=1.04x    frame=  672 fps= 33 q=-1.0 size=N/A time=00:00:21.35 bitrate=N/A speed=1.03x    frame=  687 fps= 32 q=-1.0 size=N/A time=00:00:21.85 bitrate=N/A speed=1.03x    Input #0, rtsp, from 'rtsp://192.168.53.1/live':
-[34mencode           |[0m   Metadata:
-[34mencode           |[0m     title           : live
-[34mencode           |[0m     comment         : ANAFI-A127359
-[34mencode           |[0m   Duration: N/A, start: 1.267933, bitrate: N/A
-[34mencode           |[0m     Stream #0:0: Video: h264 (Main), yuv420p(tv, bt709, progressive), 1280x720 [SAR 1:1 DAR 16:9], 29.97 fps, 29.97 tbr, 90k tbn, 59.94 tbc
-[34mencode           |[0m Output #0, hls, to '/srv/feed1/streaming.m3u8':
-[34mencode           |[0m   Metadata:
-[34mencode           |[0m     title           : live
-[34mencode           |[0m     comment         : ANAFI-A127359
-[34mencode           |[0m     encoder         : Lavf58.45.100
-[34mencode           |[0m     Stream #0:0: Video: h264 (Main), yuv420p(tv, bt709, progressive), 1280x720 [SAR 1:1 DAR 16:9], q=2-31, 29.97 fps, 29.97 tbr, 90k tbn, 29.97 tbc
-[34mencode           |[0m Stream mapping:
-[34mencode           |[0m   Stream #0:0 -> #0:0 (copy)
-[34mencode           |[0m Press [q] to stop, [?] for help
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:33] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:33] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-32] {'shot': False} (shot detector)
-[34mencode           |[0m frame=  703 fps= 32 q=-1.0 size=N/A time=00:00:22.38 bitrate=N/A speed=1.03x    frame=   69 fps=0.0 q=-1.0 size=N/A time=00:00:01.23 bitrate=N/A speed=2.33x    frame=  719 fps= 32 q=-1.0 size=N/A time=00:00:22.92 bitrate=N/A speed=1.03x    [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming7.ts' for writing
-[34mencode           |[0m [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[32;1mmodel            |[0m {'Angle': '0', 'Distance': '175', 'Weapon': 'rifle', 'Azimuth': '45'}
-[32;1mmodel            |[0m 172.19.0.5 - - [12/Jul/2023 06:29:34] "POST /model HTTP/1.1" 200 -
-[33mapi              |[0m {'Angle': '0', 'Azimuth': '45', 'Distance': '175', 'Weapon': 'rifle'}
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:34] "POST /api/getLocation HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-30] {"Angle": "0", "Azimuth": "45", "Distance": "175", "Weapon": "rifle"} (acoustic model)
-[33;1mmain             |[0m {'Angle': '0', 'Azimuth': '45', 'Distance': '175', 'Weapon': 'rifle'}
-[36mManager          |[0m 172.19.0.14 - - [12/Jul/2023 06:29:34] "POST /api/coordinates HTTP/1.1" 200 -
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:34] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:34] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-33] {'shot': False} (shot detector)
-[34mencode           |[0m frame=   85 fps= 80 q=-1.0 size=N/A time=00:00:01.76 bitrate=N/A speed=1.66x    frame=  734 fps= 32 q=-1.0 size=N/A time=00:00:23.42 bitrate=N/A speed=1.03x    frame=  100 fps= 64 q=-1.0 size=N/A time=00:00:02.26 bitrate=N/A speed=1.45x    frame=  750 fps= 32 q=-1.0 size=N/A time=00:00:23.95 bitrate=N/A speed=1.03x    [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming0.ts' for writing
-[34mencode           |[0m [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:35] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:35] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-34] {'shot': False} (shot detector)
-[34mencode           |[0m frame=  116 fps= 55 q=-1.0 size=N/A time=00:00:02.80 bitrate=N/A speed=1.34x    frame=  766 fps= 32 q=-1.0 size=N/A time=00:00:24.49 bitrate=N/A speed=1.03x    frame=  131 fps= 50 q=-1.0 size=N/A time=00:00:03.30 bitrate=N/A speed=1.27x    frame=  782 fps= 32 q=-1.0 size=N/A time=00:00:25.02 bitrate=N/A speed=1.03x    frame=  147 fps= 47 q=-1.0 size=N/A time=00:00:03.83 bitrate=N/A speed=1.23x    frame=  798 fps= 32 q=-1.0 size=N/A time=00:00:25.55 bitrate=N/A speed=1.03x    frame=  162 fps= 45 q=-1.0 size=N/A time=00:00:04.33 bitrate=N/A speed=1.19x    [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming8.ts' for writing
-[34mencode           |[0m [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:36] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:36] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-36] {'shot': False} (shot detector)
-[34mencode           |[0m frame=  813 fps= 32 q=-1.0 size=N/A time=00:00:26.05 bitrate=N/A speed=1.03x    frame=  178 fps= 43 q=-1.0 size=N/A time=00:00:04.87 bitrate=N/A speed=1.17x    frame=  828 fps= 32 q=-1.0 size=N/A time=00:00:26.55 bitrate=N/A speed=1.03x    [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming1.ts' for writing
-[34mencode           |[0m [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:37] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:37] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-37] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:39] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:39] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-38] {'shot': False} (shot detector)
-[34mencode           |[0m frame=  193 fps= 41 q=-1.0 size=N/A time=00:00:05.37 bitrate=N/A speed=1.15x    frame=  843 fps= 32 q=-1.0 size=N/A time=00:00:27.06 bitrate=N/A speed=1.03x    frame=  208 fps= 40 q=-1.0 size=N/A time=00:00:05.87 bitrate=N/A speed=1.14x    frame=  859 fps= 32 q=-1.0 size=N/A time=00:00:27.59 bitrate=N/A speed=1.03x    frame=  224 fps= 39 q=-1.0 size=N/A time=00:00:06.40 bitrate=N/A speed=1.12x    frame=  875 fps= 32 q=-1.0 size=N/A time=00:00:28.12 bitrate=N/A speed=1.03x    frame=  239 fps= 39 q=-1.0 size=N/A time=00:00:06.90 bitrate=N/A speed=1.11x    frame=  890 fps= 32 q=-1.0 size=N/A time=00:00:28.62 bitrate=N/A speed=1.03x    frame=  255 fps= 38 q=-1.0 size=N/A time=00:00:07.44 bitrate=N/A speed=1.11x    frame=  906 fps= 32 q=-1.0 size=N/A time=00:00:29.16 bitrate=N/A speed=1.02x    [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming9.ts' for writing
-[34mencode           |[0m [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming2.ts' for writing
-[34mencode           |[0m [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[34mencode           |[0m frame=  271 fps= 37 q=-1.0 size=N/A time=00:00:07.97 bitrate=N/A speed= 1.1x    [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:40] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:40] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-39] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:41] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:41] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-40] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:42] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:42] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-42] {'shot': False} (shot detector)
-[34mencode           |[0m frame=  922 fps= 32 q=-1.0 size=N/A time=00:00:29.69 bitrate=N/A speed=1.02x    frame=  287 fps= 37 q=-1.0 size=N/A time=00:00:08.50 bitrate=N/A speed=1.09x    frame=  938 fps= 32 q=-1.0 size=N/A time=00:00:30.23 bitrate=N/A speed=1.02x    frame=  303 fps= 36 q=-1.0 size=N/A time=00:00:09.04 bitrate=N/A speed=1.08x    frame=  953 fps= 32 q=-1.0 size=N/A time=00:00:30.73 bitrate=N/A speed=1.02x    frame=  318 fps= 36 q=-1.0 size=N/A time=00:00:09.54 bitrate=N/A speed=1.08x    frame=  968 fps= 32 q=-1.0 size=N/A time=00:00:31.23 bitrate=N/A speed=1.02x    frame=  334 fps= 36 q=-1.0 size=N/A time=00:00:10.07 bitrate=N/A speed=1.08x    frame=  984 fps= 32 q=-1.0 size=N/A time=00:00:31.76 bitrate=N/A speed=1.02x    frame=  349 fps= 35 q=-1.0 size=N/A time=00:00:10.57 bitrate=N/A speed=1.07x    [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming0.ts' for writing
-[34mencode           |[0m [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[34mencode           |[0m frame= 1000 fps= 32 q=-1.0 size=N/A time=00:00:32.29 bitrate=N/A speed=1.02x    frame=  365 fps= 35 q=-1.0 size=N/A time=00:00:11.11 bitrate=N/A speed=1.07x    frame= 1015 fps= 32 q=-1.0 size=N/A time=00:00:32.79 bitrate=N/A speed=1.02x    [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming3.ts' for writing
-[34mencode           |[0m [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:43] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:43] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-43] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:45] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:45] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-44] {'shot': False} (shot detector)
-[34mencode           |[0m frame=  381 fps= 35 q=-1.0 size=N/A time=00:00:11.64 bitrate=N/A speed=1.07x    frame= 1031 fps= 32 q=-1.0 size=N/A time=00:00:33.33 bitrate=N/A speed=1.02x    frame=  396 fps= 35 q=-1.0 size=N/A time=00:00:12.14 bitrate=N/A speed=1.06x    frame= 1046 fps= 32 q=-1.0 size=N/A time=00:00:33.83 bitrate=N/A speed=1.02x    frame=  411 fps= 34 q=-1.0 size=N/A time=00:00:12.64 bitrate=N/A speed=1.06x    frame= 1062 fps= 32 q=-1.0 size=N/A time=00:00:34.36 bitrate=N/A speed=1.02x    frame=  427 fps= 34 q=-1.0 size=N/A time=00:00:13.17 bitrate=N/A speed=1.06x    frame= 1078 fps= 32 q=-1.0 size=N/A time=00:00:34.90 bitrate=N/A speed=1.02x    [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming1.ts' for writing
-[34mencode           |[0m [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:46] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:46] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-45] {'shot': False} (shot detector)
-[34mencode           |[0m frame=  443 fps= 34 q=-1.0 size=N/A time=00:00:13.71 bitrate=N/A speed=1.05x    frame= 1093 fps= 31 q=-1.0 size=N/A time=00:00:35.40 bitrate=N/A speed=1.02x    frame=  458 fps= 34 q=-1.0 size=N/A time=00:00:14.21 bitrate=N/A speed=1.05x    [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming4.ts' for writing
-[34mencode           |[0m [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[34mencode           |[0m frame= 1109 fps= 31 q=-1.0 size=N/A time=00:00:35.93 bitrate=N/A speed=1.02x    frame=  473 fps= 34 q=-1.0 size=N/A time=00:00:14.71 bitrate=N/A speed=1.05x    frame= 1124 fps= 31 q=-1.0 size=N/A time=00:00:36.43 bitrate=N/A speed=1.02x    [rtsp @ 0x562c14ff5340] max delay reached. need to consume packet
-[34mencode           |[0m [rtsp @ 0x562c14ff5340] RTP: missed 1 packets
-[34mencode           |[0m [rtsp @ 0x55bc93e2c340] max delay reached. need to consume packet
-[34mencode           |[0m [rtsp @ 0x55bc93e2c340] RTP: missed 1 packets
-[34mencode           |[0m frame=  488 fps= 34 q=-1.0 size=N/A time=00:00:15.21 bitrate=N/A speed=1.05x    frame= 1139 fps= 31 q=-1.0 size=N/A time=00:00:36.93 bitrate=N/A speed=1.02x    [rtsp @ 0x562c14ff5340] [rtsp @ 0x55bc93e2c340] max delay reached. need to consume packet
-[34mencode           |[0m max delay reached. need to consume packet
-[34mencode           |[0m [rtsp @ 0x562c14ff5340] [rtsp @ 0x55bc93e2c340] RTP: missed 1 packets
-[34mencode           |[0m RTP: missed 1 packets
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:47] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:47] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-46] {'shot': False} (shot detector)
-[34mencode           |[0m frame=  504 fps= 34 q=-1.0 size=N/A time=00:00:15.74 bitrate=N/A speed=1.05x    frame= 1154 fps= 31 q=-1.0 size=N/A time=00:00:37.43 bitrate=N/A speed=1.02x    frame=  519 fps= 33 q=-1.0 size=N/A time=00:00:16.24 bitrate=N/A speed=1.05x    frame= 1170 fps= 31 q=-1.0 size=N/A time=00:00:37.97 bitrate=N/A speed=1.02x    frame=  535 fps= 33 q=-1.0 size=N/A time=00:00:16.78 bitrate=N/A speed=1.04x    frame= 1185 fps= 31 q=-1.0 size=N/A time=00:00:38.47 bitrate=N/A speed=1.02x    [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming5.ts' for writing
-[34mencode           |[0m [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming2.ts' for writing
-[34mencode           |[0m [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[34mencode           |[0m [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:49] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:49] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-48] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:50] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:50] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-49] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:51] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:51] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-50] {'shot': False} (shot detector)
-[34mencode           |[0m frame=  550 fps= 33 q=-1.0 size=N/A time=00:00:17.28 bitrate=N/A speed=1.04x    frame= 1201 fps= 31 q=-1.0 size=N/A time=00:00:39.00 bitrate=N/A speed=1.02x    frame=  565 fps= 33 q=-1.0 size=N/A time=00:00:17.78 bitrate=N/A speed=1.04x    frame= 1217 fps= 31 q=-1.0 size=N/A time=00:00:39.53 bitrate=N/A speed=1.02x    frame=  581 fps= 33 q=-1.0 size=N/A time=00:00:18.31 bitrate=N/A speed=1.04x    frame= 1232 fps= 31 q=-1.0 size=N/A time=00:00:40.04 bitrate=N/A speed=1.02x    frame=  597 fps= 33 q=-1.0 size=N/A time=00:00:18.85 bitrate=N/A speed=1.04x    frame= 1248 fps= 31 q=-1.0 size=N/A time=00:00:40.57 bitrate=N/A speed=1.02x    frame=  613 fps= 33 q=-1.0 size=N/A time=00:00:19.38 bitrate=N/A speed=1.04x    frame= 1264 fps= 31 q=-1.0 size=N/A time=00:00:41.10 bitrate=N/A speed=1.02x    [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming3.ts' for writing
-[34mencode           |[0m [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:52] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:52] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-51] {'shot': False} (shot detector)
-[34mencode           |[0m frame=  629 fps= 33 q=-1.0 size=N/A time=00:00:19.91 bitrate=N/A speed=1.04x    frame= 1279 fps= 31 q=-1.0 size=N/A time=00:00:41.60 bitrate=N/A speed=1.02x    frame=  644 fps= 33 q=-1.0 size=N/A time=00:00:20.42 bitrate=N/A speed=1.04x    frame= 1295 fps= 31 q=-1.0 size=N/A time=00:00:42.14 bitrate=N/A speed=1.02x    [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming6.ts' for writing
-[34mencode           |[0m [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:53] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:53] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-52] {'shot': False} (shot detector)
-[34mencode           |[0m frame=  660 fps= 33 q=-1.0 size=N/A time=00:00:20.95 bitrate=N/A speed=1.04x    frame= 1311 fps= 31 q=-1.0 size=N/A time=00:00:42.67 bitrate=N/A speed=1.02x    frame=  676 fps= 33 q=-1.0 size=N/A time=00:00:21.48 bitrate=N/A speed=1.03x    frame= 1327 fps= 31 q=-1.0 size=N/A time=00:00:43.20 bitrate=N/A speed=1.02x    frame=  691 fps= 32 q=-1.0 size=N/A time=00:00:21.98 bitrate=N/A speed=1.03x    frame= 1342 fps= 31 q=-1.0 size=N/A time=00:00:43.71 bitrate=N/A speed=1.02x    [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming4.ts' for writing
-[34mencode           |[0m [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:54] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:54] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-54] {'shot': False} (shot detector)
-[34mencode           |[0m frame=  706 fps= 32 q=-1.0 size=N/A time=00:00:22.48 bitrate=N/A speed=1.03x    frame= 1358 fps= 31 q=-1.0 size=N/A time=00:00:44.24 bitrate=N/A speed=1.02x    frame=  721 fps= 32 q=-1.0 size=N/A time=00:00:22.98 bitrate=N/A speed=1.03x    frame= 1374 fps= 31 q=-1.0 size=N/A time=00:00:44.77 bitrate=N/A speed=1.02x    [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming7.ts' for writing
-[34mencode           |[0m [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:55] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:55] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-55] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:57] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:57] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-56] {'shot': False} (shot detector)
-[34mencode           |[0m frame=  737 fps= 32 q=-1.0 size=N/A time=00:00:23.52 bitrate=N/A speed=1.03x    frame= 1390 fps= 31 q=-1.0 size=N/A time=00:00:45.31 bitrate=N/A speed=1.02x    frame=  753 fps= 32 q=-1.0 size=N/A time=00:00:24.05 bitrate=N/A speed=1.03x    frame= 1405 fps= 31 q=-1.0 size=N/A time=00:00:45.81 bitrate=N/A speed=1.02x    frame=  769 fps= 32 q=-1.0 size=N/A time=00:00:24.59 bitrate=N/A speed=1.03x    frame= 1421 fps= 31 q=-1.0 size=N/A time=00:00:46.34 bitrate=N/A speed=1.02x    frame=  785 fps= 32 q=-1.0 size=N/A time=00:00:25.12 bitrate=N/A speed=1.03x    frame= 1437 fps= 31 q=-1.0 size=N/A time=00:00:46.88 bitrate=N/A speed=1.02x    frame=  800 fps= 32 q=-1.0 size=N/A time=00:00:25.62 bitrate=N/A speed=1.03x    frame= 1453 fps= 31 q=-1.0 size=N/A time=00:00:47.41 bitrate=N/A speed=1.02x    [hls @ 0x55bc93eba8c0] [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming5.ts' for writing
-[34mencode           |[0m Opening '/srv/feed1/streaming8.ts' for writing
-[34mencode           |[0m [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[34mencode           |[0m [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:58] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:58] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-57] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:29:59] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:29:59] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-29-58] {'shot': False} (shot detector)
-[34mencode           |[0m frame=  815 fps= 32 q=-1.0 size=N/A time=00:00:26.12 bitrate=N/A speed=1.03x    frame= 1468 fps= 31 q=-1.0 size=N/A time=00:00:47.91 bitrate=N/A speed=1.01x    frame=  831 fps= 32 q=-1.0 size=N/A time=00:00:26.65 bitrate=N/A speed=1.03x    frame= 1484 fps= 31 q=-1.0 size=N/A time=00:00:48.44 bitrate=N/A speed=1.01x    frame=  846 fps= 32 q=-1.0 size=N/A time=00:00:27.16 bitrate=N/A speed=1.03x    frame= 1499 fps= 31 q=-1.0 size=N/A time=00:00:48.94 bitrate=N/A speed=1.01x    frame=  861 fps= 32 q=-1.0 size=N/A time=00:00:27.66 bitrate=N/A speed=1.03x    frame= 1515 fps= 31 q=-1.0 size=N/A time=00:00:49.48 bitrate=N/A speed=1.01x    frame=  877 fps= 32 q=-1.0 size=N/A time=00:00:28.19 bitrate=N/A speed=1.03x    frame= 1531 fps= 31 q=-1.0 size=N/A time=00:00:50.01 bitrate=N/A speed=1.01x    [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming6.ts' for writing
-[34mencode           |[0m [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:30:00] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:30:00] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-30-00] {'shot': False} (shot detector)
-[34mencode           |[0m frame=  893 fps= 32 q=-1.0 size=N/A time=00:00:28.72 bitrate=N/A speed=1.03x    frame= 1547 fps= 31 q=-1.0 size=N/A time=00:00:50.55 bitrate=N/A speed=1.01x    frame=  909 fps= 32 q=-1.0 size=N/A time=00:00:29.26 bitrate=N/A speed=1.02x    frame= 1562 fps= 31 q=-1.0 size=N/A time=00:00:51.05 bitrate=N/A speed=1.01x    [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming9.ts' for writing
-[34mencode           |[0m [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:30:01] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:30:01] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-30-01] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:30:03] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:30:03] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-30-02] {'shot': False} (shot detector)
-[34mencode           |[0m frame=  924 fps= 32 q=-1.0 size=N/A time=00:00:29.76 bitrate=N/A speed=1.02x    frame= 1578 fps= 31 q=-1.0 size=N/A time=00:00:51.58 bitrate=N/A speed=1.01x    frame=  940 fps= 32 q=-1.0 size=N/A time=00:00:30.29 bitrate=N/A speed=1.02x    frame= 1594 fps= 31 q=-1.0 size=N/A time=00:00:52.11 bitrate=N/A speed=1.01x    frame=  956 fps= 32 q=-1.0 size=N/A time=00:00:30.83 bitrate=N/A speed=1.02x    frame= 1610 fps= 31 q=-1.0 size=N/A time=00:00:52.65 bitrate=N/A speed=1.01x    frame=  971 fps= 32 q=-1.0 size=N/A time=00:00:31.33 bitrate=N/A speed=1.02x    [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming7.ts' for writing
-[34mencode           |[0m [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:30:04] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:30:04] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-30-03] {'shot': False} (shot detector)
-[34mencode           |[0m frame= 1625 fps= 31 q=-1.0 size=N/A time=00:00:53.15 bitrate=N/A speed=1.01x    frame=  986 fps= 32 q=-1.0 size=N/A time=00:00:31.83 bitrate=N/A speed=1.02x    frame= 1640 fps= 31 q=-1.0 size=N/A time=00:00:53.65 bitrate=N/A speed=1.01x    [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming0.ts' for writing
-[34mencode           |[0m [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:30:05] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:30:05] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-30-04] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:30:06] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:30:06] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-30-06] {'shot': False} (shot detector)
-[34mencode           |[0m frame= 1002 fps= 32 q=-1.0 size=N/A time=00:00:32.36 bitrate=N/A speed=1.02x    frame= 1656 fps= 31 q=-1.0 size=N/A time=00:00:54.18 bitrate=N/A speed=1.01x    frame= 1018 fps= 32 q=-1.0 size=N/A time=00:00:32.89 bitrate=N/A speed=1.02x    frame= 1671 fps= 31 q=-1.0 size=N/A time=00:00:54.68 bitrate=N/A speed=1.01x    frame= 1033 fps= 32 q=-1.0 size=N/A time=00:00:33.40 bitrate=N/A speed=1.02x    frame= 1687 fps= 31 q=-1.0 size=N/A time=00:00:55.22 bitrate=N/A speed=1.01x    frame= 1048 fps= 32 q=-1.0 size=N/A time=00:00:33.90 bitrate=N/A speed=1.02x    frame= 1703 fps= 31 q=-1.0 size=N/A time=00:00:55.75 bitrate=N/A speed=1.01x    frame= 1064 fps= 32 q=-1.0 size=N/A time=00:00:34.43 bitrate=N/A speed=1.02x    frame= 1719 fps= 31 q=-1.0 size=N/A time=00:00:56.28 bitrate=N/A speed=1.01x    frame= 1080 fps= 32 q=-1.0 size=N/A time=00:00:34.96 bitrate=N/A speed=1.02x    [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming1.ts' for writing
-[34mencode           |[0m [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming8.ts' for writing
-[34mencode           |[0m [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[34mencode           |[0m [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:30:07] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:30:07] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-30-07] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:30:09] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:30:09] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-30-08] {'shot': False} (shot detector)
-[34mencode           |[0m frame= 1735 fps= 31 q=-1.0 size=N/A time=00:00:56.82 bitrate=N/A speed=1.01x    frame= 1096 fps= 32 q=-1.0 size=N/A time=00:00:35.50 bitrate=N/A speed=1.02x    frame= 1751 fps= 31 q=-1.0 size=N/A time=00:00:57.35 bitrate=N/A speed=1.01x    frame= 1111 fps= 31 q=-1.0 size=N/A time=00:00:36.00 bitrate=N/A speed=1.02x    frame= 1766 fps= 31 q=-1.0 size=N/A time=00:00:57.85 bitrate=N/A speed=1.01x    frame= 1127 fps= 31 q=-1.0 size=N/A time=00:00:36.53 bitrate=N/A speed=1.02x    frame= 1782 fps= 31 q=-1.0 size=N/A time=00:00:58.39 bitrate=N/A speed=1.01x    frame= 1142 fps= 31 q=-1.0 size=N/A time=00:00:37.03 bitrate=N/A speed=1.02x    frame= 1798 fps= 31 q=-1.0 size=N/A time=00:00:58.92 bitrate=N/A speed=1.01x    frame= 1158 fps= 31 q=-1.0 size=N/A time=00:00:37.57 bitrate=N/A speed=1.02x    [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming9.ts' for writing
-[34mencode           |[0m [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:30:10] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:30:10] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-30-09] {'shot': False} (shot detector)
-[34mencode           |[0m frame= 1813 fps= 31 q=-1.0 size=N/A time=00:00:59.42 bitrate=N/A speed=1.01x    frame= 1173 fps= 31 q=-1.0 size=N/A time=00:00:38.07 bitrate=N/A speed=1.02x    frame= 1829 fps= 31 q=-1.0 size=N/A time=00:00:59.95 bitrate=N/A speed=1.01x    [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming2.ts' for writing
-[34mencode           |[0m [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:30:11] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:30:11] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-30-10] {'shot': False} (shot detector)
-[34mencode           |[0m frame= 1189 fps= 31 q=-1.0 size=N/A time=00:00:38.60 bitrate=N/A speed=1.02x    frame= 1844 fps= 31 q=-1.0 size=N/A time=00:01:00.46 bitrate=N/A speed=1.01x    frame= 1205 fps= 31 q=-1.0 size=N/A time=00:00:39.13 bitrate=N/A speed=1.02x    frame= 1860 fps= 31 q=-1.0 size=N/A time=00:01:00.99 bitrate=N/A speed=1.01x    frame= 1221 fps= 31 q=-1.0 size=N/A time=00:00:39.67 bitrate=N/A speed=1.02x    frame= 1876 fps= 31 q=-1.0 size=N/A time=00:01:01.52 bitrate=N/A speed=1.01x    frame= 1237 fps= 31 q=-1.0 size=N/A time=00:00:40.20 bitrate=N/A speed=1.02x    [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming0.ts' for writing
-[34mencode           |[0m [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:30:12] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:30:12] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-30-12] {'shot': False} (shot detector)
-[34mencode           |[0m frame= 1891 fps= 31 q=-1.0 size=N/A time=00:01:02.02 bitrate=N/A speed=1.01x    frame= 1253 fps= 31 q=-1.0 size=N/A time=00:00:40.74 bitrate=N/A speed=1.02x    frame= 1907 fps= 31 q=-1.0 size=N/A time=00:01:02.56 bitrate=N/A speed=1.01x    frame= 1268 fps= 31 q=-1.0 size=N/A time=00:00:41.24 bitrate=N/A speed=1.02x    [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming3.ts' for writing
-[34mencode           |[0m [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:30:14] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:30:14] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-30-13] {'shot': False} (shot detector)
-[36;1mfeed1            |[0m 172.19.0.8 - - [12/Jul/2023:06:30:14 +0000] "GET /feed1/streaming0.ts HTTP/1.0" 200 1784872 "-" "Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0" "-"
-[36mreverse_proxy    |[0m 172.19.0.1 - - [12/Jul/2023:06:30:14 +0000] "GET /feed1/streaming0.ts HTTP/1.1" 200 1784872 "-" "Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0" "-"
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:30:15] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:30:15] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-30-14] {'shot': False} (shot detector)
-[34mencode           |[0m frame= 1923 fps= 31 q=-1.0 size=N/A time=00:01:03.09 bitrate=N/A speed=1.01x    frame= 1283 fps= 31 q=-1.0 size=N/A time=00:00:41.74 bitrate=N/A speed=1.02x    frame= 1939 fps= 31 q=-1.0 size=N/A time=00:01:03.63 bitrate=N/A speed=1.01x    frame= 1299 fps= 31 q=-1.0 size=N/A time=00:00:42.27 bitrate=N/A speed=1.02x    frame= 1955 fps= 31 q=-1.0 size=N/A time=00:01:04.16 bitrate=N/A speed=1.01x    frame= 1314 fps= 31 q=-1.0 size=N/A time=00:00:42.77 bitrate=N/A speed=1.02x    frame= 1971 fps= 31 q=-1.0 size=N/A time=00:01:04.69 bitrate=N/A speed=1.01x    frame= 1329 fps= 31 q=-1.0 size=N/A time=00:00:43.27 bitrate=N/A speed=1.02x    frame= 1987 fps= 31 q=-1.0 size=N/A time=00:01:05.23 bitrate=N/A speed=1.01x    frame= 1345 fps= 31 q=-1.0 size=N/A time=00:00:43.81 bitrate=N/A speed=1.02x    [hls @ 0x562c15028bc0] [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming1.ts' for writing
-[34mencode           |[0m Opening '/srv/feed1/streaming4.ts' for writing
-[34mencode           |[0m [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[34mencode           |[0m [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:30:16] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:30:16] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-30-15] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:30:18] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:30:18] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-30-16] {'shot': False} (shot detector)
-[34mencode           |[0m frame= 2003 fps= 31 q=-1.0 size=N/A time=00:01:05.76 bitrate=N/A speed=1.01x    frame= 1361 fps= 31 q=-1.0 size=N/A time=00:00:44.34 bitrate=N/A speed=1.02x    frame= 2019 fps= 31 q=-1.0 size=N/A time=00:01:06.29 bitrate=N/A speed=1.01x    frame= 1376 fps= 31 q=-1.0 size=N/A time=00:00:44.84 bitrate=N/A speed=1.02x    frame= 2035 fps= 31 q=-1.0 size=N/A time=00:01:06.83 bitrate=N/A speed=1.01x    frame= 1391 fps= 31 q=-1.0 size=N/A time=00:00:45.34 bitrate=N/A speed=1.02x    frame= 2051 fps= 31 q=-1.0 size=N/A time=00:01:07.36 bitrate=N/A speed=1.01x    frame= 1407 fps= 31 q=-1.0 size=N/A time=00:00:45.87 bitrate=N/A speed=1.02x    frame= 2066 fps= 31 q=-1.0 size=N/A time=00:01:07.86 bitrate=N/A speed=1.01x    frame= 1423 fps= 31 q=-1.0 size=N/A time=00:00:46.41 bitrate=N/A speed=1.02x    [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming2.ts' for writing
-[34mencode           |[0m [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:30:19] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:30:19] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-30-18] {'shot': False} (shot detector)
-[34mencode           |[0m frame= 2081 fps= 31 q=-1.0 size=N/A time=00:01:08.36 bitrate=N/A speed=1.01x    frame= 1439 fps= 31 q=-1.0 size=N/A time=00:00:46.94 bitrate=N/A speed=1.02x    frame= 2097 fps= 31 q=-1.0 size=N/A time=00:01:08.90 bitrate=N/A speed=1.01x    frame= 1454 fps= 31 q=-1.0 size=N/A time=00:00:47.44 bitrate=N/A speed=1.02x    [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming5.ts' for writing
-[34mencode           |[0m [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:30:20] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:30:20] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-30-19] {'shot': False} (shot detector)
-[34mencode           |[0m frame= 2113 fps= 31 q=-1.0 size=N/A time=00:01:09.43 bitrate=N/A speed=1.01x    frame= 1470 fps= 31 q=-1.0 size=N/A time=00:00:47.98 bitrate=N/A speed=1.02x    frame= 2129 fps= 31 q=-1.0 size=N/A time=00:01:09.96 bitrate=N/A speed=1.01x    frame= 1486 fps= 31 q=-1.0 size=N/A time=00:00:48.51 bitrate=N/A speed=1.01x    frame= 2144 fps= 31 q=-1.0 size=N/A time=00:01:10.47 bitrate=N/A speed=1.01x    frame= 1502 fps= 31 q=-1.0 size=N/A time=00:00:49.04 bitrate=N/A speed=1.01x    frame= 2160 fps= 31 q=-1.0 size=N/A time=00:01:11.00 bitrate=N/A speed=1.01x    [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming3.ts' for writing
-[34mencode           |[0m [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:30:21] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:30:21] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-30-20] {'shot': False} (shot detector)
-[34mencode           |[0m frame= 1517 fps= 31 q=-1.0 size=N/A time=00:00:49.54 bitrate=N/A speed=1.01x    frame= 2175 fps= 31 q=-1.0 size=N/A time=00:01:11.50 bitrate=N/A speed=1.01x    frame= 1533 fps= 31 q=-1.0 size=N/A time=00:00:50.08 bitrate=N/A speed=1.01x    [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming6.ts' for writing
-[34mencode           |[0m [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:30:22] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:30:22] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-30-21] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:30:23] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:30:23] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-30-22] {'shot': False} (shot detector)
-[34mencode           |[0m frame= 2190 fps= 31 q=-1.0 size=N/A time=00:01:12.00 bitrate=N/A speed=1.01x    frame= 1549 fps= 31 q=-1.0 size=N/A time=00:00:50.61 bitrate=N/A speed=1.01x    frame= 2206 fps= 31 q=-1.0 size=N/A time=00:01:12.53 bitrate=N/A speed=1.01x    frame= 1565 fps= 31 q=-1.0 size=N/A time=00:00:51.15 bitrate=N/A speed=1.01x    frame= 2221 fps= 31 q=-1.0 size=N/A time=00:01:13.03 bitrate=N/A speed=1.01x    frame= 1580 fps= 31 q=-1.0 size=N/A time=00:00:51.65 bitrate=N/A speed=1.01x    frame= 2237 fps= 31 q=-1.0 size=N/A time=00:01:13.57 bitrate=N/A speed=1.01x    frame= 1596 fps= 31 q=-1.0 size=N/A time=00:00:52.18 bitrate=N/A speed=1.01x    frame= 2252 fps= 31 q=-1.0 size=N/A time=00:01:14.07 bitrate=N/A speed=1.01x    frame= 1611 fps= 31 q=-1.0 size=N/A time=00:00:52.68 bitrate=N/A speed=1.01x    frame= 2267 fps= 31 q=-1.0 size=N/A time=00:01:14.57 bitrate=N/A speed=1.01x    [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming7.ts' for writing
-[34mencode           |[0m [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming4.ts' for writing
-[34mencode           |[0m [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[34mencode           |[0m [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:30:25] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:30:25] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-30-24] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:30:26] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:30:26] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-30-25] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:30:27] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:30:27] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-30-26] {'shot': False} (shot detector)
-[34mencode           |[0m frame= 1627 fps= 31 q=-1.0 size=N/A time=00:00:53.21 bitrate=N/A speed=1.01x    frame= 2283 fps= 31 q=-1.0 size=N/A time=00:01:15.10 bitrate=N/A speed=1.01x    frame= 1643 fps= 31 q=-1.0 size=N/A time=00:00:53.75 bitrate=N/A speed=1.01x    frame= 2298 fps= 31 q=-1.0 size=N/A time=00:01:15.60 bitrate=N/A speed=1.01x    frame= 1659 fps= 31 q=-1.0 size=N/A time=00:00:54.28 bitrate=N/A speed=1.01x    frame= 2314 fps= 31 q=-1.0 size=N/A time=00:01:16.14 bitrate=N/A speed=1.01x    frame= 1674 fps= 31 q=-1.0 size=N/A time=00:00:54.78 bitrate=N/A speed=1.01x    frame= 2329 fps= 31 q=-1.0 size=N/A time=00:01:16.64 bitrate=N/A speed=1.01x    frame= 1690 fps= 31 q=-1.0 size=N/A time=00:00:55.32 bitrate=N/A speed=1.01x    frame= 2345 fps= 31 q=-1.0 size=N/A time=00:01:17.17 bitrate=N/A speed=1.01x    [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming5.ts' for writing
-[34mencode           |[0m [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[34mencode           |[0m frame= 1706 fps= 31 q=-1.0 size=N/A time=00:00:55.85 bitrate=N/A speed=1.01x    frame= 2360 fps= 31 q=-1.0 size=N/A time=00:01:17.67 bitrate=N/A speed=1.01x    frame= 1721 fps= 31 q=-1.0 size=N/A time=00:00:56.35 bitrate=N/A speed=1.01x    frame= 2375 fps= 31 q=-1.0 size=N/A time=00:01:18.17 bitrate=N/A speed=1.01x    [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming8.ts' for writing
-[34mencode           |[0m [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:30:28] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:30:28] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-30-27] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:30:29] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:30:29] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-30-28] {'shot': False} (shot detector)
-[34mencode           |[0m frame= 1736 fps= 31 q=-1.0 size=N/A time=00:00:56.85 bitrate=N/A speed=1.01x    frame= 2391 fps= 31 q=-1.0 size=N/A time=00:01:18.71 bitrate=N/A speed=1.01x    frame= 1752 fps= 31 q=-1.0 size=N/A time=00:00:57.39 bitrate=N/A speed=1.01x    frame= 2406 fps= 31 q=-1.0 size=N/A time=00:01:19.21 bitrate=N/A speed=1.01x    frame= 1768 fps= 31 q=-1.0 size=N/A time=00:00:57.92 bitrate=N/A speed=1.01x    frame= 2422 fps= 31 q=-1.0 size=N/A time=00:01:19.74 bitrate=N/A speed=1.01x    [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming6.ts' for writing
-[34mencode           |[0m frame= 1783 fps= 31 q=-1.0 size=N/A time=00:00:58.42 bitrate=N/A speed=1.01x    [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:30:31] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:30:31] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-30-30] {'shot': False} (shot detector)
-[34mencode           |[0m frame= 2437 fps= 31 q=-1.0 size=N/A time=00:01:20.24 bitrate=N/A speed=1.01x    frame= 1799 fps= 31 q=-1.0 size=N/A time=00:00:58.95 bitrate=N/A speed=1.01x    frame= 2452 fps= 31 q=-1.0 size=N/A time=00:01:20.74 bitrate=N/A speed=1.01x    [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming9.ts' for writing
-[34mencode           |[0m [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:30:32] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:30:32] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-30-31] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:30:33] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:30:33] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-30-32] {'shot': False} (shot detector)
-[34mencode           |[0m frame= 1814 fps= 31 q=-1.0 size=N/A time=00:00:59.45 bitrate=N/A speed=1.01x    frame= 2468 fps= 31 q=-1.0 size=N/A time=00:01:21.28 bitrate=N/A speed=1.01x    frame= 1830 fps= 31 q=-1.0 size=N/A time=00:00:59.99 bitrate=N/A speed=1.01x    frame= 2483 fps= 31 q=-1.0 size=N/A time=00:01:21.78 bitrate=N/A speed=1.01x    frame= 1846 fps= 31 q=-1.0 size=N/A time=00:01:00.52 bitrate=N/A speed=1.01x    frame= 2499 fps= 31 q=-1.0 size=N/A time=00:01:22.31 bitrate=N/A speed=1.01x    frame= 1862 fps= 31 q=-1.0 size=N/A time=00:01:01.06 bitrate=N/A speed=1.01x    frame= 2515 fps= 31 q=-1.0 size=N/A time=00:01:22.84 bitrate=N/A speed=1.01x    frame= 1877 fps= 31 q=-1.0 size=N/A time=00:01:01.56 bitrate=N/A speed=1.01x    frame= 2531 fps= 31 q=-1.0 size=N/A time=00:01:23.38 bitrate=N/A speed=1.01x    [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming7.ts' for writing
-[34mencode           |[0m [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming0.ts' for writing
-[34mencode           |[0m [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[34mencode           |[0m [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:30:34] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:30:34] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-30-33] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:30:35] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:30:35] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-30-34] {'shot': False} (shot detector)
-[34mencode           |[0m frame= 1892 fps= 31 q=-1.0 size=N/A time=00:01:02.06 bitrate=N/A speed=1.01x    frame= 2547 fps= 31 q=-1.0 size=N/A time=00:01:23.91 bitrate=N/A speed=1.01x    frame= 1908 fps= 31 q=-1.0 size=N/A time=00:01:02.59 bitrate=N/A speed=1.01x    frame= 2562 fps= 31 q=-1.0 size=N/A time=00:01:24.41 bitrate=N/A speed=1.01x    frame= 1923 fps= 31 q=-1.0 size=N/A time=00:01:03.09 bitrate=N/A speed=1.01x    frame= 2577 fps= 31 q=-1.0 size=N/A time=00:01:24.91 bitrate=N/A speed=1.01x    frame= 1939 fps= 31 q=-1.0 size=N/A time=00:01:03.63 bitrate=N/A speed=1.01x    frame= 2593 fps= 31 q=-1.0 size=N/A time=00:01:25.45 bitrate=N/A speed=1.01x    frame= 1955 fps= 31 q=-1.0 size=N/A time=00:01:04.16 bitrate=N/A speed=1.01x    frame= 2609 fps= 31 q=-1.0 size=N/A time=00:01:25.98 bitrate=N/A speed=1.01x    frame= 1971 fps= 31 q=-1.0 size=N/A time=00:01:04.69 bitrate=N/A speed=1.01x    [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming8.ts' for writing
-[34mencode           |[0m [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:30:37] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:30:37] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-30-36] {'shot': False} (shot detector)
-[34mencode           |[0m frame= 2624 fps= 31 q=-1.0 size=N/A time=00:01:26.48 bitrate=N/A speed=1.01x    frame= 1986 fps= 31 q=-1.0 size=N/A time=00:01:05.19 bitrate=N/A speed=1.01x    frame= 2639 fps= 31 q=-1.0 size=N/A time=00:01:26.98 bitrate=N/A speed=1.01x    [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming1.ts' for writing
-[34mencode           |[0m [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:30:38] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:30:38] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-30-37] {'shot': False} (shot detector)
-[34mencode           |[0m frame= 2002 fps= 31 q=-1.0 size=N/A time=00:01:05.73 bitrate=N/A speed=1.01x    frame= 2655 fps= 31 q=-1.0 size=N/A time=00:01:27.52 bitrate=N/A speed=1.01x    frame= 2018 fps= 31 q=-1.0 size=N/A time=00:01:06.26 bitrate=N/A speed=1.01x    frame= 2671 fps= 31 q=-1.0 size=N/A time=00:01:28.05 bitrate=N/A speed=1.01x    frame= 2033 fps= 31 q=-1.0 size=N/A time=00:01:06.76 bitrate=N/A speed=1.01x    frame= 2687 fps= 31 q=-1.0 size=N/A time=00:01:28.58 bitrate=N/A speed=1.01x    frame= 2048 fps= 31 q=-1.0 size=N/A time=00:01:07.26 bitrate=N/A speed=1.01x    [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming9.ts' for writing
-[34mencode           |[0m [hls @ 0x562c15028bc0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:30:39] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:30:39] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-30-38] {'shot': False} (shot detector)
-[34mencode           |[0m frame= 2702 fps= 31 q=-1.0 size=N/A time=00:01:29.08 bitrate=N/A speed=1.01x    frame= 2064 fps= 31 q=-1.0 size=N/A time=00:01:07.80 bitrate=N/A speed=1.01x    frame= 2718 fps= 31 q=-1.0 size=N/A time=00:01:29.62 bitrate=N/A speed=1.01x    [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming2.ts' for writing
-[34mencode           |[0m [hls @ 0x55bc93eba8c0] Opening '/srv/feed1/streaming.m3u8.tmp' for writing
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:30:40] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:30:40] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-30-39] {'shot': False} (shot detector)
-[33mshot_detect      |[0m 172.19.0.5 - - [12/Jul/2023 06:30:42] "POST /api/detectShot HTTP/1.1" 200 -
-[33mapi              |[0m 172.19.0.14 - - [12/Jul/2023 06:30:42] "POST /api/detection/detectShot HTTP/1.1" 200 -
-[33;1mmain             |[0m [02-30-40] {'shot': False} (shot detector)
-Gracefully stopping... (press Ctrl+C again to force)

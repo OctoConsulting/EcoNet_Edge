@@ -200,9 +200,9 @@ services:
 #  \/   | |_ /
 #
 #######################
-  feed1:
-    hostname: feed1
-    container_name: feed1
+  video:
+    hostname: video
+    container_name: video
     build:
       context: ./Edge_Video
       dockerfile: DockerfileHTML
@@ -250,11 +250,22 @@ services:
     ports:
      - "80:80"
      
+# surge :)
+  surge:
+    hostname: surge
+    container_name: surge
+    build:
+      context: ./Surge_DesktopUI
+      dockerfile: Dockerfile
+    expose: # will be published w/ reverse proxy
+     - "80"
+    # ports:
+    #  - "80:80"
+     
 volumes:
-  feed1:
-  feed2:
-  feed3:
-
+  feed1: # for drone video
+  feed2: # for drone video
+  feed3: # for drone video
 networks:
   appnet: # define appnet network
     driver: bridge
